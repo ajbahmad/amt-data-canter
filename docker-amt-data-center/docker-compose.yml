@@ -1,0 +1,75 @@
+version: "3.7"
+services:
+  amt-data-center:
+    build:
+      args:
+        user: ajb
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: amt-data-center
+    container_name: amt-data-center
+    restart: unless-stopped
+    working_dir: /var/www
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=amt-data-center-postgres
+      - DB_PORT=5432
+      - DB_DATABASE=amt-data-center
+      - DB_USERNAME=amt_user
+      - DB_PASSWORD=amt_password
+    volumes:
+      - ./..:/var/www
+    networks:
+      - amt-data-center-network
+    depends_on:
+      - amt-data-center-postgres
+
+  amt-data-center-postgres:
+    image: postgres:15
+    container_name: amt-data-center-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: 'amt-data-center'
+      POSTGRES_USER: 'amt_user'
+      POSTGRES_PASSWORD: 'amt_password'
+    ports:
+      - "5427:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - amt-data-center-network
+
+  amt-data-center-nginx:
+    image: nginx:alpine
+    container_name: amt-data-center-nginx
+    restart: unless-stopped
+    ports:
+      - "5226:80"
+      - "5227:443"
+    volumes:
+      - ./..:/var/www
+      - ./config/nginx:/etc/nginx/conf.d
+    networks:
+      - amt-data-center-network
+    depends_on:
+      - amt-data-center
+
+  amt-data-center-adminer:
+    image: adminer
+    container_name: amt-data-center-adminer
+    restart: unless-stopped
+    ports:
+      - "8226:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: amt-data-center-postgres
+    networks:
+      - amt-data-center-network
+    depends_on:
+      - amt-data-center-postgres
+
+volumes:
+  postgres_data:
+
+networks:
+  amt-data-center-network:

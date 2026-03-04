@@ -5,7 +5,7 @@
     <!-- ---------------------------------- -->
     <div class="p-3.5 flex justify-between">
         <div class="brand-logo d-flex align-items-center justify-center">
-            <a href="{{ route('admin.dashboard') }}" class="text-nowrap logo-img">
+            <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
                 <img src="{{ asset('assets/images/logos/logo-light.svg') }}" class="dark:hidden block rtl:hidden" alt="Logo-Dark" />
                 <img src="{{ asset('assets/images/logos/logo-dark.svg') }}" class="dark:block hidden rtl:hidden rtl:dark:hidden" alt="Logo-light" />
                 <img src="{{ asset('assets/images/logos/logo-light-rtl.svg') }}" class="dark:hidden hidden rtl:block rtl:dark:hidden" alt="Logo-Dark" />

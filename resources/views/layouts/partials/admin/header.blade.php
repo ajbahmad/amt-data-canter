@@ -31,7 +31,7 @@
 
                             <div class="flex lg:hidden  md:w-fit overflow-hidden">
                                 <div class="brand-logo d-flex align-items-center justify-center">
-                                    <a href="{{ route('admin.dashboard') }}" class="text-nowrap logo-img">
+                                    <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
                                         <img src="{{ asset('assets/images/logos/logo-light.svg') }}"
                                             class="dark:hidden block rtl:hidden" alt="Logo-Dark" />
                                         <img src="{{ asset('assets/images/logos/logo-dark.svg') }}"
@@ -59,7 +59,7 @@
                                 <div class="lg:flex gap-2 h-[70px]  items-center ">
                                     <div class="flex lg:hidden lg:p-0 p-5">
                                         <div class="brand-logo d-flex align-items-center justify-center">
-                                            <a href="{{ route('admin.dashboard') }}" class="text-nowrap logo-img">
+                                            <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
                                                 <img src="{{ asset('assets/images/logos/logo-light.svg') }}"
                                                     class="dark:hidden block rtl:hidden" alt="Logo-Dark" />
                                                 <img src="{{ asset('assets/images/logos/logo-dark.svg') }}"
@@ -227,7 +227,7 @@
                                                     {{ Auth::user()->name }}
                                                 </h6>
                                                 <p class="text-sm leading-tight mb-0 text-link dark:text-darklink">
-                                                    {{ Auth::user()->role ?? 'User' }}
+                                                    {{ Auth::user()->role->name ?? 'User' }}
                                                 </p>
                                             </div>
                                         @endif
@@ -256,7 +256,7 @@
                                                             <h5 class="card-title">
                                                                 {{ Auth::user()->name }}
                                                             </h5>
-                                                            <span class="card-subtitle">{{ Auth::user()->role ?? 'User' }}</span>
+                                                            <span class="card-subtitle">{{ Auth::user()->role->name ?? 'User' }}</span>
                                                             <p class="mb-0 mt-1 flex items-center">
                                                                 <iconify-icon icon="solar:mailbox-line-duotone" class="text-base me-1"></iconify-icon>
                                                                 {{ Auth::user()->email }}
@@ -595,7 +595,7 @@
                                     <div
                                         class="flex h-[70px] justify-center items-center w-10 md:w-full overflow-hidden">
                                         <div class="brand-logo d-flex align-items-center justify-center">
-                                            <a href="{{route('admin.dashboard')}}" class="text-nowrap logo-img">
+                                            <a href="{{route('dashboard')}}" class="text-nowrap logo-img">
                                                 <img src="{{ asset('assets/images/logos/logo-light.svg') }}"
                                                     class="dark:hidden block rtl:hidden" alt="Logo-Dark" />
                                                 <img src="{{ asset('assets/images/logos/logo-dark.svg') }}"

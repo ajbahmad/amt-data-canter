@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Models;
+
+class SchoolLevel extends BaseModel
+{
+    protected $table = 'school_levels';
+
+    protected $fillable = [
+        'school_institution_id',
+        'code',
+        'name',
+        'description',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /**
+     * Relationships
+     */
+    
+    // Relasi ke school_institutions melalui school_institution_levels
+    public function schoolInstitutions()
+    {
+        return $this->belongsToMany(
+            SchoolInstitution::class,
+            'school_institution_levels',
+            'school_level_id',
+            'school_institution_id'
+        );
+    }
+
+    // Relasi ke grades (tingkat kelas)
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'school_level_id');
+    }
+
+    // Relasi ke subjects (mata pelajaran)
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class, 'school_level_id');
+    }
+}

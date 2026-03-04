@@ -4,7 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-Route::middleware(['guest'])->group(function () {
+// Auth routes dengan session dan CSRF middleware
+Route::middleware(['web', 'guest'])->group(function () {
     // Route untuk menampilkan form login
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     // Route untuk proses login
@@ -24,6 +25,6 @@ Route::middleware(['guest'])->group(function () {
 });
 
 // Route untuk logout (harus bisa diakses user yang sudah login)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

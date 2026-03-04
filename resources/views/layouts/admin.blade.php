@@ -92,41 +92,41 @@
 
     <script>
         // Wait for jQuery to be available before loading vector map plugins
-        function waitForjQuery(callback) {
-            if (window.jQuery && window.$) {
-                callback();
-            } else {
-                setTimeout(function() {
-                    waitForjQuery(callback);
-                }, 50);
-            }
-        }
+        // function waitForjQuery(callback) {
+        //     if (window.jQuery && window.$) {
+        //         callback();
+        //     } else {
+        //         setTimeout(function() {
+        //             waitForjQuery(callback);
+        //         }, 50);
+        //     }
+        // }
 
         // Load vector map scripts after jQuery is ready
-        waitForjQuery(function() {
-            // Load JVectorMap scripts dynamically
-            var script1 = document.createElement('script');
-            script1.src = "{{ asset('assets/libs/jvectormap/jquery-jvectormap.min.js') }}";
-            script1.onload = function() {
-                var script2 = document.createElement('script');
-                script2.src = "{{ asset('assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js') }}";
-                script2.onload = function() {
-                    var script3 = document.createElement('script');
-                    script3.src = "{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}";
-                    script3.onload = function() {
-                        var script4 = document.createElement('script');
-                        script4.src = "{{ asset('assets/js/dashboards/dashboard.js') }}";
-                        document.head.appendChild(script4);
-                    };
-                    document.head.appendChild(script3);
-                };
-                document.head.appendChild(script2);
-            };
-            document.head.appendChild(script1);
-        });
+        // waitForjQuery(function() {
+        //     // Load JVectorMap scripts dynamically
+        //     var script1 = document.createElement('script');
+        //     script1.src = "{{ asset('assets/libs/jvectormap/jquery-jvectormap.min.js') }}";
+        //     script1.onload = function() {
+        //         var script2 = document.createElement('script');
+        //         script2.src = "{{ asset('assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js') }}";
+        //         script2.onload = function() {
+        //             var script3 = document.createElement('script');
+        //             script3.src = "{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}";
+        //             script3.onload = function() {
+        //                 var script4 = document.createElement('script');
+        //                 script4.src = "{{ asset('assets/js/dashboards/dashboard.js') }}";
+        //                 document.head.appendChild(script4);
+        //             };
+        //             document.head.appendChild(script3);
+        //         };
+        //         document.head.appendChild(script2);
+        //     };
+        //     document.head.appendChild(script1);
+        // });
     </script>
 
-    <script>
+    {{-- <script>
         function handleColorTheme(e) {
             document.documentElement.setAttribute("data-color-theme", e);
         }
@@ -156,7 +156,7 @@
                 });
             }
         });
-    </script>
+    </script> --}}
     @stack('scripts')
 </body>
 

@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\DataTables\ClassRoomDataTable;
+use App\Http\Requests\ClassRoomRequest;
+use App\Models\ClassRoom;
+use App\Services\ClassRoomService;
+use Illuminate\Http\Request;
+
+class ClassRoomController extends Controller
+{
+    protected $service;
+    protected $viewDir = 'pages.class_rooms.';
+    protected $route = 'class-rooms';
+    protected $title = 'Rombel';
+
+    public function __construct()
+    {
+        $this->service = new ClassRoomService();
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(ClassRoomDataTable $dataTable, Request $request)
+    {
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['viewDir'] = $this->viewDir;
+        return $dataTable->render($this->viewDir.'index', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view($this->viewDir.'create', [
+            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
+            'schoolYears' => \App\Models\SchoolYear::where('is_active', true)->get(),
+            'grades' => \App\Models\Grade::orderBy('order_no')->get(),
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(ClassRoomRequest $request)
+    {
+        $this->service->create($request->validated());
+        return redirect()->route($this->route.'.index')->with('success', 'Rombel berhasil ditambahkan');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(ClassRoom $classRoom)
+    {   
+        return view($this->viewDir.'view', compact('classRoom'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(ClassRoom $classRoom)
+    {
+        return view($this->viewDir.'update', [
+            'classRoom' => $classRoom,
+            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
+            'schoolYears' => \App\Models\SchoolYear::where('is_active', true)->get(),
+            'grades' => \App\Models\Grade::orderBy('order_no')->get(),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(ClassRoomRequest $request, ClassRoom $classRoom)
+    {
+        $this->service->update($classRoom, $request->validated());
+        return redirect()->route($this->route.'.index')->with('success', 'Rombel berhasil diperbarui');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(ClassRoom $classRoom)
+    {
+        $this->service->delete($classRoom);
+        return redirect()->route($this->route.'.index')->with('success', 'Rombel berhasil dihapus');
+    }
+}

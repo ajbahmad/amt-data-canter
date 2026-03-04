@@ -11,7 +11,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Add CSRF and session middleware explicitly for all web routes
+        $middleware->web(append: [
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+        ]);
+        
+        // Exclude debug routes from CSRF verification
+        $middleware->validateCsrfTokens(except: [
+            'debug/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

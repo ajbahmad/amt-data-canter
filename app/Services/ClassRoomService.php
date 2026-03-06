@@ -27,8 +27,8 @@ class ClassRoomService
             $query->where('school_institution_id', $filters['school_institution_id']);
         }
 
-        if (isset($filters['school_year_id'])) {
-            $query->where('school_year_id', $filters['school_year_id']);
+        if (isset($filters['school_level_id'])) {
+            $query->where('school_level_id', $filters['school_level_id']);
         }
 
         if (isset($filters['is_active'])) {

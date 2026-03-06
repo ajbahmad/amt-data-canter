@@ -36,7 +36,9 @@ class SchoolLevelController extends Controller
      */
     public function create()
     {
-        return view($this->viewDir.'.create');
+        return view($this->viewDir.'create', [
+            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
+        ]);
     }
 
     /**
@@ -61,7 +63,10 @@ class SchoolLevelController extends Controller
      */
     public function edit(SchoolLevel $schoolLevel)
     {
-        return view($this->viewDir.'.update', compact('schoolLevel'));
+        return view($this->viewDir.'update', [
+            'schoolLevel' => $schoolLevel,
+            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
+        ]);
     }
 
     /**

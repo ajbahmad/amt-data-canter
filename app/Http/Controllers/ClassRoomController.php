@@ -38,7 +38,7 @@ class ClassRoomController extends Controller
     {
         return view($this->viewDir.'create', [
             'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolYears' => \App\Models\SchoolYear::where('is_active', true)->get(),
+            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
             'grades' => \App\Models\Grade::orderBy('order_no')->get(),
         ]);
     }
@@ -68,7 +68,7 @@ class ClassRoomController extends Controller
         return view($this->viewDir.'update', [
             'classRoom' => $classRoom,
             'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolYears' => \App\Models\SchoolYear::where('is_active', true)->get(),
+            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
             'grades' => \App\Models\Grade::orderBy('order_no')->get(),
         ]);
     }

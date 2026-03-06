@@ -11,6 +11,7 @@ class Semester extends BaseModel
         'school_institution_id',
         'school_year_id',
         'name',
+        'semester',
         'start_date',
         'end_date',
         'is_active',

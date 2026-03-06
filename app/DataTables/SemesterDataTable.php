@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\DataTables\Config\GlobalConfigDatatable;
+use App\Models\SchoolLevel;
 use App\Models\SchoolYear;
 use App\Models\Semester;
 use Carbon\Carbon;
@@ -39,7 +40,7 @@ class SemesterDataTable extends DataTable
                 return $data;
             })
             ->addColumn('school_year_name', function($row){
-                return $row->schoolYear->name ?? '-';
+                return $row->schoolYear->name . ' : ' .$row->schoolYear->schoolLevel->code ?? '-';
             })
             ->addColumn('date_range', function($row){
                 if ($row->start_date && $row->end_date) {
@@ -134,12 +135,12 @@ class SemesterDataTable extends DataTable
 
     private function getSchoolYear()
     {
-        $schoolYears = SchoolYear::pluck('name', 'id')->toArray();
+        $schoolYears = SchoolYear::where('is_active', true)->with('schoolLevel')->get();
         $options = [
             ['label'=>'Filter Semua', 'value' => '']
         ];
-        foreach ($schoolYears as $id => $name) {
-            $options[] = ['label' => $name, 'value' => $id];
+        foreach ($schoolYears as $k => $v) {
+            $options[] = ['label' => $v->name . ' : ' . ($v->schoolLevel->code ?? '-'), 'value' => $v->id];
         }
         return json_encode($options);
     }

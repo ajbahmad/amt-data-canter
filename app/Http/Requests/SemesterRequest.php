@@ -31,6 +31,7 @@ class SemesterRequest extends FormRequest
                 'max:20',
                 Rule::unique('semesters')->where('school_year_id', $this->input('school_year_id'))->ignore($semesterId),
             ],
+            'semester' => 'nullable|integer|min:1|max:2',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'is_active' => 'nullable|boolean',

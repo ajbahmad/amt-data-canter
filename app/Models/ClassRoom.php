@@ -11,7 +11,7 @@ class ClassRoom extends BaseModel
 
     protected $fillable = [
         'school_institution_id',
-        'school_year_id',
+        'school_level_id',
         'grade_id',
         'name',
         'capacity',
@@ -28,9 +28,9 @@ class ClassRoom extends BaseModel
         return $this->belongsTo(SchoolInstitution::class);
     }
 
-    public function schoolYear(): BelongsTo
+    public function schoolLevel(): BelongsTo
     {
-        return $this->belongsTo(SchoolYear::class);
+        return $this->belongsTo(SchoolLevel::class);
     }
 
     public function grade(): BelongsTo

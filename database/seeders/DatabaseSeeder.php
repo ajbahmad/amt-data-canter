@@ -3,14 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
@@ -23,6 +20,21 @@ class DatabaseSeeder extends Seeder
             SchoolInstitutionSeeder::class,
             SchoolLevelSeeder::class,
             SchoolYearSeeder::class,
+            SemesterSeeder::class,
+            GradeSeeder::class,
+            SubjectSeeder::class,
+            ClassRoomSeeder::class,
+            MenuSeeder::class,
+            PersonTypeSeeder::class,
+            PersonSeeder::class,
+            PersonTypeMembershipSeeder::class,
+            StudentSeeder::class,
+            StaffSeeder::class,
+            TeacherSeeder::class,
+            TimeSlotSeeder::class,
+            ClassRoomStudentSeeder::class,
+            ClassRoomHomeroomTeacherSeeder::class,
+            TeacherSubjectAssignmentSeeder::class,
         ]);
     }
 }

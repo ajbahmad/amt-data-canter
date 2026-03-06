@@ -3,51 +3,87 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Menu;
 
 class MenuHelper
 {
 
     /**
-     * Get all menu items from config and filter by user role
+     * Get all menu items from database and filter by user role
      */
     public static function getAllMenus(): array
     {
-        $menus = config('menu', []);
         $user = Auth::user();
 
         if (!$user) {
             return []; // jika belum login
         }
 
-        // Filter menu sesuai permission
-        $menus = array_filter($menus, function ($menu) use ($user) {
-            // Jika section, biarkan tampil (agar struktur tidak rusak)
-            if ($menu['type'] === 'section') {
-                return true;
-            }
+        // Get menus berdasarkan user role
+        $roleCode = self::mapUserRoleToRoleCode($user->role);
+        $menus = Menu::getMenuTreeForRole($roleCode)
+            ->orderBy('order_no')
+            ->get();
 
-            // Jika menu tidak punya permission, tampilkan semua
-            if (!isset($menu['permission'])) {
-                return true;
-            }
-
-            // Jika permission mengandung role user, tampilkan
-            return in_array($user->role, $menu['permission']);
-        });
-
-        // Untuk dropdown, filter juga children-nya
-        foreach ($menus as &$menu) {
-            if (isset($menu['children'])) {
-                $menu['children'] = array_filter($menu['children'], function ($child) use ($user) {
-                    if (!isset($child['permission'])) {
-                        return true;
-                    }
-                    return in_array($user->role, $child['permission']);
-                });
-            }
+        $result = [];
+        foreach ($menus as $menu) {
+            $result[] = self::transformMenuForHelper($menu);
         }
 
-        return array_values($menus);
+        return $result;
+    }
+
+    /**
+     * Transform menu dari model ke format untuk helper
+     */
+    private static function transformMenuForHelper(Menu $menu): array
+    {
+        $formatted = [
+            'id' => $menu->id,
+            'title' => $menu->title,
+            'icon' => $menu->icon,
+            'color' => $menu->color,
+            'type' => $menu->type === 'dropdown' ? 'dropdown' : 'single',
+            'route' => $menu->route,
+            'url' => $menu->url,
+            'active' => false,
+        ];
+
+        // Add children jika dropdown dan ada child
+        if ($menu->type === 'dropdown' && $menu->children->isNotEmpty()) {
+            $children = [];
+            foreach ($menu->children as $child) {
+                $children[] = self::transformMenuForHelper($child);
+            }
+            $formatted['children'] = $children;
+        }
+
+        return $formatted;
+    }
+
+    /**
+     * Map user role ke role code untuk menu permissions
+     */
+    private static function mapUserRoleToRoleCode(?string $userRole): string
+    {
+        $roleMap = [
+            'super_admin' => 'super-admin',
+            'superadmin' => 'super-admin',
+            'admin' => 'admin',
+            'teacher' => 'teacher',
+            'siswa' => 'student',
+            'student' => 'student',
+            'parent' => 'parent',
+            'orang_tua' => 'parent',
+            'staff' => 'staff',
+        ];
+
+        if (!$userRole) {
+            return 'student';
+        }
+
+        $roleLower = strtolower(str_replace('-', '_', $userRole));
+        return $roleMap[$roleLower] ?? 'student';
     }
 
     /**
@@ -55,31 +91,48 @@ class MenuHelper
      */
     public static function getVerticalMenuSections(): array
     {
-        $menus = self::getAllMenus();
+        $user = Auth::user();
+        
+        if (!$user) {
+            return [];
+        }
+
+        // Get menus berdasarkan user role
+        $roleCode = self::mapUserRoleToRoleCode($user->role);
+        $rootMenus = Menu::roots()
+            ->active()
+            ->with('childrenRecursive')
+            ->orderBy('order_no')
+            ->get();
+
         $sections = [];
-        $currentSection = 'DASHBOARD';
-        $currentItems = [];
+        $dashboardItems = [];
+        $otherItems = [];
 
-        foreach ($menus as $menu) {
-            if ($menu['type'] === 'section') {
-                if (!empty($currentItems)) {
-                    $sections[] = [
-                        'title' => $currentSection,
-                        'items' => $currentItems,
-                    ];
-                }
+        foreach ($rootMenus as $menu) {
+            $menuData = self::transformMenuForHelper($menu);
 
-                $currentSection = $menu['title'];
-                $currentItems = [];
+            // Pisahkan dashboard dari menu lainnya
+            if (strtolower($menu->title) === 'dashboard') {
+                $dashboardItems[] = $menuData;
             } else {
-                $currentItems[] = $menu;
+                $otherItems[] = $menuData;
             }
         }
 
-        if (!empty($currentItems)) {
+        // Add dashboard section
+        if (!empty($dashboardItems)) {
             $sections[] = [
-                'title' => $currentSection,
-                'items' => $currentItems,
+                'title' => 'DASHBOARD',
+                'items' => $dashboardItems,
+            ];
+        }
+
+        // Add other sections
+        if (!empty($otherItems)) {
+            $sections[] = [
+                'title' => 'MENU',
+                'items' => $otherItems,
             ];
         }
 
@@ -152,7 +205,14 @@ class MenuHelper
             }
         }
 
-        return array_filter($groups, fn($group) => !empty($group['items']));
+        $filtered = [];
+        foreach ($groups as $key => $group) {
+            if (!empty($group['items'])) {
+                $filtered[$key] = $group;
+            }
+        }
+
+        return $filtered;
     }
 
     /**
@@ -166,25 +226,35 @@ class MenuHelper
 
     /**
      * Check if menu item is active
+     * Supports: index, create, store, show, edit, update, destroy routes
      */
     public static function isActive(array $menu): bool
     {
-        $currentRoute = request()->route()?->getName();
+        $route = request()->route();
+        $currentRoute = $route ? $route->getName() : null;
 
         if (isset($menu['active']) && $menu['active'] === true) {
             return true;
         }
 
         if (isset($menu['route']) && $menu['route'] !== '#') {
+            // Exact match
             if ($currentRoute === $menu['route']) {
                 return true;
             }
 
-            $routePrefix = explode('.', $menu['route']);
-            $currentPrefix = explode('.', $currentRoute);
+            // Extract the resource name from both routes
+            // school-institutions.index, school-institutions.create, etc. -> school-institutions
+            $routeParts = explode('.', $menu['route']);
+            $currentParts = explode('.', $currentRoute ?? '');
 
-            if (count($routePrefix) >= 2 && count($currentPrefix) >= 2) {
-                if ($routePrefix[0] === $currentPrefix[0] && $routePrefix[1] === $currentPrefix[1]) {
+            if (!empty($routeParts) && !empty($currentParts)) {
+                // Get the first part (resource name)
+                $menuResource = $routeParts[0];
+                $currentResource = $currentParts[0];
+
+                // If resource names match, menu is active
+                if ($menuResource === $currentResource) {
                     return true;
                 }
             }

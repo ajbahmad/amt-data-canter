@@ -157,8 +157,8 @@ class SchoolYearDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_name')->name('school_institution_name')->title('Lembaga Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_name', 'data-label' => 'Lembaga Sekolah', 'data-value' => $this->getSchoolInstitution()]);
         $column[] = Column::make('name')->name('name')->title('Tahun Akademik')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Tahun Akademik', 'data-value' => null]);
-        $column[] = Column::make('school_institution_name')->name('school_institution_name')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_name', 'data-label' => 'Lembaga Sekolah', 'data-value' => $this->getSchoolInstitution()]);
         $column[] = Column::make('date_range')->name('date_range')->title('Periode')->searchable(false)->attributes(['data-type' => 'text', 'data-name' => 'date_range', 'data-label' => 'Periode', 'data-value' => null]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('created_at')->name('created_at')->title('Dibuat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Dibuat']);

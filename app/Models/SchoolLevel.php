@@ -24,15 +24,10 @@ class SchoolLevel extends BaseModel
      * Relationships
      */
     
-    // Relasi ke school_institutions melalui school_institution_levels
-    public function schoolInstitutions()
+    // Relasi ke school_institution (many-to-one)
+    public function schoolInstitution()
     {
-        return $this->belongsToMany(
-            SchoolInstitution::class,
-            'school_institution_levels',
-            'school_level_id',
-            'school_institution_id'
-        );
+        return $this->belongsTo(SchoolInstitution::class, 'school_institution_id');
     }
 
     // Relasi ke grades (tingkat kelas)

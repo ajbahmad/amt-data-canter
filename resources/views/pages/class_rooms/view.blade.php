@@ -9,7 +9,7 @@
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Rombel', 'url' => route('class-rooms.index')],
+        ['name' => 'Rombel', 'url' => route('class_rooms.index')],
         ['name' => 'Detail', 'url' => '#']
     ]
 ])
@@ -21,10 +21,10 @@
             <i class="ti ti-door mr-2"></i>{{ $classRoom->name }}
         </h2>
         <div class="flex gap-2">
-            <a href="{{ route('class-rooms.edit', $classRoom->id) }}" class="inline-flex items-center rounded-lg bg-yellow-400 px-4 py-2 text-white hover:bg-yellow-700 transition">
+            <a href="{{ route('class_rooms.edit', $classRoom->id) }}" class="inline-flex items-center rounded-lg bg-yellow-400 px-4 py-2 text-white hover:bg-yellow-700 transition">
                 <i class="ti ti-edit mr-2"></i>Edit
             </a>
-            <button onclick="deleteClassRoom('{{ route('class-rooms.destroy', $classRoom->id) }}')" class="inline-flex items-center rounded-lg bg-red-200 px-4 py-2 text-red-600 hover:bg-white transition">
+            <button onclick="deleteClassRoom('{{ route('class_rooms.destroy', $classRoom->id) }}')" class="inline-flex items-center rounded-lg bg-red-200 px-4 py-2 text-red-600 hover:bg-white transition">
                 <i class="ti ti-trash mr-2"></i>Hapus
             </button>
         </div>
@@ -75,7 +75,7 @@
     </div>
 
     <div class="mt-6 flex gap-3">
-        <a href="{{ route('class-rooms.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
+        <a href="{{ route('class_rooms.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
             <i class="ti ti-arrow-left mr-2"></i>Kembali
         </a>
     </div>

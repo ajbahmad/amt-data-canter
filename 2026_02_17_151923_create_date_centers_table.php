@@ -213,6 +213,8 @@ return new class extends Migration
 
             // nama tampil: Siswa, Guru, Staff, dll
             $table->string('name', 100);
+            $table->boolean('is_active')->default(true);
+
 
             $table->timestamps();
         });
@@ -234,6 +236,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('person_id')->references('id')->on('persons')->cascadeOnDelete();
+            
 
             // mencegah duplikasi role yang sama untuk person yang sama
             $table->unique(['person_id', 'person_type_id']);
@@ -267,6 +270,8 @@ return new class extends Migration
             // status siswa
             $table->string('status', 20)->default('active'); // active, graduated, moved, inactive
 
+            $table->boolean('is_active')->default(true);
+            
             $table->timestamps();
 
             $table->foreign('person_id')->references('id')->on('persons')->cascadeOnDelete();
@@ -282,7 +287,7 @@ return new class extends Migration
             // NIP jika ada
             $table->string('nip', 50)->nullable();
 
-            $table->string('status', 20)->default('active');
+            $table->boolean('is_active')->default(true);
 
             $table->timestamps();
 
@@ -297,7 +302,8 @@ return new class extends Migration
             $table->foreignId('school_institution_id')->constrained('school_institutions')->cascadeOnDelete();
 
             $table->string('staff_code', 50)->nullable();
-            $table->string('status', 20)->default('active');
+            $table->boolean('is_active')->default(true);
+            
 
             $table->timestamps();
 

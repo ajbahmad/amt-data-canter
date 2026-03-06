@@ -29,6 +29,11 @@ class SchoolYearRequest extends FormRequest
                 'uuid',
                 Rule::exists('school_institutions', 'id'),
             ],
+            'school_level_id' => [
+                'required',
+                'uuid',
+                Rule::exists('school_levels', 'id'),
+            ],
             'name' => [
                 'required',
                 'string',
@@ -52,6 +57,9 @@ class SchoolYearRequest extends FormRequest
             'school_institution_id.required' => 'Sekolah harus dipilih',
             'school_institution_id.uuid' => 'Format ID sekolah tidak valid',
             'school_institution_id.exists' => 'Sekolah yang dipilih tidak ditemukan',
+            'school_level_id.required' => 'Jenjang sekolah harus dipilih',
+            'school_level_id.uuid' => 'Format ID jenjang tidak valid',
+            'school_level_id.exists' => 'Jenjang sekolah yang dipilih tidak ditemukan',
             'name.required' => 'Tahun akademik harus diisi',
             'name.max' => 'Tahun akademik maksimal 50 karakter',
             'name.unique' => 'Tahun akademik sudah terdaftar untuk sekolah ini',

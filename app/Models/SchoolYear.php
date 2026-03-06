@@ -8,6 +8,7 @@ class SchoolYear extends BaseModel
 
     protected $fillable = [
         'school_institution_id',
+        'school_level_id',
         'name',
         'start_date',
         'end_date',
@@ -22,10 +23,10 @@ class SchoolYear extends BaseModel
         'updated_at' => 'datetime',
     ];
 
-    public function getNameAttribute($value)
-    {
-        return $value . ' : ' . ($this->schoolInstitution->name ?? '-');
-    }
+    // public function getNameAttribute($value)
+    // {
+    //     return $value . ' : ' . ($this->schoolLevel->code ?? '-');
+    // }
 
     /**
      * Relationships
@@ -35,6 +36,12 @@ class SchoolYear extends BaseModel
     public function schoolInstitution()
     {
         return $this->belongsTo(SchoolInstitution::class, 'school_institution_id');
+    }
+
+    // relasi ke school_level (many-to-one)
+    public function schoolLevel()
+    {
+        return $this->belongsTo(SchoolLevel::class, 'school_level_id');
     }
 
     // Relasi ke semesters (one-to-many)

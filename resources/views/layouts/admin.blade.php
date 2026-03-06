@@ -18,6 +18,37 @@
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     @stack('styles')
+    <style>
+        /* Red Background Utilities */
+
+        .bg-red-100 {
+            background-color: #fee2e2;
+        }
+
+        .bg-red-200 {
+            background-color: #fecaca;
+        }
+
+        .bg-red-300 {
+            background-color: #fca5a5;
+        }
+
+        .bg-red-400 {
+            background-color: #f87171;
+        }
+
+        .bg-red-500 {
+            background-color: #ef4444;
+        }
+
+        .bg-red-600 {
+            background-color: #dc2626;
+        }
+
+        .bg-red-700 {
+            background-color: #b91c1c;
+        }
+    </style>
 </head>
 
 <body class="DEFAULT_THEME bg-lightprimary dark:bg-darkbody">

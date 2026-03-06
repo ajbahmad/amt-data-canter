@@ -20,7 +20,7 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
             <i class="ti ti-door mr-2"></i>Daftar Rombel
         </h2>
-        <a href="{{ route('class-rooms.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
+        <a href="{{ route('class_rooms.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
             <i class="ti ti-plus mr-2"></i>Tambah Rombel
         </a>
     </div>

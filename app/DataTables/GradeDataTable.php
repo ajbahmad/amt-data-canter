@@ -25,7 +25,7 @@ class GradeDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action','created_at'])
+            ->rawColumns(['action', 'is_active', 'created_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('grades.show', $row->id);
                 $editUrl = route('grades.edit', $row->id);

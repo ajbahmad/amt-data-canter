@@ -9,14 +9,14 @@
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Rombel', 'url' => route('class-rooms.index')],
+        ['name' => 'Rombel', 'url' => route('class_rooms.index')],
         ['name' => 'Tambah', 'url' => '#']
     ]
 ])
 
 <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
 
-    <form action="{{ route('class-rooms.store') }}" method="POST">
+    <form action="{{ route('class_rooms.store') }}" method="POST">
         @csrf
         
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
@@ -99,7 +99,7 @@
             <button type="submit" class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">
                 <i class="ti ti-check mr-2"></i>Simpan
             </button>
-            <a href="{{ route('class-rooms.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
+            <a href="{{ route('class_rooms.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
                 <i class="ti ti-x mr-2"></i>Batal
             </a>
         </div>

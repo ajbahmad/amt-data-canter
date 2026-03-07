@@ -402,30 +402,19 @@ return new class extends Migration
 
         // Jadwal pelajaran rombel (hari + jam + mapel + guru)
         Schema::create('class_schedules', function (Blueprint $table) {
-            $table->id();
-
+            $table->uuid('id')->primary();
+            $table->foreignId('school_institution_id')->constrained('school_institutions')->cascadeOnDelete();
+            $table->foreignId('school_level_id')->constrained('school_levels')->cascadeOnDelete();
             $table->foreignId('class_room_id')->constrained('class_rooms')->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
-
-            $table->uuid('teacher_id');
-
+            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->foreignId('semester_id')->constrained('semesters')->cascadeOnDelete();
-
-            // 1=Senin, 2=Selasa, ..., 7=Minggu
             $table->unsignedTinyInteger('day_of_week');
-
-            $table->foreignId('time_slot_id')->constrained('time_slots')->cascadeOnDelete();
-
-            // nama ruangan (opsional)
-            $table->string('room_name', 100)->nullable();
-
+            $table->foreignId('start_time_slot_id')->constrained('time_slots')->cascadeOnDelete();
+            $table->foreignId('end_time_slot_id')->constrained('time_slots')->cascadeOnDelete();
             $table->timestamps();
-
-            $table->foreign('teacher_id')->references('id')->on('teachers')->cascadeOnDelete();
-
-            // mencegah bentrok jadwal pada jam yang sama
             $table->unique(
-                ['class_room_id', 'semester_id', 'day_of_week', 'time_slot_id'],
+                ['class_room_id', 'semester_id', 'day_of_week', 'start_time_slot_id', 'end_time_slot_id'],
                 'schedule_unique'
             );
         });

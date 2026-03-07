@@ -17,6 +17,7 @@ use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\ClassRoomStudentController;
 use App\Http\Controllers\ClassRoomHomeroomTeacherController;
 use App\Http\Controllers\TeacherSubjectAssignmentController;
+use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\Admin\MenuController;
 
 
@@ -49,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('class-room-students', ClassRoomStudentController::class, ['names' => 'class_room_students']);
     Route::resource('class-room-homeroom-teachers', ClassRoomHomeroomTeacherController::class, ['names' => 'class_room_homeroom_teachers']);
     Route::resource('teacher-subject-assignments', TeacherSubjectAssignmentController::class, ['names' => 'teacher_subject_assignments']);
+    Route::resource('class-schedules', ClassScheduleController::class, ['names' => 'class_schedules']);
+    Route::get('class-schedules-grid', [ClassScheduleController::class, 'grid'])->name('class_schedules.grid');
     
     // Menu Management Routes
     Route::prefix('admin')->name('admin.')->group(function () {

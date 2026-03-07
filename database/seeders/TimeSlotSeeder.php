@@ -22,7 +22,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Jam 1 (07:00 - 07:40)',
+                    'name' => '1',
                     'start_time' => '07:00',
                     'end_time' => '07:40',
                     'order_no' => 1,
@@ -32,7 +32,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Jam 2 (07:40 - 08:20)',
+                    'name' => '2',
                     'start_time' => '07:40',
                     'end_time' => '08:20',
                     'order_no' => 2,
@@ -42,7 +42,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Jam 3 (08:20 - 09:00)',
+                    'name' => '3',
                     'start_time' => '08:20',
                     'end_time' => '09:00',
                     'order_no' => 3,
@@ -52,7 +52,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Jam 4 (09:00 - 09:40)',
+                    'name' => '4',
                     'start_time' => '09:00',
                     'end_time' => '09:40',
                     'order_no' => 4,
@@ -62,17 +62,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Istirahat 1 (09:40 - 10:00)',
-                    'start_time' => '09:40',
-                    'end_time' => '10:00',
-                    'order_no' => 5,
-                    'is_active' => true,
-                ]);
-
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => 'Jam 5 (10:00 - 10:40)',
+                    'name' => '5',
                     'start_time' => '10:00',
                     'end_time' => '10:40',
                     'order_no' => 6,
@@ -82,7 +72,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Jam 6 (10:40 - 11:20)',
+                    'name' => '6',
                     'start_time' => '10:40',
                     'end_time' => '11:20',
                     'order_no' => 7,
@@ -92,17 +82,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Istirahat 2 (11:20 - 12:00)',
-                    'start_time' => '11:20',
-                    'end_time' => '12:00',
-                    'order_no' => 8,
-                    'is_active' => true,
-                ]);
-
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => 'Jam 7 (12:00 - 12:40)',
+                    'name' => '7',
                     'start_time' => '12:00',
                     'end_time' => '12:40',
                     'order_no' => 9,
@@ -112,7 +92,7 @@ class TimeSlotSeeder extends Seeder
                 TimeSlot::create([
                     'school_institution_id' => $school->id,
                     'school_level_id' => $level->id,
-                    'name' => 'Jam 8 (12:40 - 13:20)',
+                    'name' => '8',
                     'start_time' => '12:40',
                     'end_time' => '13:20',
                     'order_no' => 10,

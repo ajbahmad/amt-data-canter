@@ -31,7 +31,7 @@ class ClassRoomSeeder extends Seeder
                         [
                             'grade_id' => $grade->id,
                             'school_level_id' => $schoolLevel->id,
-                            'name' => $grade->name . ' - ' . $variation,
+                            'name' => $grade->name . '' . $variation,
                         ],
                         [
                             'school_institution_id' => $schoolLevel->school_institution_id,

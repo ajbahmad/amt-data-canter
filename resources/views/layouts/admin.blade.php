@@ -48,6 +48,35 @@
         .bg-red-700 {
             background-color: #b91c1c;
         }
+
+
+        .text-red-100 {
+            color: #fee2e2;
+        }
+
+        .text-red-200 {
+            color: #fecaca;
+        }
+
+        .text-red-300 {
+            color: #fca5a5;
+        }
+
+        .text-red-400 {
+            color: #f87171;
+        }
+
+        .text-red-500 {
+            color: #ef4444;
+        }
+
+        .text-red-600 {
+            color: #dc2626;
+        }
+
+        .text-red-700 {
+            color: #b91c1c;
+        }
     </style>
 </head>
 

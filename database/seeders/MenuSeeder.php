@@ -183,6 +183,15 @@ class MenuSeeder extends Seeder
                         'order_no' => 15,
                         'is_active' => true,
                     ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Jadwal Kelas',
+                        'icon' => 'ti ti-schedule',
+                        'color' => 'indigo',
+                        'route' => 'class_schedules.index',
+                        'order_no' => 16,
+                        'is_active' => true,
+                    ],
                 ],
             ],
 

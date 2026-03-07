@@ -186,7 +186,7 @@ class MenuSeeder extends Seeder
                     [
                         'type' => 'item',
                         'title' => 'Jadwal Kelas',
-                        'icon' => 'ti ti-schedule',
+                        'icon' => 'ti ti-file-text',
                         'color' => 'indigo',
                         'route' => 'class_schedules.index',
                         'order_no' => 16,

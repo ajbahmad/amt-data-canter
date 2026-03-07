@@ -23,7 +23,7 @@ $sections = MenuHelper::getVerticalMenuSections();
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ MenuHelper::getColorClass($menu['color'], 'background') }} {{ MenuHelper::getColorClass($menu['color'], 'hover') }} {{ $isMenuActive ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] : '' }}"
                             href="{{ MenuHelper::getRouteUrl($menu['route']) }}">
-                            <iconify-icon icon="{{ $menu['icon'] }}" class="text-xl p-2"></iconify-icon>
+                            <i class="text-xl {{ $menu['icon'] }}"></i>
                             <span class="hide-menu flex-shrink-0">{{ $menu['title'] }} </span>
                         </a>
                     </li>
@@ -33,7 +33,7 @@ $sections = MenuHelper::getVerticalMenuSections();
                     @endphp
                     <li class="hs-accordion sidebar-item {{ $hasActiveChild ? 'active' : '' }}" id="{{ $menu['id'] }}">
                         <a class="cursor-pointer hs-accordion-toggle sidebar-link {{ MenuHelper::getColorClass($menu['color'], 'background') }} {{ MenuHelper::getColorClass($menu['color'], 'hover') }} {{ $hasActiveChild ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] : '' }}">
-                            <iconify-icon icon="{{ $menu['icon'] }}" class="text-xl p-2"></iconify-icon>
+                            <i class="text-xl {{ $menu['icon'] }}"></i>
                             <span class="hide-menu">{{ $menu['title'] }}</span>
                             <span class="hide-menu ms-auto">
                                 <i class="ti ti-chevron-right text-lg me-4 leading-tight hs-accordion-active:hidden"></i>
@@ -48,7 +48,7 @@ $sections = MenuHelper::getVerticalMenuSections();
                                     @endphp
                                     <li class="dropdown-submenu">
                                         <a class="hs-accordion-toggle textlink dark:opacity-70 {{ $isChildActive ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] . ' font-semibold' : '' }}" href="{{ MenuHelper::getRouteUrl($child['route']) }}">
-                                            <div class="w-1.5 h-1.5 rounded-full {{ $isChildActive ? 'bg-' . $menu['color'] : 'bg-dark dark:bg-darklink opacity-50' }}"></div>
+                                            <i class="text-xl {{ $child['icon'] }}"></i>
                                             <span class="hide-menu">{{ $child['title'] }}</span>
                                         </a>
                                     </li>

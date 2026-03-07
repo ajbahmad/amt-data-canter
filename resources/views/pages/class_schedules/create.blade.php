@@ -194,3 +194,7 @@
         $('#btn-add').removeClass('btn-light').addClass('btn-custom-warning').text('Simpan');
     }
 </script>
+
+@push('scripts')
+    @include('components.confirm-toastr')
+@endpush

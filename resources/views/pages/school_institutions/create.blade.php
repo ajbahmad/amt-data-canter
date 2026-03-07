@@ -135,3 +135,7 @@
     }
 </style>
 @endpush
+
+@push('scripts')
+    @include('components.confirm-toastr')
+@endpush

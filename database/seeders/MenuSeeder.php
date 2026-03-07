@@ -192,6 +192,15 @@ class MenuSeeder extends Seeder
                         'order_no' => 16,
                         'is_active' => true,
                     ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Kartu ID',
+                        'icon' => 'ti ti-id',
+                        'color' => 'indigo',
+                        'route' => 'id_cards.index',
+                        'order_no' => 17,
+                        'is_active' => true,
+                    ],
                 ],
             ],
 

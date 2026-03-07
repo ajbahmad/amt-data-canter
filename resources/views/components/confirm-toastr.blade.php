@@ -1,8 +1,22 @@
+<link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
+<script src="{{asset('assets/libs/sweetalert2/js/sweetalert2.all.min.js')}}"></script>
 @if(session('success'))
     <script>
         Swal.fire({
             text: '{{ session('success') }}',
             icon: 'success',
+            timer: 5000,
+            showConfirmButton: false,
+            position: 'top-end',
+            toast: true
+        });
+    </script>
+@endif
+@if (session('error'))
+    <script>
+        Swal.fire({
+            text: "{{ session('error') }}",
+            icon: 'error',
             timer: 5000,
             showConfirmButton: false,
             position: 'top-end',

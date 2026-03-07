@@ -77,3 +77,7 @@
 </div>
 
 @endsection
+
+@push('scripts')
+    @include('components.confirm-toastr')
+@endpush

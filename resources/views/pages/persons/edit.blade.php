@@ -229,4 +229,6 @@ document.getElementById('photoInput').addEventListener('change', function(e) {
     }
 });
 </script>
+
+    @include('components.confirm-toastr')
 @endpush

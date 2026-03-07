@@ -249,4 +249,7 @@
             }
         });
     </script>
+    
+    @include('components.confirm-toastr')
 @endpush
+

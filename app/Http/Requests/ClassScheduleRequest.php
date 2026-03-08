@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ClassSchedule;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Log;
 
 class ClassScheduleRequest extends FormRequest
 {
@@ -77,7 +78,9 @@ class ClassScheduleRequest extends FormRequest
      * 
      * Cek 2 kondisi:
      * 1. Kelas tidak boleh memiliki 2 jadwal di hari & jam yang sama dalam semester yang sama
+     *    (Hanya jika time slot berubah saat update)
      * 2. Guru tidak boleh mengajar di 2 kelas berbeda di hari & jam yang sama dalam semester yang sama
+     *    (Hanya jika teacher_id atau time slot berubah saat update)
      */
     private function validateNoScheduleConflict(Validator $validator)
     {
@@ -87,11 +90,62 @@ class ClassScheduleRequest extends FormRequest
         $startTimeSlotId = $this->input('start_time_slot_id');
         $endTimeSlotId = $this->input('end_time_slot_id');
         $semesterId = $this->input('semester_id');
-        $scheduleId = $this->route('id'); // ID untuk update (null untuk create)
+        
+        // Ambil schedule ID dari route parameter untuk update
+        $scheduleId = null;
+        $currentSchedule = null;
+        
+        // Coba berbagai cara mengakses route parameter
+        // Cara 1: Gunakan route()->parameter() dengan berbagai nama
+        $potentialParams = ['classSchedule', 'class-schedule', 'id', 'class_schedule'];
+        
+        foreach ($potentialParams as $param) {
+            $routeParam = $this->route() ? $this->route()->parameter($param) : null;
+            if ($routeParam instanceof ClassSchedule) {
+                $currentSchedule = $routeParam;
+                $scheduleId = $currentSchedule->id;
+                break;
+            }
+        }
+        
+        // Jika masih tidak ketemu, coba dari route path
+        if (!$scheduleId && $this->route()) {
+            $allParams = $this->route()->parameters();
+            Log::info('ClassScheduleRequest - All Route Parameters', $allParams);
+            
+            // Cari parameter yang merupakan ClassSchedule instance
+            foreach ($allParams as $key => $param) {
+                if ($param instanceof ClassSchedule) {
+                    $currentSchedule = $param;
+                    $scheduleId = $currentSchedule->id;
+                    Log::info('Found ClassSchedule in route param: ' . $key);
+                    break;
+                }
+            }
+        }
+
+        // DEBUG: Log untuk debugging
+        Log::info('ClassScheduleRequest - Route Check', [
+            'route_name' => $this->route() ? $this->route()->getName() : 'none',
+            'found_schedule' => $currentSchedule ? true : false,
+            'scheduleId' => $scheduleId,
+        ]);
 
         if (!$classRoomId || !$teacherId || !$dayOfWeek || !$startTimeSlotId || !$endTimeSlotId || !$semesterId) {
             return; // Skip jika data belum lengkap
         }
+
+        // DEBUG: Cek apakah currentSchedule terisi
+        Log::info('ClassScheduleRequest - Validation Check', [
+            'is_update' => $currentSchedule ? true : false,
+            'scheduleId' => $scheduleId,
+            'incoming_teacher_id' => $teacherId,
+            'incoming_start_slot' => $startTimeSlotId,
+            'incoming_end_slot' => $endTimeSlotId,
+            'current_teacher_id' => $currentSchedule ? $currentSchedule->teacher_id : null,
+            'current_start_slot' => $currentSchedule ? $currentSchedule->start_time_slot_id : null,
+            'current_end_slot' => $currentSchedule ? $currentSchedule->end_time_slot_id : null,
+        ]);
 
         // Ambil urutan time slot untuk perbandingan yang akurat
         $newStartOrder = $this->getTimeSlotOrder($startTimeSlotId);
@@ -108,27 +162,40 @@ class ClassScheduleRequest extends FormRequest
          * - Hari yang sama (day_of_week)
          * - Jam yang sama atau tumpang tindih (time slot)
          * - Semester yang sama
+         * 
+         * Hanya cek jika time slot berubah (untuk update, skip jika time slot sama)
          */
-        $classConflict = ClassSchedule::where('class_room_id', $classRoomId)
-            ->where('day_of_week', $dayOfWeek)
-            ->where('semester_id', $semesterId)
-            ->when($scheduleId, function ($q) use ($scheduleId) {
-                return $q->where('id', '!=', $scheduleId);
-            })
-            ->with('startTimeSlot', 'endTimeSlot')
-            ->get();
+        $shouldCheckClassConflict = true;
+        if ($currentSchedule) {
+            // Jika time slot tidak berubah, skip class conflict check
+            if ((string)$currentSchedule->start_time_slot_id === (string)$startTimeSlotId && 
+                (string)$currentSchedule->end_time_slot_id === (string)$endTimeSlotId) {
+                $shouldCheckClassConflict = false;
+            }
+        }
 
-        foreach ($classConflict as $schedule) {
-            $existStartOrder = $this->getTimeSlotOrder($schedule->start_time_slot_id);
-            $existEndOrder = $this->getTimeSlotOrder($schedule->end_time_slot_id);
+        if ($shouldCheckClassConflict) {
+            $classConflict = ClassSchedule::where('class_room_id', $classRoomId)
+                ->where('day_of_week', $dayOfWeek)
+                ->where('semester_id', $semesterId)
+                ->when($scheduleId, function ($q) use ($scheduleId) {
+                    return $q->where('id', '!=', $scheduleId);
+                })
+                ->with('startTimeSlot', 'endTimeSlot')
+                ->get();
 
-            // Cek tumpang tindih: newStart <= existEnd AND newEnd >= existStart
-            if ($newStartOrder <= $existEndOrder && $newEndOrder >= $existStartOrder) {
-                $validator->errors()->add(
-                    'start_time_slot_id',
-                    "Kelas sudah memiliki jadwal pada jam ke-{$existStartOrder} sampai jam ke-{$existEndOrder} di hari dan semester yang sama."
-                );
-                break;
+            foreach ($classConflict as $schedule) {
+                $existStartOrder = $this->getTimeSlotOrder($schedule->start_time_slot_id);
+                $existEndOrder = $this->getTimeSlotOrder($schedule->end_time_slot_id);
+
+                // Cek tumpang tindih: newStart <= existEnd AND newEnd >= existStart
+                if ($newStartOrder <= $existEndOrder && $newEndOrder >= $existStartOrder) {
+                    $validator->errors()->add(
+                        'start_time_slot_id',
+                        "Kelas sudah memiliki jadwal pada jam ke-{$existStartOrder} sampai jam ke-{$existEndOrder} di hari dan semester yang sama."
+                    );
+                    break;
+                }
             }
         }
 
@@ -140,27 +207,41 @@ class ClassScheduleRequest extends FormRequest
          * - Jam yang sama atau tumpang tindih (time slot)
          * - Semester yang sama
          * - Kelas APAPUN (termasuk kelas yang sama)
+         * 
+         * Hanya cek jika teacher_id atau time slot berubah (untuk update, skip jika semuanya sama)
          */
-        $teacherConflict = ClassSchedule::where('teacher_id', $teacherId)
-            ->where('day_of_week', $dayOfWeek)
-            ->where('semester_id', $semesterId)
-            ->when($scheduleId, function ($q) use ($scheduleId) {
-                return $q->where('id', '!=', $scheduleId);
-            })
-            ->with('classRoom', 'startTimeSlot', 'endTimeSlot')
-            ->get();
+        $shouldCheckTeacherConflict = true;
+        if ($currentSchedule) {
+            // Jika teacher dan time slot tidak berubah, skip teacher conflict check
+            if ((string)$currentSchedule->teacher_id === (string)$teacherId &&
+                (string)$currentSchedule->start_time_slot_id === (string)$startTimeSlotId && 
+                (string)$currentSchedule->end_time_slot_id === (string)$endTimeSlotId) {
+                $shouldCheckTeacherConflict = false;
+            }
+        }
 
-        foreach ($teacherConflict as $schedule) {
-            $existStartOrder = $this->getTimeSlotOrder($schedule->start_time_slot_id);
-            $existEndOrder = $this->getTimeSlotOrder($schedule->end_time_slot_id);
+        if ($shouldCheckTeacherConflict) {
+            $teacherConflict = ClassSchedule::where('teacher_id', $teacherId)
+                ->where('day_of_week', $dayOfWeek)
+                ->where('semester_id', $semesterId)
+                ->when($scheduleId, function ($q) use ($scheduleId) {
+                    return $q->where('id', '!=', $scheduleId);
+                })
+                ->with('classRoom', 'startTimeSlot', 'endTimeSlot')
+                ->get();
 
-            // Cek tumpang tindih: newStart <= existEnd AND newEnd >= existStart
-            if ($newStartOrder <= $existEndOrder && $newEndOrder >= $existStartOrder) {
-                $validator->errors()->add(
-                    'teacher_id',
-                    "Guru sudah memiliki jadwal mengajar di kelas {$schedule->classRoom->name} dari jam ke-{$existStartOrder} sampai jam ke-{$existEndOrder} pada hari dan semester yang sama."
-                );
-                break;
+            foreach ($teacherConflict as $schedule) {
+                $existStartOrder = $this->getTimeSlotOrder($schedule->start_time_slot_id);
+                $existEndOrder = $this->getTimeSlotOrder($schedule->end_time_slot_id);
+
+                // Cek tumpang tindih: newStart <= existEnd AND newEnd >= existStart
+                if ($newStartOrder <= $existEndOrder && $newEndOrder >= $existStartOrder) {
+                    $validator->errors()->add(
+                        'teacher_id',
+                        "Guru sudah memiliki jadwal mengajar di kelas {$schedule->classRoom->name} dari jam ke-{$existStartOrder} sampai jam ke-{$existEndOrder} pada hari dan semester yang sama."
+                    );
+                    break;
+                }
             }
         }
     }

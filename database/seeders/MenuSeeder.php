@@ -29,13 +29,13 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
             ],
 
-            // MASTER DATA (Dropdown)
+            // ORGANISASI (Dropdown)
             [
                 'type' => 'dropdown',
-                'title' => 'Master Data',
-                'icon' => 'ti ti-database',
+                'title' => 'ORGANISASI',
+                'icon' => 'ti ti-building-community',
                 'color' => 'indigo',
-                'menu_key' => 'master-data',
+                'menu_key' => 'organisasi',
                 'order_no' => 10,
                 'is_active' => true,
                 'children' => [
@@ -59,11 +59,33 @@ class MenuSeeder extends Seeder
                     ],
                     [
                         'type' => 'item',
+                        'title' => 'Tingkat Kelas',
+                        'icon' => 'ti ti-list',
+                        'color' => 'indigo',
+                        'route' => 'grades.index',
+                        'order_no' => 2,
+                        'is_active' => true,
+                    ],
+                ],
+            ],
+
+            // AKADEMIK (Dropdown)
+            [
+                'type' => 'dropdown',
+                'title' => 'AKADEMIK',
+                'icon' => 'ti ti-school',
+                'color' => 'indigo',
+                'menu_key' => 'akademik',
+                'order_no' => 20,
+                'is_active' => true,
+                'children' => [
+                    [
+                        'type' => 'item',
                         'title' => 'Tahun Ajaran',
                         'icon' => 'ti ti-calendar',
                         'color' => 'indigo',
                         'route' => 'school_years.index',
-                        'order_no' => 2,
+                        'order_no' => 0,
                         'is_active' => true,
                     ],
                     [
@@ -72,16 +94,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'ti ti-clock',
                         'color' => 'indigo',
                         'route' => 'semesters.index',
-                        'order_no' => 3,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Tingkat Kelas',
-                        'icon' => 'ti ti-list',
-                        'color' => 'indigo',
-                        'route' => 'grades.index',
-                        'order_no' => 4,
+                        'order_no' => 1,
                         'is_active' => true,
                     ],
                     [
@@ -90,61 +103,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'ti ti-book',
                         'color' => 'indigo',
                         'route' => 'subjects.index',
-                        'order_no' => 5,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Rombongan Belajar',
-                        'icon' => 'ti ti-users',
-                        'color' => 'indigo',
-                        'route' => 'class_rooms.index',
-                        'order_no' => 6,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Orang',
-                        'icon' => 'ti ti-user',
-                        'color' => 'indigo',
-                        'route' => 'persons.index',
-                        'order_no' => 7,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Tipe Orang',
-                        'icon' => 'ti ti-users-group',
-                        'color' => 'indigo',
-                        'route' => 'person_types.index',
-                        'order_no' => 8,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Siswa',
-                        'icon' => 'ti ti-book',
-                        'color' => 'indigo',
-                        'route' => 'students.index',
-                        'order_no' => 9,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Guru',
-                        'icon' => 'ti ti-chalkboard',
-                        'color' => 'indigo',
-                        'route' => 'teachers.index',
-                        'order_no' => 10,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Staf',
-                        'icon' => 'ti ti-briefcase',
-                        'color' => 'indigo',
-                        'route' => 'staffs.index',
-                        'order_no' => 11,
+                        'order_no' => 2,
                         'is_active' => true,
                     ],
                     [
@@ -153,16 +112,25 @@ class MenuSeeder extends Seeder
                         'icon' => 'ti ti-clock',
                         'color' => 'indigo',
                         'route' => 'time_slots.index',
-                        'order_no' => 12,
+                        'order_no' => 3,
                         'is_active' => true,
                     ],
                     [
                         'type' => 'item',
-                        'title' => 'Penempatan Siswa',
+                        'title' => 'Rombongan Belajar',
                         'icon' => 'ti ti-users',
                         'color' => 'indigo',
-                        'route' => 'class_room_students.index',
-                        'order_no' => 13,
+                        'route' => 'class_rooms.index',
+                        'order_no' => 4,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Guru Mapel',
+                        'icon' => 'ti ti-book-2',
+                        'color' => 'indigo',
+                        'route' => 'teacher_subject_assignments.index',
+                        'order_no' => 5,
                         'is_active' => true,
                     ],
                     [
@@ -171,16 +139,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'ti ti-users-group',
                         'color' => 'indigo',
                         'route' => 'class_room_homeroom_teachers.index',
-                        'order_no' => 14,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Penugasan Guru Mapel',
-                        'icon' => 'ti ti-book',
-                        'color' => 'indigo',
-                        'route' => 'teacher_subject_assignments.index',
-                        'order_no' => 15,
+                        'order_no' => 6,
                         'is_active' => true,
                     ],
                     [
@@ -189,109 +148,113 @@ class MenuSeeder extends Seeder
                         'icon' => 'ti ti-file-text',
                         'color' => 'indigo',
                         'route' => 'class_schedules.index',
-                        'order_no' => 16,
+                        'order_no' => 7,
                         'is_active' => true,
                     ],
+                ],
+            ],
+
+            // SUMBER DAYA MANUSIA (Dropdown)
+            [
+                'type' => 'dropdown',
+                'title' => 'SDM',
+                'icon' => 'ti ti-users',
+                'color' => 'indigo',
+                'menu_key' => 'sdm',
+                'order_no' => 30,
+                'is_active' => true,
+                'children' => [
+                    [
+                        'type' => 'item',
+                        'title' => 'Orang',
+                        'icon' => 'ti ti-user',
+                        'color' => 'indigo',
+                        'route' => 'persons.index',
+                        'order_no' => 0,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Tipe Orang',
+                        'icon' => 'ti ti-users-group',
+                        'color' => 'indigo',
+                        'route' => 'person_types.index',
+                        'order_no' => 1,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Guru',
+                        'icon' => 'ti ti-chalkboard',
+                        'color' => 'indigo',
+                        'route' => 'teachers.index',
+                        'order_no' => 2,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Staf',
+                        'icon' => 'ti ti-briefcase',
+                        'color' => 'indigo',
+                        'route' => 'staffs.index',
+                        'order_no' => 3,
+                        'is_active' => true,
+                    ],
+                ],
+            ],
+
+            // PESERTA DIDIK (Dropdown)
+            [
+                'type' => 'dropdown',
+                'title' => 'PESERTA DIDIK',
+                'icon' => 'ti ti-users-group',
+                'color' => 'indigo',
+                'menu_key' => 'peserta-didik',
+                'order_no' => 40,
+                'is_active' => true,
+                'children' => [
+                    [
+                        'type' => 'item',
+                        'title' => 'Siswa',
+                        'icon' => 'ti ti-users-group',
+                        'color' => 'indigo',
+                        'route' => 'students.index',
+                        'order_no' => 0,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Penempatan Siswa',
+                        'icon' => 'ti ti-book-2',
+                        'color' => 'indigo',
+                        'route' => 'class_room_students.index',
+                        'order_no' => 1,
+                        'is_active' => true,
+                    ],
+                ],
+            ],
+
+            // IDENTITAS (Dropdown)
+            [
+                'type' => 'dropdown',
+                'title' => 'IDENTITAS',
+                'icon' => 'ti ti-id',
+                'color' => 'indigo',
+                'menu_key' => 'identitas',
+                'order_no' => 50,
+                'is_active' => true,
+                'children' => [
                     [
                         'type' => 'item',
                         'title' => 'Kartu ID',
                         'icon' => 'ti ti-id',
                         'color' => 'indigo',
                         'route' => 'id_cards.index',
-                        'order_no' => 17,
+                        'order_no' => 0,
                         'is_active' => true,
                     ],
                 ],
             ],
-
-            // ACADEMIC (Dropdown)
-            // [
-            //     'type' => 'dropdown',
-            //     'title' => 'Akademik',
-            //     'icon' => 'ti ti-school',
-            //     'color' => 'indigo',
-            //     'menu_key' => 'academic',
-            //     'order_no' => 20,
-            //     'is_active' => true,
-            //     'children' => [
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Siswa',
-            //             'icon' => 'ti ti-user',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.students.index',
-            //             'order_no' => 0,
-            //             'is_active' => true,
-            //         ],
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Guru',
-            //             'icon' => 'ti ti-user-check',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.teachers.index',
-            //             'order_no' => 1,
-            //             'is_active' => true,
-            //         ],
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Jadwal Pelajaran',
-            //             'icon' => 'ti ti-schedule',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.class-schedules.index',
-            //             'order_no' => 2,
-            //             'is_active' => true,
-            //         ],
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Penugasan Guru',
-            //             'icon' => 'ti ti-assignment',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.teacher-subject-assignments.index',
-            //             'order_no' => 3,
-            //             'is_active' => true,
-            //         ],
-            //     ],
-            // ],
-
-            // // OPERASIONAL (Dropdown)
-            // [
-            //     'type' => 'dropdown',
-            //     'title' => 'Operasional',
-            //     'icon' => 'ti ti-tools',
-            //     'color' => 'indigo',
-            //     'menu_key' => 'operational',
-            //     'order_no' => 30,
-            //     'is_active' => true,
-            //     'children' => [
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Absensi',
-            //             'icon' => 'ti ti-clipboard',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.attendance.index',
-            //             'order_no' => 0,
-            //             'is_active' => true,
-            //         ],
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Kartu RFID',
-            //             'icon' => 'ti ti-id',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.id-cards.index',
-            //             'order_no' => 1,
-            //             'is_active' => true,
-            //         ],
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Jam Pelajaran',
-            //             'icon' => 'ti ti-clock',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.time-slots.index',
-            //             'order_no' => 2,
-            //             'is_active' => true,
-            //         ],
-            //     ],
-            // ],
 
             // LAPORAN (Dropdown)
             // [
@@ -329,7 +292,7 @@ class MenuSeeder extends Seeder
             // SISTEM (Dropdown)
             [
                 'type' => 'dropdown',
-                'title' => 'Sistem',
+                'title' => 'SISTEM',
                 'icon' => 'ti ti-settings',
                 'color' => 'indigo',
                 'menu_key' => 'system',
@@ -375,6 +338,8 @@ class MenuSeeder extends Seeder
                 ],
             ],
         ];
+
+        Menu::truncate(); // Clear existing data
 
         // Insert menus
         foreach ($menus as $menuData) {
@@ -443,7 +408,6 @@ class MenuSeeder extends Seeder
             }
         }
 
-        $this->command->info('Menus dan permissions berhasil di-seed.');
     }
 }
 

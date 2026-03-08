@@ -166,7 +166,7 @@ class MenuSeeder extends Seeder
                 'children' => [
                     [
                         'type' => 'item',
-                        'title' => 'Orang',
+                        'title' => 'Pengguna',
                         'icon' => 'ti ti-user',
                         'color' => 'indigo',
                         'route' => 'persons.index',
@@ -175,7 +175,7 @@ class MenuSeeder extends Seeder
                     ],
                     [
                         'type' => 'item',
-                        'title' => 'Tipe Orang',
+                        'title' => 'Tipe Pengguna',
                         'icon' => 'ti ti-users-group',
                         'color' => 'indigo',
                         'route' => 'person_types.index',

@@ -58,6 +58,48 @@
                     </div>
                 </div>
 
+                <div class="kanban-column bg-white">
+                    <div class="kanban-header">
+                        <i class="fa fa-id-badge ms-2"></i> Kode Guru / Kode Mapel
+                    </div>
+                    <div class="kanban-content">
+                        <table class="table table-sm table-bordered table-teacher-subject ">
+                            <thead>
+                                <tr>
+                                    <th class="font-bold">Kode</th>
+                                    <th class="font-bold">Pengajar</th>
+                                    <th class="font-bold">Kode</th>
+                                    <th class="font-bold">Mapel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($teachers as $personnel)
+                                    @foreach ($personnel->teacherSubjectAssignments as $key => $subject)
+                                        <tr>
+                                            @if ($key == 0)
+                                                <td {{ count($personnel->teacherSubjectAssignments) > 1 ? 'rowspan=' . count($personnel->teacherSubjectAssignments) : '' }}
+                                                    class="font-bold text-primary" style="padding:1px 10px">
+                                                    {{ nameInitials($personnel->person->full_name) }}
+                                                </td>
+                                                <td {{ count($personnel->teacherSubjectAssignments) > 1 ? 'rowspan=' . count($personnel->teacherSubjectAssignments) : '' }}
+                                                    class="" style="padding:1px 10px">
+                                                    {{ $personnel->person->full_name }}
+                                                </td>
+                                            @endif
+                                            <td class="font-bold text-success" style="padding:1px 10px">
+                                                {{ $subject->subject->code ?? '-' }}
+                                            </td>
+                                            <td class="" style="padding:1px 10px">
+                                                {{ $subject->subject->name ?? '-' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
 
 
                 @php
@@ -66,7 +108,7 @@
                         2 => 'Selasa',
                         3 => 'Rabu',
                         4 => 'Kamis',
-                        5 => 'Jumat',
+                        // 5 => 'Jumat',
                         6 => 'Sabtu',
                         7 => 'Minggu'
                     ];

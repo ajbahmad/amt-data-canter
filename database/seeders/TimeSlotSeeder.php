@@ -15,89 +15,64 @@ class TimeSlotSeeder extends Seeder
     public function run(): void
     {
         $schools = SchoolInstitution::all();
-        $schoolLevels = SchoolLevel::all();
+        $levels = SchoolLevel::all();
+
+        $timeSlots = [
+            [
+                'name' => '1',
+                'start_time' => '08:30',
+                'end_time' => '08:52',
+                'order_no' => 1,
+            ],
+            [
+                'name' => '2',
+                'start_time' => '08:52',
+                'end_time' => '09:14',
+                'order_no' => 2,
+            ],
+            [
+                'name' => '3',
+                'start_time' => '09:14',
+                'end_time' => '09:36',
+                'order_no' => 3,
+            ],
+            [
+                'name' => '4',
+                'start_time' => '09:36',
+                'end_time' => '09:55',
+                'order_no' => 4,
+            ],
+            [
+                'name' => '5',
+                'start_time' => '10:10',
+                'end_time' => '10:42',
+                'order_no' => 5,
+            ],
+            [
+                'name' => '6',
+                'start_time' => '10:42',
+                'end_time' => '11:15',
+                'order_no' => 6,
+            ],
+        ];
 
         foreach ($schools as $school) {
-            foreach ($schoolLevels as $level) {
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '1',
-                    'start_time' => '07:00',
-                    'end_time' => '07:40',
-                    'order_no' => 1,
-                    'is_active' => true,
-                ]);
+            foreach ($levels as $level) {
 
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '2',
-                    'start_time' => '07:40',
-                    'end_time' => '08:20',
-                    'order_no' => 2,
-                    'is_active' => true,
-                ]);
+                foreach ($timeSlots as $slot) {
 
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '3',
-                    'start_time' => '08:20',
-                    'end_time' => '09:00',
-                    'order_no' => 3,
-                    'is_active' => true,
-                ]);
+                    TimeSlot::create([
+                        'school_institution_id' => $school->id,
+                        'school_level_id' => $level->id,
+                        'name' => $slot['name'],
+                        'start_time' => $slot['start_time'],
+                        'end_time' => $slot['end_time'],
+                        'order_no' => $slot['order_no'],
+                        'is_active' => true,
+                    ]);
 
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '4',
-                    'start_time' => '09:00',
-                    'end_time' => '09:40',
-                    'order_no' => 4,
-                    'is_active' => true,
-                ]);
+                }
 
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '5',
-                    'start_time' => '10:00',
-                    'end_time' => '10:40',
-                    'order_no' => 6,
-                    'is_active' => true,
-                ]);
-
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '6',
-                    'start_time' => '10:40',
-                    'end_time' => '11:20',
-                    'order_no' => 7,
-                    'is_active' => true,
-                ]);
-
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '7',
-                    'start_time' => '12:00',
-                    'end_time' => '12:40',
-                    'order_no' => 9,
-                    'is_active' => true,
-                ]);
-
-                TimeSlot::create([
-                    'school_institution_id' => $school->id,
-                    'school_level_id' => $level->id,
-                    'name' => '8',
-                    'start_time' => '12:40',
-                    'end_time' => '13:20',
-                    'order_no' => 10,
-                    'is_active' => true,
-                ]);
             }
         }
     }

@@ -58,6 +58,5 @@ class PersonTypeMembershipSeeder extends Seeder
             }
         }
         
-        $this->command->info("PersonTypeMembership seeder completed. Total memberships created: " . count($createdMemberships));
     }
 }

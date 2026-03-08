@@ -21,7 +21,7 @@ class SemesterSeeder extends Seeder
                 'semester' => 1,
                 'start_date' => '2026-01-15',
                 'end_date' => '2026-06-15',
-                'is_active' => true,
+                'is_active' => false,
             ],
             [
                 'name' => 'Genap',

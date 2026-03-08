@@ -28,16 +28,6 @@ class PersonTypeSeeder extends Seeder
                 'description' => 'Tipe orang yang merupakan staff administratif atau non-akademik',
                 'is_active' => true,
             ],
-            [
-                'name' => 'Orang Tua',
-                'description' => 'Tipe orang yang merupakan orang tua/wali dari siswa',
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Alumni',
-                'description' => 'Tipe orang yang merupakan alumni dari sekolah',
-                'is_active' => true,
-            ],
         ];
 
         foreach ($personTypes as $personType) {

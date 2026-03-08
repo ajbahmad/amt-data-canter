@@ -16,7 +16,7 @@ class MenuSeeder extends Seeder
         // Clear existing menus
         Menu::query()->delete();
 
-        // Define menu structure
+        // Define menu structure with support for unlimited nesting levels
         $menus = [
             // Dashboard
             [
@@ -80,44 +80,64 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
                 'children' => [
                     [
-                        'type' => 'item',
-                        'title' => 'Tahun Ajaran',
-                        'icon' => 'ti ti-calendar',
+                        'type' => 'dropdown',
+                        'title' => 'Master Akademik',
+                        'icon' => 'ti ti-settings',
                         'color' => 'indigo',
-                        'route' => 'school_years.index',
-                        'order_no' => 0,
+                        'menu_key' => 'master_akademik',
+                        'order_no' => 20,
                         'is_active' => true,
+                        'children'  => [
+                            [
+                                'type' => 'item',
+                                'title' => 'Tahun Ajaran',
+                                'icon' => 'ti ti-calendar',
+                                'color' => 'indigo',
+                                'route' => 'school_years.index',
+                                'order_no' => 0,
+                                'is_active' => true,
+                            ],
+                            [
+                                'type' => 'item',
+                                'title' => 'Semester',
+                                'icon' => 'ti ti-clock',
+                                'color' => 'indigo',
+                                'route' => 'semesters.index',
+                                'order_no' => 1,
+                                'is_active' => true,
+                            ],
+                            [
+                                'type' => 'item',
+                                'title' => 'Mata Pelajaran',
+                                'icon' => 'ti ti-book',
+                                'color' => 'indigo',
+                                'route' => 'subjects.index',
+                                'order_no' => 2,
+                                'is_active' => true,
+                            ],
+                            [
+                                'type' => 'item',
+                                'title' => 'Jam Pelajaran',
+                                'icon' => 'ti ti-clock',
+                                'color' => 'indigo',
+                                'route' => 'time_slots.index',
+                                'order_no' => 3,
+                                'is_active' => true,
+                            ],
+                            [
+                                'type' => 'item',
+                                'title' => 'Pola Jadwal',
+                                'icon' => 'ti ti-calendar-event',
+                                'color' => 'indigo',
+                                'route' => 'schedule-patterns.index',
+                                'order_no' => 8,
+                                'is_active' => true,
+                            ],
+                        ]
                     ],
                     [
                         'type' => 'item',
-                        'title' => 'Semester',
-                        'icon' => 'ti ti-clock',
-                        'color' => 'indigo',
-                        'route' => 'semesters.index',
-                        'order_no' => 1,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Mata Pelajaran',
-                        'icon' => 'ti ti-book',
-                        'color' => 'indigo',
-                        'route' => 'subjects.index',
-                        'order_no' => 2,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Jam Pelajaran',
-                        'icon' => 'ti ti-clock',
-                        'color' => 'indigo',
-                        'route' => 'time_slots.index',
-                        'order_no' => 3,
-                        'is_active' => true,
-                    ],
-                    [
-                        'type' => 'item',
-                        'title' => 'Rombongan Belajar',
+                        'title' => 'Rombel & Jadwal',
                         'icon' => 'ti ti-users',
                         'color' => 'indigo',
                         'route' => 'class_rooms.index',
@@ -149,6 +169,15 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'route' => 'class_schedules.index',
                         'order_no' => 7,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Jadwal Harian',
+                        'icon' => 'ti ti-calendar-time',
+                        'color' => 'indigo',
+                        'route' => 'school-day-schedules.index',
+                        'order_no' => 9,
                         'is_active' => true,
                     ],
                 ],
@@ -341,20 +370,8 @@ class MenuSeeder extends Seeder
 
         Menu::truncate(); // Clear existing data
 
-        // Insert menus
-        foreach ($menus as $menuData) {
-            $children = $menuData['children'] ?? [];
-            unset($menuData['children']);
-
-            // Create parent menu
-            $parentMenu = Menu::create($menuData);
-
-            // Create children if any
-            foreach ($children as $childData) {
-                $childData['parent_id'] = $parentMenu->id;
-                Menu::create($childData);
-            }
-        }
+        // Insert menus recursively
+        $this->insertMenusRecursively($menus);
 
         // Create permissions for all menus
         $menus = Menu::all();
@@ -407,7 +424,33 @@ class MenuSeeder extends Seeder
                 ]);
             }
         }
+    }
 
+    /**
+     * Insert menus recursively to support unlimited nesting levels
+     * 
+     * @param array $menus Array of menu items to insert
+     * @param Menu|null $parentMenu Parent menu object (null for root level)
+     */
+    private function insertMenusRecursively(array $menus, ?Menu $parentMenu = null): void
+    {
+        foreach ($menus as $menuData) {
+            // Extract children before creating the menu
+            $children = $menuData['children'] ?? [];
+            unset($menuData['children']);
+
+            // Set parent_id if this is a child menu
+            if ($parentMenu !== null) {
+                $menuData['parent_id'] = $parentMenu->id;
+            }
+
+            // Create the menu
+            $menu = Menu::create($menuData);
+
+            // Recursively create children menus
+            if (!empty($children)) {
+                $this->insertMenusRecursively($children, $menu);
+            }
+        }
     }
 }
-

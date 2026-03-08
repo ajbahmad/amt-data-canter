@@ -16,7 +16,7 @@ class TeacherDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action','employment_type','status','is_active','created_at'])
+            ->rawColumns(['action','person_name','employment_type','status','is_active','created_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('teachers.show', $row->id);
                 $editUrl = route('teachers.edit', $row->id);
@@ -30,10 +30,34 @@ class TeacherDataTable extends DataTable
                 ';
             })
             ->addColumn('person_name', function ($row) {
-                return $row->person ? $row->person->full_name : 'N/A';
+                if ($row->person->photo) {
+                    $urlPhoto = '<img src="'.asset('storage/'.$row->person->photo).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                } else {
+                    $urlPhoto = '<img src="https://ui-avatars.com/api/?name='.urlencode($row->person->full_name).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                }
+                return '
+                <div class="flex items-center gap-2">
+                    '.$urlPhoto.'
+                    <div>
+                        <div class="font-medium text-gray-900">'. $row->person->full_name .'</div>
+                        <div class="text-sm text-gray-500">'. $row->person->email .'</div>
+                    </div>
+                </div>
+                ';
             })
             ->addColumn('school_name', function ($row) {
-                return $row->schoolInstitution?->name ?? 'N/A';
+                return $row->schoolInstitution->name ?? 'N/A';
+            })
+            ->addColumn('employment_type', function($row){
+                $typeLabels = [
+                    'permanent' => '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Tetap</span>',
+                    'contract' => '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Kontrak</span>',
+                    'honorary' => '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Honorer</span>',
+                ];
+                return $typeLabels[$row->employment_type] ?? '<span>Unknown</span>';
+            })
+            ->addColumn('school_name', function ($row) {
+                return $row->schoolInstitution->name ?? 'N/A';
             })
             ->addColumn('employment_type', function($row){
                 $typeLabels = [

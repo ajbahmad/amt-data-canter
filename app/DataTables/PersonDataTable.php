@@ -44,7 +44,6 @@ class PersonDataTable extends DataTable
                     </div>
                 </div>
                 ';
-                return $row->full_name;
             })
             ->addColumn('tetala', function($row){
                 return $row->birth_place. ', '.Carbon::parse($row->birth_date)->translatedFormat('d F Y');

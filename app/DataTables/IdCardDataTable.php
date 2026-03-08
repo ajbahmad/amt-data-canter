@@ -21,7 +21,7 @@ class IdCardDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action', 'status', 'created_at'])
+            ->rawColumns(['action', 'person_name', 'status', 'created_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('id_cards.show', $row->id);
                 $editUrl = route('id_cards.edit', $row->id);
@@ -36,7 +36,20 @@ class IdCardDataTable extends DataTable
                 return $data;
             })
             ->addColumn('person_name', function($row){
-                return $row->person ? $row->person->full_name : '-';
+                if ($row->person->photo) {
+                    $urlPhoto = '<img src="'.asset('storage/'.$row->person->photo).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                } else {
+                    $urlPhoto = '<img src="https://ui-avatars.com/api/?name='.urlencode($row->person->full_name).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                }
+                return '
+                <div class="flex items-center gap-2">
+                    '.$urlPhoto.'
+                    <div>
+                        <div class="font-medium text-gray-900">'. $row->person->full_name .'</div>
+                        <div class="text-sm text-gray-500">'. $row->person->email .'</div>
+                    </div>
+                </div>
+                ';
             })
             ->addColumn('status', function($row){
                 $statusMap = [
@@ -163,9 +176,9 @@ class IdCardDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('person_name')->name('person_name')->title('Person')->attributes(['data-type' => 'text', 'data-name' => 'person_name', 'data-label' => 'Person', 'data-value' => null]);
         $column[] = Column::make('card_uid')->name('card_uid')->title('UID Kartu')->attributes(['data-type' => 'text', 'data-name' => 'card_uid', 'data-label' => 'UID Kartu', 'data-value' => null]);
         $column[] = Column::make('card_number')->name('card_number')->title('Nomor Kartu')->attributes(['data-type' => 'text', 'data-name' => 'card_number', 'data-label' => 'Nomor Kartu', 'data-value' => null]);
-        $column[] = Column::make('person_name')->name('person_name')->title('Person')->attributes(['data-type' => 'text', 'data-name' => 'person_name', 'data-label' => 'Person', 'data-value' => null]);
         $column[] = Column::make('status')->name('status')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'status', 'data-label' => 'Status', 'data-value' => $this->getStatusOptions()]);
         $column[] = Column::make('issued_at_formatted')->name('issued_at_formatted')->title('Tgl Keluaran')->searchable(false)->attributes(['data-type' => 'date', 'data-name' => 'issued_at_formatted', 'data-label' => 'Tgl Keluaran']);
         $column[] = Column::make('expired_at_formatted')->name('expired_at_formatted')->title('Tgl Expired')->searchable(false)->attributes(['data-type' => 'date', 'data-name' => 'expired_at_formatted', 'data-label' => 'Tgl Expired']);

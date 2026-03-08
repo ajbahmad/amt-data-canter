@@ -1,38 +1,34 @@
 @extends('layouts.admin')
 
-@section('title', 'Rombel')
+@section('title', 'Pola Jadwal')
 
 @section('content')
 
 @include('layouts.partials.admin.breadcrumb', [
-    'title' => 'Daftar Rombel',
+    'title' => 'Pola Jadwal',
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
-        ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Rombel', 'url' => '#']
+        ['name' => 'Akademik', 'url' => '#'],
+        ['name' => 'Pola Jadwal', 'url' => '#']
     ]
 ])
 
 
 <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-
-    <div class="mb-6 flex items-center">
+    
+    <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-            <i class="ti ti-door mr-2"></i>Daftar Rombel
+            <i class="ti ti-calendar-month mr-2"></i>Daftar Pola Jadwal
         </h2>
-        
-        <a href="{{ route('class_rooms.set_schedule') }}" class="inline-flex ms-auto me-2 items-center rounded-lg bg-success px-4 py-2 text-white hover:bg-success-700 transition">
-            <i class="ti ti-clock mr-2"></i>Atur Jadwal Masuk
-        </a>
-
-        <a href="{{ route('class_rooms.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
-            <i class="ti ti-plus mr-2"></i>Tambah Rombel
+        <a href="{{ route('schedule-patterns.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
+            <i class="ti ti-plus mr-2"></i>Tambah Pola Jadwal
         </a>
     </div>
     
-    {{ $dataTable->table() }}
+    {!! $dataTable->table(['class' => 'display nowrap w-full'], true) !!}
 
 </div>
+
 
 @endsection
 

@@ -264,7 +264,7 @@ class MenuHelper
     }
 
     /**
-     * Check if menu dropdown has any active children
+     * Check if menu dropdown has any active children (recursive)
      */
     public static function hasActiveChild(array $menu): bool
     {
@@ -273,7 +273,13 @@ class MenuHelper
         }
 
         foreach ($menu['children'] as $child) {
+            // Check if child itself is active
             if (self::isActive($child)) {
+                return true;
+            }
+
+            // Recursively check if any nested children are active
+            if (self::hasActiveChild($child)) {
                 return true;
             }
         }

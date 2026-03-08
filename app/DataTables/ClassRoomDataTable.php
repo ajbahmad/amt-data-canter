@@ -26,7 +26,7 @@ class ClassRoomDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action','is_active','created_at'])
+            ->rawColumns(['action','is_active', 'schedule_pattern_id', 'created_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('class_rooms.show', $row->id);
                 $editUrl = route('class_rooms.edit', $row->id);
@@ -56,6 +56,9 @@ class ClassRoomDataTable extends DataTable
                             <i class="ti ti-circle-x mr-2"></i>Non Aktif
                         </span>';
             })
+            ->addColumn('schedule_pattern_id', function ($row) {
+                return $row->schedulePattern ? '<a href="'.route('schedule-patterns.show', $row->schedulePattern->id).'" class="bg-lightprimary text-gray-800 text-xs d-block font-medium text-center px-3 py-1.5 rounded">'.$row->schedulePattern->name.'</a>' : '<div class="text-gray-300">Belum diatur</div>';
+            })
             ->addColumn('created_at', function ($row) {
                 Carbon::setLocale('id');
                 return Carbon::parse($row->created_at)->translatedFormat('d F Y');
@@ -79,6 +82,9 @@ class ClassRoomDataTable extends DataTable
             })
             ->orderColumn('is_active', function($query, $direction) {
                 $query->orderBy('is_active', $direction);
+            })
+            ->orderColumn('schedule_pattern_id', function ($query, $direction) {
+                $query->orderBy('schedule_pattern_id', $direction);
             })
             ->orderColumn('created_at', function($query, $direction) {
                 $query->orderBy('created_at', $direction);
@@ -104,6 +110,9 @@ class ClassRoomDataTable extends DataTable
                         $query->where('is_active', $isActive);
                     }
                 }
+            })
+            ->filterColumn('schedule_pattern_id', function ($query, $keyword) {
+                $query->where('schedule_pattern_id', $keyword);
             })
             ->filterColumn('created_at', function($query, $keyword){
                 if ($keyword) {
@@ -179,6 +188,17 @@ class ClassRoomDataTable extends DataTable
         return json_encode($options);
     }
 
+    function getSchedulePatterns() {
+        $schedulePatterns = \App\Models\SchedulePattern::pluck('name', 'id')->toArray();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($schedulePatterns as $id => $name) {
+            $options[] = ['label' => $name, 'value' => $id];
+        }
+        return json_encode($options);
+    }
+
     /**
      * Get the dataTable columns definition.
      */
@@ -199,6 +219,7 @@ class ClassRoomDataTable extends DataTable
         $column[] = Column::make('school_year_name')->name('school_year_name')->title('Jenjang Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_year_name', 'data-label' => 'Jenjang Sekolah', 'data-value' => $this->getSchoolYear()]);
         $column[] = Column::make('grade_name')->name('grade_name')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'grade_name', 'data-label' => 'Kelas', 'data-value' => $this->getGrade()]);
         $column[] = Column::make('capacity')->name('capacity')->title('Kapasitas')->attributes(['data-type' => 'number', 'data-name' => 'capacity', 'data-label' => 'Kapasitas', 'data-value' => null]);
+        $column[] = Column::make('schedule_pattern_id')->name('schedule_pattern_id')->title('Pola Jadwal')->attributes(['data-type' => 'select', 'data-name' => 'schedule_pattern_id', 'data-label' => 'Pola Jadwal', 'data-value' => $this->getSchedulePatterns()]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('created_at')->name('created_at')->title('Dibuat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Dibuat']);
         return $column;

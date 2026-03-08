@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             ClassRoomStudentSeeder::class,
             ClassRoomHomeroomTeacherSeeder::class,
             TeacherSubjectAssignmentSeeder::class,
+            SchedulePatternSeeder::class,
             IdCardSeeder::class,
             CardHistorySeeder::class,
         ]);

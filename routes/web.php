@@ -20,6 +20,8 @@ use App\Http\Controllers\TeacherSubjectAssignmentController;
 use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\IdCardController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\SchedulePatternController;
+use App\Http\Controllers\SchoolDayScheduleController;
 
 
 require __DIR__.'/auth.php';
@@ -36,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('school-years', SchoolYearController::class, ['names' => 'school_years']);
     Route::resource('semesters', SemesterController::class, ['names' => 'semesters']);
     Route::resource('grades', GradeController::class, ['names' => 'grades']);
+    Route::get('class-rooms/set-schedule', [ClassRoomController::class, 'setSchedule'])->name('class_rooms.set_schedule');
+    Route::post('class-rooms/set-schedule', [ClassRoomController::class, 'updateSchedule'])->name('class_rooms.update_schedule');
     Route::resource('class-rooms', ClassRoomController::class, ['names' => 'class_rooms']);
     Route::resource('subjects', SubjectController::class, ['names' => 'subjects']);
     
@@ -55,6 +59,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('class-schedules-grid', [ClassScheduleController::class, 'grid'])->name('class_schedules.grid');
     Route::resource('id-cards', IdCardController::class, ['names' => 'id_cards']);
     Route::get('id-cards/statistics', [IdCardController::class, 'statistics'])->name('id_cards.statistics');
+    
+    // Schedule Management Routes
+    Route::resource('schedule-patterns', SchedulePatternController::class);
+    Route::get('school-day-schedules', [SchoolDayScheduleController::class, 'index'])->name('school-day-schedules.index');
+    Route::get('school-day-schedules/{schedule}', [SchoolDayScheduleController::class, 'show'])->name('school-day-schedules.show');
+    Route::get('school-day-schedules/{schedule}/edit', [SchoolDayScheduleController::class, 'edit'])->name('school-day-schedules.edit');
+    Route::put('school-day-schedules/{schedule}', [SchoolDayScheduleController::class, 'update'])->name('school-day-schedules.update');
     
     // Menu Management Routes
     Route::prefix('admin')->name('admin.')->group(function () {

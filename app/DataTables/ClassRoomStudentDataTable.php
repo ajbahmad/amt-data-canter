@@ -16,7 +16,7 @@ class ClassRoomStudentDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action', 'is_active', 'joined_at'])
+            ->rawColumns(['action', 'student_name', 'is_active', 'joined_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('class_room_students.show', $row->id);
                 $editUrl = route('class_room_students.edit', $row->id);
@@ -33,7 +33,20 @@ class ClassRoomStudentDataTable extends DataTable
                 return $row->classRoom ? $row->classRoom->name : 'N/A';
             })
             ->addColumn('student_name', function ($row) {
-                return $row->student ? ($row->student->person ? $row->student->person->full_name : 'N/A') : 'N/A';
+                if ($row->student->person->photo) {
+                    $urlPhoto = '<img src="'.asset('storage/'.$row->student->person->photo).'" alt="'.$row->student->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                } else {
+                    $urlPhoto = '<img src="https://ui-avatars.com/api/?name='.urlencode($row->student->person->full_name).'" alt="'.$row->student->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                }
+                return '
+                <div class="flex items-center gap-2">
+                    '.$urlPhoto.'
+                    <div>
+                        <div class="font-medium text-gray-900">'. $row->student->person->full_name .'</div>
+                        <div class="text-sm text-gray-500">'. $row->student->person->email .'</div>
+                    </div>
+                </div>
+                ';
             })
             ->addColumn('student_id', function ($row) {
                 return $row->student ? $row->student->student_id : 'N/A';
@@ -129,8 +142,8 @@ class ClassRoomStudentDataTable extends DataTable
                 ->printable(false)
                 ->width(80)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('class_room_name')->name('class_room_name')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_name', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
         $column[] = Column::make('student_name')->name('student_name')->title('Nama Siswa')->attributes(['data-type' => 'text', 'data-name' => 'student_name', 'data-label' => 'Nama Siswa', 'data-value' => null]);
+        $column[] = Column::make('class_room_name')->name('class_room_name')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_name', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
         $column[] = Column::make('student_id')->name('student_id')->title('NIS')->attributes(['data-type' => 'text', 'data-name' => 'student_id', 'data-label' => 'NIS', 'data-value' => null]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('joined_at')->name('joined_at')->title('Bergabung')->attributes(['data-type' => 'date', 'data-name' => 'joined_at', 'data-label' => 'Bergabung']);

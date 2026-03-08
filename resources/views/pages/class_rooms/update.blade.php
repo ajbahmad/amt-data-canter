@@ -39,15 +39,15 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Tahun Akademik <span class="text-red-500">*</span>
+                    Tingkat Sekolah <span class="text-red-500">*</span>
                 </label>
-                <select name="school_year_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_year_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Tahun Akademik --</option>
-                    @foreach($schoolYears as $schoolYear)
-                        <option value="{{ $schoolYear->id }}" {{ old('school_year_id', $classRoom->school_year_id) == $schoolYear->id ? 'selected' : '' }}>{{ $schoolYear->name }}</option>
+                <select name="school_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Tingkat Sekolah --</option>
+                    @foreach($schoolLevels as $schoolLevel)
+                        <option value="{{ $schoolLevel->id }}" {{ old('school_level_id', $classRoom->school_level_id) == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}</option>
                     @endforeach
                 </select>
-                @error('school_year_id')
+                @error('school_level_id')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -87,14 +87,21 @@
                 @enderror
             </div>
 
-        </div>
+            <!-- Status -->
+            <div class="flex items-end">
+                <div class="flex items-center space-x-3 w-full">
+                    <div class="flex items-center h-10 px-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
+                        <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $schoolInstitution->is_active) ? 'checked' : '' }}
+                            class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                        <label for="is_active" class="ml-3 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
+                            Status Aktif
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-        <div class="mb-6">
-            <label class="flex items-center gap-2">
-                <input type="checkbox" name="is_active" value="1" {{ old('is_active', $classRoom->is_active) ? 'checked' : '' }} class="w-4 h-4 text-blue-600">
-                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Aktif</span>
-            </label>
         </div>
+        
 
         <div class="flex gap-3">
             <button type="submit" class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">

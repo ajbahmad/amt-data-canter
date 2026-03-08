@@ -99,4 +99,17 @@ class ClassRoomService
             throw new Exception('Failed to delete class room: ' . $e->getMessage());
         }
     }
+
+    function updateSchedule($request)
+    {
+        foreach ($request->schedule_pattern as $key => $value) {
+            $classRoom = ClassRoom::find($key);
+            if (!$classRoom) {
+                throw new Exception('Class room not found');
+            }
+            $classRoom->schedule_pattern_id = $value;
+            $classRoom->save();
+        }
+        return true;
+    }
 }

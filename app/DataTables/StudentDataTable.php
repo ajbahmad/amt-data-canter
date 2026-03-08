@@ -16,7 +16,7 @@ class StudentDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action','status','is_active','created_at'])
+            ->rawColumns(['action','person_name','status','is_active','created_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('students.show', $row->id);
                 $editUrl = route('students.edit', $row->id);
@@ -30,7 +30,20 @@ class StudentDataTable extends DataTable
                 ';
             })
             ->addColumn('person_name', function ($row) {
-                return $row->person ? $row->person->full_name : 'N/A';
+                if ($row->person->photo) {
+                    $urlPhoto = '<img src="'.asset('storage/'.$row->person->photo).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                } else {
+                    $urlPhoto = '<img src="https://ui-avatars.com/api/?name='.urlencode($row->person->full_name).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                }
+                return '
+                <div class="flex items-center gap-2">
+                    '.$urlPhoto.'
+                    <div>
+                        <div class="font-medium text-gray-900">'. $row->person->full_name .'</div>
+                        <div class="text-sm text-gray-500">'. $row->person->email .'</div>
+                    </div>
+                </div>
+                ';
             })
             ->addColumn('school_name', function ($row) {
                 return $row->schoolInstitution ? $row->schoolInstitution->name : 'N/A';

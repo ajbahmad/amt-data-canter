@@ -12,6 +12,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('school_institution_id')->constrained('school_institutions')->cascadeOnDelete();
             $table->foreignUuid('school_level_id')->constrained('school_levels')->cascadeOnDelete();
+            $table->foreignUuid('schedule_pattern_id')->nullable()->constrained('schedule_patterns')->cascadeOnDelete();
             $table->foreignUuid('grade_id')->constrained('grades')->cascadeOnDelete();
             $table->string('name', 50);
             $table->unsignedInteger('capacity')->default(0);

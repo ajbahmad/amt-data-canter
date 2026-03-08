@@ -37,7 +37,7 @@
 
 /* Auto expand dropdown with active child */
 .hs-accordion.sidebar-item.active .hs-accordion-content {
-    display: block !important;
+    /* display: block !important; */
 }
 
 .hs-accordion.sidebar-item.active .ti-chevron-right {

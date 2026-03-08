@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\ClassRoomDataTable;
 use App\Http\Requests\ClassRoomRequest;
 use App\Models\ClassRoom;
+use App\Models\SchedulePattern;
 use App\Services\ClassRoomService;
 use Illuminate\Http\Request;
 
@@ -89,5 +90,19 @@ class ClassRoomController extends Controller
     {
         $this->service->delete($classRoom);
         return redirect()->route($this->route.'.index')->with('success', 'Rombel berhasil dihapus');
+    }
+
+
+    function setSchedule(){
+        return view($this->viewDir.'set_schedule', [
+            'classRooms' => ClassRoom::with('grade')->get(),
+            'schedulePatterns' => SchedulePattern::orderBy('name')->get(),
+        ]);    
+    }
+
+    function updateSchedule(Request $request){
+        $this->service->updateSchedule($request);
+        return redirect()->route('class_rooms.set_schedule')->with('success', 'Pengaturan jadwal berhasil diperbarui');
+
     }
 }

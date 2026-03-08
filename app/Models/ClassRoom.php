@@ -12,6 +12,7 @@ class ClassRoom extends BaseModel
     protected $fillable = [
         'school_institution_id',
         'school_level_id',
+        'schedule_pattern_id',
         'grade_id',
         'name',
         'capacity',
@@ -36,5 +37,10 @@ class ClassRoom extends BaseModel
     public function grade(): BelongsTo
     {
         return $this->belongsTo(Grade::class);
+    }
+
+    public function schedulePattern(): BelongsTo
+    {
+        return $this->belongsTo(SchedulePattern::class);
     }
 }

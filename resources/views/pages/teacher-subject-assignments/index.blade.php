@@ -33,7 +33,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{asset('assets/libs/DataTables/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables-colresize@1.0.0/dist/dataTables.colResize.css">
+    
 
     <style>
         .dt-paging-button{
@@ -58,5 +58,6 @@
     <script src="{{asset('assets/libs/sweetalert2/js/sweetalert2.all.min.js')}}"></script>
     {!! $dataTable->scripts() !!}
     @include('components.confirm-toastr')
+    
 
 @endpush

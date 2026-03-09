@@ -60,9 +60,17 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Urutan
+                </label>
+                <input type="number" name="order_no" value="{{ old('order_no', $timeSlot->order_no) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500" min="0" placeholder="0">
+                @error('order_no')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Jam Mulai <span class="text-red-500">*</span>
                 </label>
-                <input type="time" name="start_time" value="{{ old('start_time', $timeSlot->start_time) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 @error('start_time') border-red-500 @enderror">
+                <input type="time" name="start_time" value="{{ old('start_time', Carbon\Carbon::parse($timeSlot->start_time)->format('H:i')) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 @error('start_time') border-red-500 @enderror">
                 @error('start_time')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
@@ -70,17 +78,11 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Jam Berakhir <span class="text-red-500">*</span>
                 </label>
-                <input type="time" name="end_time" value="{{ old('end_time', $timeSlot->end_time) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 @error('end_time') border-red-500 @enderror">
+                <input type="time" name="end_time" value="{{ old('end_time', Carbon\Carbon::parse($timeSlot->end_time)->format('H:i')) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 @error('end_time') border-red-500 @enderror">
                 @error('end_time')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Urutan
-                </label>
-                <input type="number" name="order_no" value="{{ old('order_no', $timeSlot->order_no) }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500" min="0" placeholder="0">
-                @error('order_no')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
-            </div>
+            
 
             <div>
                 <label class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -104,4 +106,7 @@
 @endsection
 @push('scripts')
     @include('components.confirm-toastr')
+    <script>
+        intFilterSelect();
+    </script>
 @endpush

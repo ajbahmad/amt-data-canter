@@ -21,6 +21,35 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Sekolah <span class="text-red-500">*</span>
+                </label>
+                <select name="school_institution_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Sekolah --</option>
+                    @foreach($schoolInstitutions as $schoolInstitution)
+                        <option value="{{ $schoolInstitution->id }}" {{ old('school_institution_id') == $schoolInstitution->id ? 'selected' : '' }}>{{ $schoolInstitution->name }}</option>
+                    @endforeach
+                </select>
+                @error('school_institution_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Tingkat Sekolah <span class="text-red-500">*</span>
+                </label>
+                <select name="school_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Tingkat Sekolah --</option>
+                    @foreach($schoolLevels as $schoolLevel)
+                        <option value="{{ $schoolLevel->id }}" {{ old('school_level_id') == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}</option>
+                    @endforeach
+                </select>
+                @error('school_level_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Kelas <span class="text-red-500">*</span>
                 </label>
                 <select name="class_room_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 @error('class_room_id') border-red-500 @enderror">
@@ -57,7 +86,7 @@
                 @error('assigned_at')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
             </div>
 
-            <div>
+            <div class="mt-5 pt-5">
                 <label class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     <input type="checkbox" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }} class="rounded dark:bg-gray-700">
                     <span class="ml-2">Aktif</span>
@@ -80,4 +109,7 @@
 
 @push('scripts')
     @include('components.confirm-toastr')
+    <script>
+        intFilterSelect();
+    </script>
 @endpush

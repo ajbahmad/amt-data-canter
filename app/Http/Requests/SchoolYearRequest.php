@@ -40,6 +40,7 @@ class SchoolYearRequest extends FormRequest
                 'max:50',
                 Rule::unique('school_years')
                     ->where('school_institution_id', $this->input('school_institution_id'))
+                    ->where('school_level_id', $this->input('school_level_id'))
                     ->ignore($schoolYearId),
             ],
             'start_date' => 'required|date|before:end_date',

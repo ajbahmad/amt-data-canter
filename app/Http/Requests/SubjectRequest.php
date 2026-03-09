@@ -47,4 +47,5 @@ class SubjectRequest extends FormRequest
             'name.unique' => 'Mata pelajaran dengan nama ini sudah ada untuk jenjang tersebut',
             'code.max' => 'Kode mata pelajaran maksimal 50 karakter',
         ];
+    }
 }

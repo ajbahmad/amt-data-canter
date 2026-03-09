@@ -35,7 +35,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{asset('assets/libs/DataTables/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables-colresize@1.0.0/dist/dataTables.colResize.css">
+    
 
 
     <style>

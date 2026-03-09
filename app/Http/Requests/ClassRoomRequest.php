@@ -30,7 +30,11 @@ class ClassRoomRequest extends FormRequest
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('class_rooms')->where('school_level_id', $this->input('school_level_id'))->ignore($classRoomId),
+                Rule::unique('class_rooms')
+                ->where('school_institution_id', $this->input('school_institution_id'))
+                ->where('school_level_id', $this->input('school_level_id'))
+                ->where('grade_id', $this->input('grade_id'))
+                ->ignore($classRoomId),
             ],
             'capacity' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',

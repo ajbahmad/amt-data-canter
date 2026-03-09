@@ -25,6 +25,10 @@ class SchoolLevelController extends Controller
      */
     public function index(SchoolLevelDataTable $dataTable, Request $request)
     {
+        if (request()->expectsJson() && !request()->columns) {
+            $getByFilter = $this->service->filter($request->school_institution_id);
+            return response()->json($getByFilter);
+        }
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['viewDir'] = $this->viewDir;

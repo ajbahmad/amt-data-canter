@@ -22,6 +22,7 @@ use App\Http\Controllers\IdCardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\SchedulePatternController;
 use App\Http\Controllers\SchoolDayScheduleController;
+use App\Http\Controllers\CalendarController;
 
 
 require __DIR__.'/auth.php';
@@ -66,6 +67,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('school-day-schedules/{schedule}', [SchoolDayScheduleController::class, 'show'])->name('school-day-schedules.show');
     Route::get('school-day-schedules/{schedule}/edit', [SchoolDayScheduleController::class, 'edit'])->name('school-day-schedules.edit');
     Route::put('school-day-schedules/{schedule}', [SchoolDayScheduleController::class, 'update'])->name('school-day-schedules.update');
+    
+    // Calendar Routes
+    Route::prefix('calendars')->name('calendars.')->group(function () {
+        Route::get('/', [CalendarController::class, 'index'])->name('index');
+        Route::get('/grid', [CalendarController::class, 'grid'])->name('grid');
+        Route::get('events', [CalendarController::class, 'events'])->name('events');
+        Route::post('/', [CalendarController::class, 'store'])->name('store');
+        Route::get('/{calendar}/show', [CalendarController::class, 'show'])->name('show');
+        Route::put('/{calendar}', [CalendarController::class, 'update'])->name('update');
+        Route::delete('/{calendar}', [CalendarController::class, 'destroy'])->name('destroy');
+    });
     
     // Menu Management Routes
     Route::prefix('admin')->name('admin.')->group(function () {

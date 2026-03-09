@@ -29,6 +29,26 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
             ],
 
+            // Calendars
+            [
+                'type' => 'item',
+                'title' => 'Kalender Akademik',
+                'icon' => 'ti ti-calendar-event',
+                'color' => 'indigo',
+                'route' => 'calendars.grid',
+                'order_no' => 5,
+                'is_active' => true,
+            ],
+            [
+                'type' => 'label',
+                'title' => 'MASTER DATA',
+                'icon' => '',
+                'color' => 'indigo',
+                'route' => '',
+                'order_no' => 5,
+                'is_active' => true,
+            ],
+
             // ORGANISASI (Dropdown)
             [
                 'type' => 'dropdown',

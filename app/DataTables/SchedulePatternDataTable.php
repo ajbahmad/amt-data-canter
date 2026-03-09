@@ -36,10 +36,10 @@ class SchedulePatternDataTable extends DataTable
                 ';
                 return $data;
             })
-            ->addColumn('school_institution_name', function($row){
+            ->addColumn('school_institution_id', function($row){
                 return $row->schoolInstitution->name ?? '-';
             })
-            ->addColumn('school_level_name', function($row){
+            ->addColumn('school_level_id', function($row){
                 return $row->schoolLevel->name ?? '-';
             })
             ->addColumn('created_at', function ($row) {
@@ -65,15 +65,11 @@ class SchedulePatternDataTable extends DataTable
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'ILIKE', "%{$keyword}%");
             })
-            ->filterColumn('school_institution_name', function($query, $keyword) {
-                $query->whereHas('schoolInstitution', function($q) use ($keyword) {
-                    $q->where('name', 'ILIKE', "%{$keyword}%");
-                });
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
             })
-            ->filterColumn('school_level_name', function($query, $keyword) {
-                $query->whereHas('schoolLevel', function($q) use ($keyword) {
-                    $q->where('name', 'ILIKE', "%{$keyword}%");
-                });
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->where('school_level_id', $keyword);
             })
             ->filterColumn('created_at', function($query, $keyword){
                 if ($keyword) {
@@ -147,9 +143,9 @@ class SchedulePatternDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Level Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Level Sekolah', 'data-value' => $this->getSchoolLevels()]);
         $column[] = Column::make('name')->name('name')->title('Nama Pola Jadwal')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Pola Jadwal', 'data-value' => null]);
-        $column[] = Column::make('school_institution_name')->name('school_institution_name')->title('Institusi')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_name', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
-        $column[] = Column::make('school_level_name')->name('school_level_name')->title('Level Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_name', 'data-label' => 'Level Sekolah', 'data-value' => $this->getSchoolLevels()]);
         $column[] = Column::make('created_at')->name('created_at')->title('Dibuat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Dibuat']);
         return $column;
     }

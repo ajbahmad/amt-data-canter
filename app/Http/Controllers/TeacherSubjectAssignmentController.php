@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\DataTables\TeacherSubjectAssignmentDataTable;
 use App\Http\Requests\TeacherSubjectAssignmentRequest;
 use App\Models\ClassRoom;
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -16,7 +18,7 @@ class TeacherSubjectAssignmentController extends Controller
 {
     protected $service;
     protected $viewDir = 'pages.teacher-subject-assignments.';
-    protected $route = 'teacher-subject-assignments';
+    protected $route = 'teacher_subject_assignments';
     protected $title = 'Penugasan Guru Mapel';
 
     public function __construct(TeacherSubjectAssignmentService $service)
@@ -34,11 +36,13 @@ class TeacherSubjectAssignmentController extends Controller
 
     public function create()
     {
-        $teachers = Teacher::with('person')->get();
-        $subjects = Subject::all();
-        $classRooms = ClassRoom::all();
-        $semesters = Semester::all();
-        return view($this->viewDir.'create', compact('teachers', 'subjects', 'classRooms', 'semesters'));
+        $schoolInstitutions = SchoolInstitution::where('is_active', true)->get();
+        $schoolLevels = SchoolLevel::where('is_active', true)->get();
+        $teachers = Teacher::where('is_active', true)->with('person')->get();
+        $subjects = Subject::where('is_active', true)->get();
+        $classRooms = ClassRoom::where('is_active', true)->get();
+        $semesters = Semester::where('is_active', true)->get();
+        return view($this->viewDir.'create', compact('schoolInstitutions', 'schoolLevels', 'teachers', 'subjects', 'classRooms', 'semesters'));
     }
 
     public function store(TeacherSubjectAssignmentRequest $request)
@@ -59,11 +63,13 @@ class TeacherSubjectAssignmentController extends Controller
 
     public function edit(TeacherSubjectAssignment $teacherSubjectAssignment)
     {
-        $teachers = Teacher::with('person')->get();
-        $subjects = Subject::all();
-        $classRooms = ClassRoom::all();
-        $semesters = Semester::all();
-        return view($this->viewDir.'edit', compact('teacherSubjectAssignment', 'teachers', 'subjects', 'classRooms', 'semesters'));
+        $schoolInstitutions = SchoolInstitution::where('is_active', true)->get();
+        $schoolLevels = SchoolLevel::where('is_active', true)->get();
+        $teachers = Teacher::where('is_active', true)->where('school_institution_id', $teacherSubjectAssignment->semester->school_institution_id)->with('person')->get();
+        $subjects = Subject::where('is_active', true)->where('school_level_id', $teacherSubjectAssignment->semester->schoolYear->school_level_id)->get();
+        $classRooms = ClassRoom::where('is_active', true)->where('school_level_id', $teacherSubjectAssignment->semester->schoolYear->school_level_id)->get();
+        $semesters = Semester::where('is_active', true)->where('school_year_id', $teacherSubjectAssignment->semester->school_year_id)->get();
+        return view($this->viewDir.'edit', compact('schoolInstitutions', 'schoolLevels', 'teacherSubjectAssignment', 'teachers', 'subjects', 'classRooms', 'semesters'));
     }
 
     public function update(TeacherSubjectAssignmentRequest $request, TeacherSubjectAssignment $teacherSubjectAssignment)

@@ -46,6 +46,11 @@ class ClassRoomService
         return ClassRoom::find($id);
     }
 
+    public function filter($id) 
+    {
+        return ClassRoom::where('school_level_id', $id)->get();
+    }
+
     /**
      * Get class room by ID or throw exception
      */

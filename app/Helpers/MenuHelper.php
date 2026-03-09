@@ -43,7 +43,7 @@ class MenuHelper
             'title' => $menu->title,
             'icon' => $menu->icon,
             'color' => $menu->color,
-            'type' => $menu->type === 'dropdown' ? 'dropdown' : 'single',
+            'type' => $menu->type === 'dropdown' ? 'dropdown' : ($menu->type === 'label' ? 'label' : 'single'),
             'route' => $menu->route,
             'url' => $menu->url,
             'active' => false,

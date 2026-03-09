@@ -30,6 +30,45 @@
         <form action="" method="post">
             @method('post')
             @csrf
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Sekolah <span class="text-red-500">*</span>
+                    </label>
+                    <select name="school_institution_id"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+                        <option value="">-- Pilih Sekolah --</option>
+                        @foreach ($schoolInstitutions as $schoolInstitution)
+                            <option value="{{ $schoolInstitution->id }}"
+                                {{ old('school_institution_id') == $schoolInstitution->id ? 'selected' : '' }}>
+                                {{ $schoolInstitution->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('school_institution_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Tingkat Sekolah <span class="text-red-500">*</span>
+                    </label>
+                    <select name="school_level_id"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
+                        <option value="">-- Pilih Tingkat Sekolah --</option>
+                        @foreach ($schoolLevels as $schoolLevel)
+                            <option value="{{ $schoolLevel->id }}"
+                                {{ old('school_level_id') == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('school_level_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
             <table class="table w-full">
                 <thead>
                     <tr>
@@ -38,13 +77,13 @@
                         <th class="border p-2 text-start bg-gray-100"> Pola Jadwal </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="class_rooms">
                     @foreach ($classRooms as $key => $cls)
                         <tr>
                             <td class="border p-1 text-center"> {{ $key + 1 }} </td>
                             <td class="border p-1"> {{ $cls->name }} </td>
                             <td class="border p-1">
-                                <select class="form-select p-0 px-3 w-full" name="schedule_pattern[{{ $cls->id }}]">
+                                <select class="form-select p-0 px-3 w-full schedule_patterns" name="schedule_pattern[{{ $cls->id }}]">
                                     <option value="">Pilih Pola Jadwal</option>
                                     @foreach ($schedulePatterns as $item)
                                         <option value="{{ $item->id }}"
@@ -93,4 +132,7 @@
 
 @push('scripts')
     @include('components.confirm-toastr')
+    <script>
+        intFilterSelect();
+    </script>
 @endpush

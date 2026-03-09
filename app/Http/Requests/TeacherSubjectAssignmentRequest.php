@@ -18,7 +18,7 @@ class TeacherSubjectAssignmentRequest extends FormRequest
             'subject_id' => 'required|uuid|exists:subjects,id',
             'class_room_id' => 'required|uuid|exists:class_rooms,id',
             'semester_id' => 'required|uuid|exists:semesters,id',
-            'assigned_at' => 'nullable|date_format:Y-m-d H:i:s',
+            'assigned_at' => 'nullable',
             'is_active' => 'nullable|boolean',
         ];
     }

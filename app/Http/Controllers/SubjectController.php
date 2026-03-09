@@ -25,6 +25,10 @@ class SubjectController extends Controller
      */
     public function index(SubjectDataTable $dataTable, Request $request)
     {
+        if (request()->expectsJson() && !request()->columns) {
+            $getByFilter = $this->service->filterBySchoolLevel($request->school_level_id);
+            return response()->json($getByFilter);
+        }
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['viewDir'] = $this->viewDir;

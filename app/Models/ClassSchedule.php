@@ -21,6 +21,21 @@ class ClassSchedule extends BaseModel
         'end_time_slot_id',
     ];
 
+    protected static function booted()
+    {
+        parent::boot();
+        if ($school_institution_id = request()->school_institution_id) {
+            static::addGlobalScope('school_institution', function ($query) use ($school_institution_id) {
+                $query->where('school_institution_id', $school_institution_id);
+            });
+        }
+        if ($school_level_id = request()->school_level_id) {
+            static::addGlobalScope('school_level', function ($query) use ($school_level_id) {
+                $query->where('school_level_id', $school_level_id);
+            });
+        }
+    }
+
     protected $casts = [
         'day_of_week' => 'integer',
     ];

@@ -49,6 +49,11 @@ class TeacherService
         return Teacher::with('person', 'schoolInstitution')->findOrFail($id);
     }
 
+    public function filterBySchoolInstitution($schoolInstitutionId)
+    {
+        return Teacher::where('school_institution_id', $schoolInstitutionId)->with('person')->get();
+    }
+
     /**
      * Create new teacher
      */

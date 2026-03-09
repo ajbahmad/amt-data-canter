@@ -16,6 +16,11 @@ class TimeSlotService
         return TimeSlot::with('schoolInstitution', 'schoolLevel')->findOrFail($id);
     }
 
+    function filterBySchoolLevel($schoolLevelId)
+    {
+        return TimeSlot::where('is_active', true)->where('school_level_id', $schoolLevelId)->get();
+    }
+
     public function create(array $data)
     {
         return TimeSlot::create($data);

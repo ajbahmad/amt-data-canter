@@ -24,6 +24,10 @@ class TimeSlotController extends Controller
 
     public function index(TimeSlotDataTable $dataTable, Request $request)
     {
+        if (request()->expectsJson() && !request()->columns) {
+            $getByFilter = $this->service->filterBySchoolLevel($request->school_level_id);
+            return response()->json($getByFilter);
+        }
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['viewDir'] = $this->viewDir;
@@ -64,7 +68,7 @@ class TimeSlotController extends Controller
     {
         try {
             $this->service->update($timeSlot->id, $request->validated());
-            return redirect()->route($this->route.'.show', $timeSlot->id)->with('success', 'Data jam pelajaran berhasil diperbarui.');
+            return redirect()->route($this->route.'.index')->with('success', 'Data jam pelajaran berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal memperbarui data jam pelajaran: ' . $e->getMessage());
         }

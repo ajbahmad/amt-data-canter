@@ -41,6 +41,25 @@
                 @enderror
             </div>
 
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Jenjang Sekolah <span class="text-red-500">*</span>
+                </label>
+                <select name="school_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Jenjang Sekolah --</option>
+                    @foreach($schoolLevels as $schoolLevel)
+                        <option value="{{ $schoolLevel->id }}" {{ $schoolYear->school_level_id == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}</option>
+                    @endforeach
+                </select>
+                @error('school_level_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            
+        </div>
+
+        <div class="grid grid-cols-3 md:grid-cols-3 gap-6">
             <!-- Tahun Akademik -->
             <div>
                 <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -53,9 +72,6 @@
                     <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
                 @enderror
             </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Tanggal Mulai -->
             <div>
                 <label for="start_date" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -110,4 +126,7 @@
 
 @push('scripts')
     @include('components.confirm-toastr')
+    <script>
+        intFilterSelect();
+    </script>
 @endpush

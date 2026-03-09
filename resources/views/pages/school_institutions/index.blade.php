@@ -20,9 +20,6 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
             <i class="ti ti-building mr-2"></i>Daftar Lembaga Sekolah
         </h2>
-        <a href="{{ route('school_institutions.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
-            <i class="ti ti-plus mr-2"></i>Tambah Lembaga
-        </a>
     </div>
     
     {{ $dataTable->table() }}
@@ -34,7 +31,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{asset('assets/libs/DataTables/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables-colresize@1.0.0/dist/dataTables.colResize.css">
+    
 
 
     <style>

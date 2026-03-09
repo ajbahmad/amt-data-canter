@@ -50,6 +50,11 @@ class SchoolYearService
         return SchoolYear::findOrFail($id);
     }
 
+    public function filterBySchoolLevel($school_level_id) 
+    {
+        return SchoolYear::where('school_level_id', $school_level_id)->get();
+    }
+
     /**
      * Create new school year
      */

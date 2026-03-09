@@ -7,6 +7,7 @@ $maxDepth = 10; // Prevent infinite recursion
 
 // Determine if this is a single item or dropdown
 $isSingleItem = $menu['type'] === 'single';
+$isLabelItem = $menu['type'] === 'label';
 $hasChildren = !empty($menu['children']) && is_array($menu['children']);
 
 // Get styling based on depth
@@ -28,12 +29,17 @@ $textSizeClass = match($depth) {
 
 @if($depth > $maxDepth)
     {{-- Safety check: stop rendering if depth exceeds max --}}
-@elseif($isSingleItem || !$hasChildren)
+@elseif($isLabelItem)
+    {{-- Label menu item --}}
+    <li class="sidebar-item sidebar-label {{ $paddingClass }} {{ $textSizeClass }} my-5 text-gray-500 dark:text-gray-400">
+        <span class="hide-menu">{{ $menu['title'] }}</span>
+    </li>
+@elseif($isSingleItem)
     {{-- Single menu item (leaf node) --}}
     @php
         $isMenuActive = MenuHelper::isActive($menu);
     @endphp
-    <li class="sidebar-item {{ $depth > 0 ? 'dropdown-submenu' : '' }}">
+    <li class="sidebar-item p-0 m-0 {{ $depth > 0 ? 'dropdown-submenu' : '' }}">
         <a class="sidebar-link {{ $depth === 0 ? MenuHelper::getColorClass($menu['color'], 'background') . ' ' . MenuHelper::getColorClass($menu['color'], 'hover') : 'textlink dark:opacity-70' }} {{ $isMenuActive ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] . ($depth > 0 ? ' font-semibold' : '') : '' }} {{ $paddingClass }} {{ $textSizeClass }}"
             href="{{ MenuHelper::getRouteUrl($menu['route']) }}">
             <i class="text-lg {{ $menu['icon'] }}"></i>

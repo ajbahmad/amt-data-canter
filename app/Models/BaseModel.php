@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Base Model Class
@@ -32,7 +33,35 @@ class BaseModel extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+
+        $instance = new static();
+        $table = $instance->getTable();
+
+        // filter school_institution
+        if (
+            request()->school_institution_id &&
+            Schema::hasColumn($table, 'school_institution_id')
+        ) {
+            $schoolInstitutionId = request()->school_institution_id;
+
+            static::addGlobalScope('school_institution', function ($query) use ($schoolInstitutionId) {
+                $query->where('school_institution_id', $schoolInstitutionId);
+            });
+        }
+
+        // filter school_level
+        if (
+            request()->school_level_id &&
+            Schema::hasColumn($table, 'school_level_id')
+        ) {
+            $schoolLevelId = request()->school_level_id;
+
+            static::addGlobalScope('school_level', function ($query) use ($schoolLevelId) {
+                $query->where('school_level_id', $schoolLevelId);
+            });
+        }
     }
+    
 
     /**
      * Scope Active

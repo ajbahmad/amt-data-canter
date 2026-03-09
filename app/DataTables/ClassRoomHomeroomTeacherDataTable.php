@@ -5,6 +5,8 @@ namespace App\DataTables;
 use App\DataTables\Config\GlobalConfigDatatable;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomHomeroomTeacher;
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -29,7 +31,13 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
                 </div>
                 ';
             })
-            ->addColumn('class_room_name', function ($row) {
+            ->addColumn('school_institution_id', function($row){
+                return $row->classRoom->schoolInstitution->name ?? '-';
+            })
+            ->addColumn('school_level_id', function($row){
+                return $row->classRoom->schoolLevel->name ?? '-';
+            })
+            ->addColumn('class_room_id', function ($row) {
                 return $row->classRoom ? $row->classRoom->name : 'N/A';
             })
             ->addColumn('teacher_name', function ($row) {
@@ -47,7 +55,17 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa diurut
-            ->orderColumn('class_room_name', function($query, $direction) {
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->whereHas('classRoom.schoolInstitution', function($q) use ($keyword) {
+                    $q->where('id', $keyword);
+                });
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->whereHas('classRoom.schoolLevel', function($q) use ($keyword) {
+                    $q->where('id', $keyword);
+                });
+            })
+            ->orderColumn('class_room_id', function($query, $direction) {
                 $query->orderBy('class_room_id', $direction);
             })
             ->orderColumn('teacher_name', function($query, $direction) {
@@ -61,8 +79,14 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa di-filter
-            ->filterColumn('class_room_name', function($query, $keyword) {
-                $query->where('class_room_id', "$keyword");
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('class_room_id', $direction);
+            })
+            ->orderColumn('school_level_id', function($query, $direction) {
+                $query->orderBy('class_room_id', $direction);
+            })
+            ->filterColumn('class_room_id', function($query, $keyword) {
+                $query->where('class_room_id', $keyword);
             })
             ->filterColumn('teacher_name', function($query, $keyword) {
                 $query->whereHas('teacher.person', function($q) use ($keyword) {
@@ -104,6 +128,30 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
             ->parameters($parameters);
     }
 
+    private function getSchoolInstitution()
+    {
+        $schoolInstitutions = SchoolInstitution::pluck('name', 'id')->toArray();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($schoolInstitutions as $id => $name) {
+            $options[] = ['label' => $name, 'value' => $id];
+        }
+        return json_encode($options);
+    }
+
+    private function getSchoolLevel()
+    {
+        $schoolLevels = SchoolLevel::pluck('name', 'id')->toArray();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($schoolLevels as $id => $name) {
+            $options[] = ['label' => $name, 'value' => $id];
+        }
+        return json_encode($options);
+    }
+
     private function getClassRooms()
     {
         $classRooms = ClassRoom::where('is_active', true)->get();
@@ -126,7 +174,9 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
                 ->printable(false)
                 ->width(80)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('class_room_name')->name('class_room_name')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_name', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Sekolah', 'data-value' => $this->getSchoolInstitution()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Jenjang Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Jenjang Sekolah', 'data-value' => $this->getSchoolLevel()]);
+        $column[] = Column::make('class_room_id')->name('class_room_id')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_id', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
         $column[] = Column::make('teacher_name')->name('teacher_name')->title('Nama Guru')->attributes(['data-type' => 'text', 'data-name' => 'teacher_name', 'data-label' => 'Nama Guru', 'data-value' => null]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('assigned_at')->name('assigned_at')->title('Penugasan')->attributes(['data-type' => 'date', 'data-name' => 'assigned_at', 'data-label' => 'Penugasan']);

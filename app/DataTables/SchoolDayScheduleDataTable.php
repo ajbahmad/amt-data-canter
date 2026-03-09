@@ -31,13 +31,13 @@ class SchoolDayScheduleDataTable extends DataTable
                 ';
                 return $data;
             })
-            ->addColumn('schedule_pattern_name', function($row){
+            ->addColumn('schedule_pattern_id', function($row){
                 return $row->schedulePattern->name ?? '-';
             })
-            ->addColumn('school_institution_name', function($row){
+            ->addColumn('school_institution_id', function($row){
                 return $row->schoolInstitution->name ?? '-';
             })
-            ->addColumn('school_level_name', function($row){
+            ->addColumn('school_level_id', function($row){
                 return $row->schoolLevel->name ?? '-';
             })
             ->addColumn('day_of_week', function($row){
@@ -78,13 +78,13 @@ class SchoolDayScheduleDataTable extends DataTable
             ->orderColumn('day_of_week', function($query, $direction) {
                 $query->orderBy('day_of_week', $direction);
             })
-            ->orderColumn('schedule_pattern_name', function($query, $direction) {
+            ->orderColumn('schedule_pattern_id', function($query, $direction) {
                 $query->orderBy('schedule_pattern_id', $direction);
             })
-            ->orderColumn('school_institution_name', function($query, $direction) {
+            ->orderColumn('school_institution_id', function($query, $direction) {
                 $query->orderBy('school_institution_id', $direction);
             })
-            ->orderColumn('school_level_name', function($query, $direction) {
+            ->orderColumn('school_level_id', function($query, $direction) {
                 $query->orderBy('school_level_id', $direction);
             })
             ->orderColumn('start_time', function($query, $direction) {
@@ -104,13 +104,13 @@ class SchoolDayScheduleDataTable extends DataTable
             ->filterColumn('day_of_week', function($query, $keyword) {
                 $query->where('day_of_week', $keyword);
             })
-            ->filterColumn('schedule_pattern_name', function($query, $keyword) {
+            ->filterColumn('schedule_pattern_id', function($query, $keyword) {
                 $query->where('schedule_pattern_id', $keyword);
             })
-            ->filterColumn('school_institution_name', function($query, $keyword) {
+            ->filterColumn('school_institution_id', function($query, $keyword) {
                 $query->where('school_institution_id', $keyword);
             })
-            ->filterColumn('school_level_name', function($query, $keyword) {
+            ->filterColumn('school_level_id', function($query, $keyword) {
                 $query->where('school_level_id', $keyword);
             })
             ->filterColumn('is_holiday', function($query, $keyword) {
@@ -224,10 +224,10 @@ class SchoolDayScheduleDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Institusi')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Level')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Level', 'data-value' => $this->getSchoolLevels()]);
         $column[] = Column::make('day_of_week')->name('day_of_week')->title('Hari')->attributes(['data-type' => 'select', 'data-name' => 'day_of_week', 'data-label' => 'Hari', 'data-value' => $this->getDaysOfWeek()]);
-        $column[] = Column::make('schedule_pattern_name')->name('schedule_pattern_name')->title('Pola Jadwal')->attributes(['data-type' => 'select', 'data-name' => 'schedule_pattern_name', 'data-label' => 'Pola Jadwal', 'data-value' => $this->getSchedulePatterns()]);
-        $column[] = Column::make('school_institution_name')->name('school_institution_name')->title('Institusi')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_name', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
-        $column[] = Column::make('school_level_name')->name('school_level_name')->title('Level')->attributes(['data-type' => 'select', 'data-name' => 'school_level_name', 'data-label' => 'Level', 'data-value' => $this->getSchoolLevels()]);
+        $column[] = Column::make('schedule_pattern_id')->name('schedule_pattern_id')->title('Pola Jadwal')->attributes(['data-type' => 'select', 'data-name' => 'schedule_pattern_id', 'data-label' => 'Pola Jadwal', 'data-value' => $this->getSchedulePatterns()]);
         $column[] = Column::make('start_time')->name('start_time')->title('Jam Masuk')->searchable(false)->attributes(['data-type' => 'text', 'data-name' => 'start_time', 'data-label' => 'Jam Masuk', 'data-value' => null]);
         $column[] = Column::make('end_time')->name('end_time')->title('Jam Selesai')->searchable(false)->attributes(['data-type' => 'text', 'data-name' => 'end_time', 'data-label' => 'Jam Selesai', 'data-value' => null]);
         $column[] = Column::make('is_holiday')->name('is_holiday')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_holiday', 'data-label' => 'Status Libur', 'data-value' => $holidayJson]);

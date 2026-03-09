@@ -40,7 +40,7 @@ class SchoolYearDataTable extends DataTable
                 return $data;
             })
             ->addColumn('school_institution_name', function($row){
-                return $row->schoolInstitution->name ?? '-';
+                return $row->schoolLevel->name .' - '. $row->schoolInstitution->name ?? '-';
             })
             ->addColumn('date_range', function($row){
                 return Carbon::parse($row->start_date)->format('d/m/Y') . ' - ' . Carbon::parse($row->end_date)->format('d/m/Y');

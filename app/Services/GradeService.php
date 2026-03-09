@@ -46,6 +46,10 @@ class GradeService
         return Grade::findOrFail($id);
     }
 
+    function filter($id) 
+    {
+        return Grade::where('school_level_id', $id)->get();
+    }
     /**
      * Create new grade
      */

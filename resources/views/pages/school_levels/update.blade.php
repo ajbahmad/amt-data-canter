@@ -20,6 +20,25 @@
         @method('PUT')
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="col-span-2">
+                <label for="school_institution_id" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="ti ti-building mr-2"></i>Sekolah <span class="text-red-500">*</span>
+                </label>
+                <select id="school_institution_id" name="school_institution_id" required
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('school_institution_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Sekolah --</option>
+                    @forelse($schoolInstitutions as $school)
+                        <option value="{{ $school->id }}" {{ $schoolLevel->school_institution_id == $school->id ? 'selected' : '' }}>
+                            {{ $school->name }}
+                        </option>
+                    @empty
+                        <option value="" disabled>Tidak ada sekolah aktif</option>
+                    @endforelse
+                </select>
+                @error('school_institution_id')
+                    <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
+                @enderror
+            </div>
             <!-- Kode Level -->
             <div>
                 <label for="code" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -95,4 +114,7 @@
 
 @push('scripts')
     @include('components.confirm-toastr')
+    <script>
+        intFilterSelect();
+    </script>
 @endpush

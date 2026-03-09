@@ -4,6 +4,9 @@ namespace App\DataTables;
 
 use App\DataTables\Config\GlobalConfigDatatable;
 use App\Models\ClassRoom;
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
+use App\Models\SchoolYear;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -32,16 +35,27 @@ class TeacherSubjectAssignmentDataTable extends DataTable
                 </div>
                 ';
             })
-            ->addColumn('teacher_name', function ($row) {
+            ->addColumn('teacher_id', function ($row) {
                 return $row->teacher && $row->teacher->person ? $row->teacher->person->full_name : 'N/A';
             })
-            ->addColumn('subject_name', function ($row) {
+            ->addColumn('subject_id', function ($row) {
                 return $row->subject ? $row->subject->name : 'N/A';
             })
-            ->addColumn('class_room_name', function ($row) {
+            // school_institution_id
+            ->addColumn('school_institution_id', function($row){
+                return $row->semester->schoolInstitution ? $row->semester->schoolInstitution->name : 'N/A';
+            })
+            ->addColumn('school_year_id', function($row){
+                return $row->semester->schoolYear ? $row->semester->schoolYear->name : 'N/A';
+            })
+            ->addColumn('school_level_id', function($row){
+                return $row->semester->schoolYear->schoolLevel ? $row->semester->schoolYear->schoolLevel->name : 'N/A';
+            })
+
+            ->addColumn('class_room_id', function ($row) {
                 return $row->classRoom ? $row->classRoom->name : 'N/A';
             })
-            ->addColumn('semester_name', function ($row) {
+            ->addColumn('semester_id', function ($row) {
                 return $row->semester ? $row->semester->name : 'N/A';
             })
             ->addColumn('is_active', function($row){
@@ -57,16 +71,16 @@ class TeacherSubjectAssignmentDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa diurut
-            ->orderColumn('teacher_name', function($query, $direction) {
+            ->orderColumn('teacher_id', function($query, $direction) {
                 $query->orderBy('teacher_id', $direction);
             })
-            ->orderColumn('subject_name', function($query, $direction) {
+            ->orderColumn('subject_id', function($query, $direction) {
                 $query->orderBy('subject_id', $direction);
             })
-            ->orderColumn('class_room_name', function($query, $direction) {
+            ->orderColumn('class_room_id', function($query, $direction) {
                 $query->orderBy('class_room_id', $direction);
             })
-            ->orderColumn('semester_name', function($query, $direction) {
+            ->orderColumn('semester_id', function($query, $direction) {
                 $query->orderBy('semester_id', $direction);
             })
             ->orderColumn('is_active', function($query, $direction) {
@@ -77,16 +91,31 @@ class TeacherSubjectAssignmentDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa di-filter
-            ->filterColumn('teacher_name', function($query, $keyword) {
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->whereHas('semester.schoolInstitution', function($q) use ($keyword){
+                    $q->where('id', $keyword);
+                });
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->whereHas('semester.schoolYear.schoolLevel', function($q) use ($keyword){
+                    $q->where('id', $keyword);
+                });
+            })
+            ->filterColumn('school_year_id', function($query, $keyword) {
+                $query->whereHas('semester.schoolYear', function($q) use ($keyword){
+                    $q->where('id', $keyword);
+                });
+            })
+            ->filterColumn('teacher_id', function($query, $keyword) {
                 $query->where('teacher_id', $keyword);
             })
-            ->filterColumn('subject_name', function($query, $keyword) {
+            ->filterColumn('subject_id', function($query, $keyword) {
                 $query->where('subject_id', $keyword);
             })
-            ->filterColumn('class_room_name', function($query, $keyword) {
+            ->filterColumn('class_room_id', function($query, $keyword) {
                 $query->where('class_room_id', $keyword);
             })
-            ->filterColumn('semester_name', function($query, $keyword) {
+            ->filterColumn('semester_id', function($query, $keyword) {
                 $query->where('semester_id', $keyword);
             })
             ->filterColumn('is_active', function($query, $keyword) {
@@ -122,6 +151,42 @@ class TeacherSubjectAssignmentDataTable extends DataTable
             ->dom(GlobalConfigDatatable::dom())
             ->orderBy(count($getColumns) - 1, 'desc')
             ->parameters($parameters);
+    }
+
+    private function getSchoolInstitution()
+    {
+        $schoolInstitutions = SchoolInstitution::pluck('name', 'id')->toArray();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($schoolInstitutions as $id => $name) {
+            $options[] = ['label' => $name, 'value' => $id];
+        }
+        return json_encode($options);
+    }
+
+    private function getSchoolLevel()
+    {
+        $schoolLevels = SchoolLevel::pluck('name', 'id')->toArray();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($schoolLevels as $id => $name) {
+            $options[] = ['label' => $name, 'value' => $id];
+        }
+        return json_encode($options);
+    }
+
+    private function getSchoolYear()
+    {
+        $schoolYears = SchoolYear::pluck('name', 'id')->toArray();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($schoolYears as $id => $name) {
+            $options[] = ['label' => $name, 'value' => $id];
+        }
+        return json_encode($options);
     }
 
     private function getTeachers(){
@@ -177,10 +242,15 @@ class TeacherSubjectAssignmentDataTable extends DataTable
                 ->printable(false)
                 ->width(80)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('teacher_name')->name('teacher_name')->title('Guru')->attributes(['data-type' => 'select', 'data-name' => 'teacher_name', 'data-label' => 'Guru', 'data-value' => $this->getTeachers()]);
-        $column[] = Column::make('subject_name')->name('subject_name')->title('Mata Pelajaran')->attributes(['data-type' => 'select', 'data-name' => 'subject_name', 'data-label' => 'Mata Pelajaran', 'data-value' => $this->getSubjects()]);
-        $column[] = Column::make('class_room_name')->name('class_room_name')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_name', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
-        $column[] = Column::make('semester_name')->name('semester_name')->title('Semester')->attributes(['data-type' => 'select', 'data-name' => 'semester_name', 'data-label' => 'Semester', 'data-value' => $this->getSemesters()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Sekolah', 'data-value' => $this->getSchoolInstitution()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Jenjang Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Jenjang Sekolah', 'data-value' => $this->getSchoolLevel()]);
+        $column[] = Column::make('school_year_id')->name('school_year_id')->title('Tahun Ajaran')->attributes(['data-type' => 'select', 'data-name' => 'school_year_id', 'data-label' => 'Tahun Ajaran', 'data-value' => $this->getSchoolYear()]);
+        
+        $column[] = Column::make('class_room_id')->name('class_room_id')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_id', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
+        $column[] = Column::make('semester_id')->name('semester_id')->title('Semester')->attributes(['data-type' => 'select', 'data-name' => 'semester_id', 'data-label' => 'Semester', 'data-value' => $this->getSemesters()]);
+        $column[] = Column::make('subject_id')->name('subject_id')->title('Mata Pelajaran')->attributes(['data-type' => 'select', 'data-name' => 'subject_id', 'data-label' => 'Mata Pelajaran', 'data-value' => $this->getSubjects()]);
+        $column[] = Column::make('teacher_id')->name('teacher_id')->title('Guru')->attributes(['data-type' => 'select', 'data-name' => 'teacher_id', 'data-label' => 'Guru', 'data-value' => $this->getTeachers()]);
+        
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('assigned_at')->name('assigned_at')->title('Penugasan')->attributes(['data-type' => 'date', 'data-name' => 'assigned_at', 'data-label' => 'Penugasan']);
         return $column;

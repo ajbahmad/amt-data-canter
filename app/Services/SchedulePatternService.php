@@ -38,6 +38,11 @@ class SchedulePatternService
         }
     }
 
+    public function filter($id)
+    {
+        return SchedulePattern::where('school_level_id', $id)->get();
+    }
+
     /**
      * Update schedule pattern
      */

@@ -14,35 +14,35 @@
     ]
 ])
 
-<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 mb-6">
-    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
+<div class="rounded-lg border border-gray-200 bg-white p-6 mb-6">
+    <h3 class="text-lg font-bold text-gray-900 mb-4">
         <i class="ti ti-users mr-2"></i>Informasi Wali Kelas
     </h3>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">Kelas</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomHomeroomTeacher->classRoom->name }}</p>
+            <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->classRoom->name }}</p>
         </div>
 
         <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">Nama Guru Wali</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomHomeroomTeacher->teacher->person->full_name }}</p>
+            <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->teacher->person->full_name }}</p>
         </div>
 
         <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">Email</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomHomeroomTeacher->teacher->person->email ?? '-' }}</p>
+            <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->teacher->person->email ?? '-' }}</p>
         </div>
 
         <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">Tanggal Ditugaskan</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomHomeroomTeacher->assigned_at ? $classRoomHomeroomTeacher->assigned_at->format('d F Y H:i') : '-' }}</p>
+            <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->assigned_at ? $classRoomHomeroomTeacher->assigned_at->format('d F Y H:i') : '-' }}</p>
         </div>
 
         <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">Status</label>
-            <p class="text-gray-900 dark:text-white font-medium">
+            <p class="text-gray-900 font-medium">
                 <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $classRoomHomeroomTeacher->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $classRoomHomeroomTeacher->is_active ? 'Aktif' : 'Tidak Aktif' }}
                 </span>

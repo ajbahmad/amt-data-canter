@@ -50,6 +50,13 @@ class SemesterService
         return Semester::findOrFail($id);
     }
 
+    public function filterBySchoolLevel($schoolLevelId)
+    {
+        return Semester::whereHas('schoolYear', function ($query) use ($schoolLevelId) {
+            $query->where('school_level_id', $schoolLevelId);
+        })->where('is_active', true)->get();
+    }
+
     /**
      * Create new semester
      */

@@ -60,43 +60,49 @@
 
                 <div class="kanban-column bg-white">
                     <div class="kanban-header">
-                        <i class="fa fa-id-badge ms-2"></i> Kode Guru / Kode Mapel
+                        <i class="fa fa-id-badge ms-2"></i> Filter Lembaga & Sekolah
                     </div>
                     <div class="kanban-content">
-                        <table class="table table-sm table-bordered table-teacher-subject ">
-                            <thead>
-                                <tr>
-                                    <th class="font-bold">Kode</th>
-                                    <th class="font-bold">Pengajar</th>
-                                    <th class="font-bold">Kode</th>
-                                    <th class="font-bold">Mapel</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($teachers as $personnel)
-                                    @foreach ($personnel->teacherSubjectAssignments as $key => $subject)
-                                        <tr>
-                                            @if ($key == 0)
-                                                <td {{ count($personnel->teacherSubjectAssignments) > 1 ? 'rowspan=' . count($personnel->teacherSubjectAssignments) : '' }}
-                                                    class="font-bold text-primary" style="padding:1px 10px">
-                                                    {{ nameInitials($personnel->person->full_name) }}
-                                                </td>
-                                                <td {{ count($personnel->teacherSubjectAssignments) > 1 ? 'rowspan=' . count($personnel->teacherSubjectAssignments) : '' }}
-                                                    class="" style="padding:1px 10px">
-                                                    {{ $personnel->person->full_name }}
-                                                </td>
-                                            @endif
-                                            <td class="font-bold text-success" style="padding:1px 10px">
-                                                {{ $subject->subject->code ?? '-' }}
-                                            </td>
-                                            <td class="" style="padding:1px 10px">
-                                                {{ $subject->subject->name ?? '-' }}
-                                            </td>
-                                        </tr>
+                        <form action="" method="get">
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Sekolah <span class="text-red-500">*</span>
+                                </label>
+                                <select name="school_institution_id"
+                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+                                    <option value="">-- Pilih Sekolah --</option>
+                                    @foreach ($schoolInstitutions as $schoolInstitution)
+                                        <option value="{{ $schoolInstitution->id }}"
+                                            {{ old('school_institution_id', request()->get('school_institution_id')) == $schoolInstitution->id ? 'selected' : '' }}>
+                                            {{ $schoolInstitution->name }}</option>
                                     @endforeach
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </select>
+                                @error('school_institution_id')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Tingkat Sekolah <span class="text-red-500">*</span>
+                                </label>
+                                <select name="school_level_id"
+                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
+                                    <option value="">-- Pilih Tingkat Sekolah --</option>
+                                    @foreach ($schoolLevels as $schoolLevel)
+                                        <option value="{{ $schoolLevel->id }}"
+                                            {{ old('school_level_id', request()->get('school_level_id')) == $schoolLevel->id ? 'selected' : '' }}>
+                                            {{ $schoolLevel->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('school_level_id')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button type="submit" class="mt-4 w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Terapkan</button>
+                        </form>
+
                     </div>
                 </div>
 
@@ -110,7 +116,7 @@
                         4 => 'Kamis',
                         // 5 => 'Jumat',
                         6 => 'Sabtu',
-                        7 => 'Minggu'
+                        7 => 'Minggu',
                     ];
                     $skipCell = [];
                 @endphp
@@ -164,12 +170,13 @@
 
                                                     @php
                                                         // Filter schedule berdasarkan class_room_id, start_time_slot_id, dan end_time_slot_id
-                                                        $classSchedules = collect($dayData['schedules'] ?? [])
-                                                            ->filter(function($s) use ($class, $sessionTime) {
-                                                                return $s->class_room_id === $class->id && 
-                                                                       $s->start_time_slot_id === $sessionTime->id;
-                                                            });
-                                                        
+                                                        $classSchedules = collect($dayData['schedules'] ?? [])->filter(
+                                                            function ($s) use ($class, $sessionTime) {
+                                                                return $s->class_room_id === $class->id &&
+                                                                    $s->start_time_slot_id === $sessionTime->id;
+                                                            },
+                                                        );
+
                                                         $scheduleItem = $classSchedules->first();
                                                         $rowspan = 1;
                                                     @endphp
@@ -263,7 +270,8 @@
 
                                                                     </div>
                                                                     <div class="flex mt-2 gap-1 align-items-center">
-                                                                        <button class="btn text-dark bg-yellow-500 px-2 py-1 ms-2"
+                                                                        <button
+                                                                            class="btn text-dark bg-yellow-500 px-2 py-1 ms-2"
                                                                             onclick="editSchedule('{{ $scheduleItem->id }}');"><i
                                                                                 class="ti ti-edit"></i> Edit </button>
                                                                         <button class="btn bg-red-700 px-2 py-1"
@@ -296,7 +304,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('assets/libs/sweetalert2/css/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables-colresize@1.0.0/dist/dataTables.colResize.css">
+
     <style>
         .kanban-board {
             display: grid;
@@ -317,13 +325,14 @@
             width: 100%;
             /* isi lebar grid */
         }
+
         /* .kanban-column.senin { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-            .kanban-column.selasa { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-            .kanban-column.rabu { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-            .kanban-column.kamis { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-            .kanban-column.jumat { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-            .kanban-column.sabtu { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
-            .kanban-column.minggu { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); } */
+                .kanban-column.selasa { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+                .kanban-column.rabu { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+                .kanban-column.kamis { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+                .kanban-column.jumat { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+                .kanban-column.sabtu { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+                .kanban-column.minggu { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); } */
 
         .kanban-header {
             padding: 20px;
@@ -507,10 +516,12 @@
             border-spacing: 2px 2px !important;
             width: 100% !important;
         }
+
         .table.table-bordered tr th,
         .table.table-bordered tr td {
             border: 1px solid #dee2e6 !important;
         }
+
         .table .p-0 {
             padding: 0.1rem !important;
             text-align: center;
@@ -566,8 +577,8 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'DELETE',
-                        url: '{{ route("class_schedules.destroy", ":id") }}'.replace(':id', id),
-                        data : {
+                        url: '{{ route('class_schedules.destroy', ':id') }}'.replace(':id', id),
+                        data: {
                             _method: 'DELETE'
                         },
                         headers: {
@@ -586,8 +597,8 @@
                 }
             });
         }
-
     </script>
+    @include('components.confirm-toastr')
     @include('pages.class_schedules.modal-add')
     @include('pages.class_schedules.modal-edit')
 @endpush

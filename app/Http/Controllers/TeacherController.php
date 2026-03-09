@@ -24,6 +24,10 @@ class TeacherController extends Controller
 
     public function index(TeacherDataTable $dataTable, Request $request)
     {
+        if (request()->expectsJson() && !request()->columns) {
+            $getByFilter = $this->service->filterBySchoolInstitution($request->school_institution_id);
+            return response()->json($getByFilter);
+        }
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['viewDir'] = $this->viewDir;

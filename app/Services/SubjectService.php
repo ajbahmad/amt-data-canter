@@ -50,6 +50,10 @@ class SubjectService
         return Subject::findOrFail($id);
     }
 
+    public function filterBySchoolLevel($schoolLevelId)  {
+        return Subject::where('school_level_id', $schoolLevelId)->get();
+    }
+
     /**
      * Create new subject
      */

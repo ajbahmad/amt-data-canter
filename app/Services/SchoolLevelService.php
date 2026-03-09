@@ -49,6 +49,10 @@ class SchoolLevelService
         return SchoolLevel::findOrFail($id);
     }
 
+    public function filter($id){
+        return SchoolLevel::where('school_institution_id', $id)->get();
+    }
+
     /**
      * Update school level
      */

@@ -12,14 +12,14 @@
 
     function addSchedule(dayOfWeek) {
         const dayName = daysOfWeek[dayOfWeek] || 'Hari Tidak Diketahui';
-
         Swal.fire({
             html: `
                 <h1 class="text-2xl text-start mb-5 text-success"> <i class="ti ti-calendar"></i> Tambah Jadwal Hari ` + dayName + `</h1>
                 <div style="text-align: left;" class="grid grid-cols-2 gap-6">
                     <div class="form-group">
                         <label class="form-label text-sm">Lembaga <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_school_institution_id" required>
+                        <select class="form-control form-control-sm" name="school_institution_id" id="swal_school_institution_id" required>
+                            <option value="">-- Pilih Lembaga --</option>
                             @foreach ($schoolInstitutions as $institution)
                                 <option value="{{ $institution->id }}">{{ $institution->name }}</option>
                             @endforeach
@@ -28,7 +28,8 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label text-sm">Tingkat Sekolah <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_school_level_id" required>
+                        <select class="form-control form-control-sm" name="school_level_id" id="swal_school_level_id" required>
+                            <option value="">-- Pilih Tingkat Sekolah --</option>
                             @foreach ($schoolLevels as $level)
                                 <option value="{{ $level->id }}">{{ $level->name }}</option>
                             @endforeach
@@ -38,7 +39,8 @@
 
                     <div class="form-group">
                         <label class="form-label text-sm">Kelas <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_class_room_id" required>
+                        <select class="form-control form-control-sm" name="class_room_id" id="swal_class_room_id" required>
+                            <option value="">-- Pilih Kelas --</option>
                             @foreach ($classes as $class)
                                 <option value="{{ $class->id }}">{{ $class->name }}</option>
                             @endforeach
@@ -48,7 +50,8 @@
 
                     <div class="form-group">
                         <label class="form-label text-sm">Semester <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_semester_id" required>
+                        <select class="form-control form-control-sm" name="semester_id" id="swal_semester_id" required>
+                            <option value="">-- Pilih Semester --</option>
                             @foreach ($semesters as $semester)
                                 <option value="{{ $semester->id }}">{{ $semester->name }}</option>
                             @endforeach
@@ -58,7 +61,8 @@
 
                     <div class="form-group">
                         <label class="form-label text-sm">Mata Pelajaran <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_subject_id" required>
+                        <select class="form-control form-control-sm" name="subject_id" id="swal_subject_id" required>
+                            <option value="">-- Pilih Mata Pelajaran --</option>
                             @foreach ($subjects as $subject)
                                 <option value="{{ $subject->id }}">{{ $subject->code }} - {{ $subject->name }}</option>
                             @endforeach
@@ -68,7 +72,8 @@
 
                     <div class="form-group">
                         <label class="form-label text-sm">Pengajar <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_teacher_id" required>
+                        <select class="form-control form-control-sm" name="teacher_id" id="swal_teacher_id" required>
+                            <option value="">-- Pilih Pengajar --</option>
                             @foreach ($teachers as $teacher)
                                 <option value="{{ $teacher->id }}">{{ $teacher->person?->full_name }}</option>
                             @endforeach
@@ -78,7 +83,8 @@
 
                     <div class="form-group">
                         <label class="form-label text-sm">Jam Mulai <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_start_time_slot_id" required>
+                        <select class="form-control form-control-sm" name="start_time_slot_id" id="swal_start_time_slot_id" required>
+                            <option value="">-- Pilih Jam Mulai --</option>
                             @foreach ($sessionTimes as $time)
                                 <option value="{{ $time->id }}">{{ $time->name }} ({{ \Carbon\Carbon::parse($time->start_time)->format('H:i') }})</option>
                             @endforeach
@@ -88,7 +94,8 @@
 
                     <div class="form-group">
                         <label class="form-label text-sm">Jam Selesai <span class="text-red-700">*</span></label>
-                        <select class="form-control form-control-sm" id="swal_end_time_slot_id" required>
+                        <select class="form-control form-control-sm" name="end_time_slot_id" id="swal_end_time_slot_id" required>
+                            <option value="">-- Pilih Jam Selesai --</option>
                             @foreach ($sessionTimes as $time)
                                 <option value="{{ $time->id }}">{{ $time->name }} ({{ \Carbon\Carbon::parse($time->end_time)->format('H:i') }})</option>
                             @endforeach
@@ -161,6 +168,8 @@
             }
 
         });
+        intFilterSelect();
+
     }
 
     function submitAddSchedule(dayOfWeek) {

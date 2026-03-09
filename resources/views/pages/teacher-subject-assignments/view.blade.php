@@ -14,45 +14,45 @@
     ]
 ])
 
-<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 mb-6">
-    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
+<div class="rounded-lg border border-gray-200 bg-white p-6 mb-6">
+    <h3 class="text-lg font-bold text-gray-900 mb-4">
         <i class="ti ti-book mr-2"></i>Informasi Penugasan Guru Mapel
     </h3>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Nama Guru</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $teacherSubjectAssignment->teacher->person->full_name }}</p>
+            <label class="text-sm text-gray-600 ">Nama Guru</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->teacher->person->full_name }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Email Guru</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $teacherSubjectAssignment->teacher->person->email ?? '-' }}</p>
+            <label class="text-sm text-gray-600 ">Email Guru</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->teacher->person->email ?? '-' }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Mata Pelajaran</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $teacherSubjectAssignment->subject->name }}</p>
+            <label class="text-sm text-gray-600 ">Mata Pelajaran</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->subject->name }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Kelas</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $teacherSubjectAssignment->classRoom->name }}</p>
+            <label class="text-sm text-gray-600 ">Kelas</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->classRoom->name }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Semester</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $teacherSubjectAssignment->semester->name }}</p>
+            <label class="text-sm text-gray-600 ">Semester</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->semester->name }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Tanggal Ditugaskan</label>
-            <p class="text-gray-900 dark:text-white font-medium">{{ $teacherSubjectAssignment->assigned_at ? $teacherSubjectAssignment->assigned_at->format('d F Y H:i') : '-' }}</p>
+            <label class="text-sm text-gray-600 ">Tanggal Ditugaskan</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->assigned_at ? $teacherSubjectAssignment->assigned_at->format('d F Y H:i') : '-' }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600 dark:text-gray-400">Status</label>
-            <p class="text-gray-900 dark:text-white font-medium">
+            <label class="text-sm text-gray-600 ">Status</label>
+            <p class="text-gray-900 font-medium">
                 <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $teacherSubjectAssignment->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $teacherSubjectAssignment->is_active ? 'Aktif' : 'Tidak Aktif' }}
                 </span>

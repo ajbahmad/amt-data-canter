@@ -16,7 +16,7 @@ class ClassRoomHomeroomTeacherRequest extends FormRequest
         return [
             'class_room_id' => 'required|uuid|exists:class_rooms,id',
             'teacher_id' => 'required|uuid|exists:teachers,id',
-            'assigned_at' => 'nullable|date_format:Y-m-d H:i:s',
+            'assigned_at' => 'nullable',
             'is_active' => 'nullable|boolean',
         ];
     }

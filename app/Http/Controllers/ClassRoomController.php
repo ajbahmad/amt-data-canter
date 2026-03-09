@@ -13,7 +13,7 @@ class ClassRoomController extends Controller
 {
     protected $service;
     protected $viewDir = 'pages.class_rooms.';
-    protected $route = 'class-rooms';
+    protected $route = 'class_rooms';
     protected $title = 'Rombel';
 
     public function __construct()
@@ -26,6 +26,10 @@ class ClassRoomController extends Controller
      */
     public function index(ClassRoomDataTable $dataTable, Request $request)
     {
+        if (request()->expectsJson() && !request()->columns) {
+            $getByFilter = $this->service->filter($request->school_level_id);
+            return response()->json($getByFilter);
+        }
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['viewDir'] = $this->viewDir;
@@ -95,6 +99,8 @@ class ClassRoomController extends Controller
 
     function setSchedule(){
         return view($this->viewDir.'set_schedule', [
+            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
+            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
             'classRooms' => ClassRoom::with('grade')->get(),
             'schedulePatterns' => SchedulePattern::orderBy('name')->get(),
         ]);    

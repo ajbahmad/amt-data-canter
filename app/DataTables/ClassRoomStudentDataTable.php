@@ -29,8 +29,14 @@ class ClassRoomStudentDataTable extends DataTable
                 </div>
                 ';
             })
-            ->addColumn('class_room_name', function ($row) {
+            ->addColumn('class_room_id', function ($row) {
                 return $row->classRoom ? $row->classRoom->name : 'N/A';
+            })
+            ->addColumn('school_institution_id', function ($row) {
+                return $row->schoolInstitution ? $row->schoolInstitution->name : '-';
+            })
+            ->addColumn('school_level_id', function ($row) {
+                return $row->schoolLevel ? $row->schoolLevel->name : '-';
             })
             ->addColumn('student_name', function ($row) {
                 if ($row->student->person->photo) {
@@ -63,7 +69,13 @@ class ClassRoomStudentDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa diurut
-            ->orderColumn('class_room_name', function($query, $direction) {
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
+            })
+            ->orderColumn('school_level_id', function($query, $direction) {
+                $query->orderBy('school_level_id', $direction);
+            })
+            ->orderColumn('class_room_id', function($query, $direction) {
                 $query->orderBy('class_room_id', $direction);
             })
             ->orderColumn('student_name', function($query, $direction) {
@@ -77,7 +89,13 @@ class ClassRoomStudentDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa di-filter
-            ->filterColumn('class_room_name', function($query, $keyword) {
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', "$keyword");
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->where('school_level_id', "$keyword");
+            })
+            ->filterColumn('class_room_id', function($query, $keyword) {
                 $query->where('class_room_id', "$keyword");
             })
             ->filterColumn('student_name', function($query, $keyword) {
@@ -99,7 +117,7 @@ class ClassRoomStudentDataTable extends DataTable
 
     public function query(ClassRoomStudent $model): QueryBuilder
     {
-        return $model->newQuery()->with(['classRoom', 'student.person']);
+        return $model->newQuery()->with(['classRoom', 'student.person', 'schoolInstitution', 'schoolLevel']);
     }
 
     public function html(): HtmlBuilder
@@ -142,8 +160,10 @@ class ClassRoomStudentDataTable extends DataTable
                 ->printable(false)
                 ->width(80)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('student_name')->name('student_name')->title('Nama Siswa')->attributes(['data-type' => 'text', 'data-name' => 'student_name', 'data-label' => 'Nama Siswa', 'data-value' => null]);
-        $column[] = Column::make('class_room_name')->name('class_room_name')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_name', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
+        $column[] = Column::make('class_room_id')->name('class_room_id')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'class_room_id', 'data-label' => 'Kelas', 'data-value' => $this->getClassRooms()]);
+        $column[] = Column::make('student_name')->name('student_name')->title('NIS')->attributes(['data-type' => 'text', 'data-name' => 'student_name', 'data-label' => 'Nama', 'data-value' => null]);
         $column[] = Column::make('student_id')->name('student_id')->title('NIS')->attributes(['data-type' => 'text', 'data-name' => 'student_id', 'data-label' => 'NIS', 'data-value' => null]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('joined_at')->name('joined_at')->title('Bergabung')->attributes(['data-type' => 'date', 'data-name' => 'joined_at', 'data-label' => 'Bergabung']);

@@ -37,6 +37,21 @@ class BaseModel extends Model
         $instance = new static();
         $table = $instance->getTable();
 
+        if (Schema::hasColumn($table, 'is_active')) {
+            if (!app()->runningInConsole()) {
+                static::creating(function ($model) {
+                    $model->is_active = request()->is_active ? true : false;
+                });
+                static::updating(function ($model) {
+                    $model->is_active = request()->is_active ? true : false;
+                });
+            }
+
+            static::addGlobalScope('is_active', function ($query) {
+                $query->where('is_active', true);
+            });
+        }
+
         // filter school_institution
         if (
             request()->school_institution_id &&

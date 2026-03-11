@@ -298,7 +298,7 @@ const calendarModule = (() => {
             <h5 style="margin-bottom: 1rem; font-weight: 600;">Scope Event (Opsional)</h5>
 
             <div class="form-group">
-                <label for="school_institution_id">Institusi Sekolah</label>
+                <label for="school_institution_id">Lembaga</label>
                 <select id="school_institution_id" class="form-control">
                     <option value="">-- Semua Institusi --</option>
                     ${institutionOptions}

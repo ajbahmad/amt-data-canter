@@ -42,8 +42,8 @@ class ClassRoomController extends Controller
     public function create()
     {
         return view($this->viewDir.'create', [
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
             'grades' => \App\Models\Grade::orderBy('order_no')->get(),
         ]);
     }
@@ -72,8 +72,8 @@ class ClassRoomController extends Controller
     {
         return view($this->viewDir.'update', [
             'classRoom' => $classRoom,
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
             'grades' => \App\Models\Grade::orderBy('order_no')->get(),
         ]);
     }
@@ -99,8 +99,8 @@ class ClassRoomController extends Controller
 
     function setSchedule(){
         return view($this->viewDir.'set_schedule', [
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
             'classRooms' => ClassRoom::with('grade')->get(),
             'schedulePatterns' => SchedulePattern::orderBy('name')->get(),
         ]);    

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('person_type_memberships', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('school_institution_id')->nullable()
+                  ->foreign('school_institution_id')
+                  ->references('id')
+                  ->on('school_institutions')
+                  ->onDelete('set null');
             $table->foreignUuid('person_id')
                   ->constrained('persons')
                   ->onDelete('cascade');

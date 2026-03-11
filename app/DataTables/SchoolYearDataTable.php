@@ -39,8 +39,11 @@ class SchoolYearDataTable extends DataTable
                 ';
                 return $data;
             })
-            ->addColumn('school_institution_name', function($row){
-                return $row->schoolLevel->name .' - '. $row->schoolInstitution->name ?? '-';
+            ->addColumn('school_institution_id', function($row){
+                return $row->schoolInstitution->name ?? '-';
+            })
+            ->addColumn('school_level_id', function($row){
+                return $row->schoolLevel->name ?? '-';
             })
             ->addColumn('date_range', function($row){
                 return Carbon::parse($row->start_date)->format('d/m/Y') . ' - ' . Carbon::parse($row->end_date)->format('d/m/Y');
@@ -64,6 +67,9 @@ class SchoolYearDataTable extends DataTable
             ->orderColumn('school_institution_id', function($query, $direction) {
                 $query->orderBy('school_institution_id', $direction);
             })
+            ->orderColumn('school_level_id', function($query, $direction) {
+                $query->orderBy('school_level_id', $direction);
+            })
             ->orderColumn('start_date', function($query, $direction) {
                 $query->orderBy('start_date', $direction);
             })
@@ -81,8 +87,11 @@ class SchoolYearDataTable extends DataTable
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'ILIKE', "%{$keyword}%");
             })
-            ->filterColumn('school_institution_name', function($query, $keyword) {
-                $query->where('school_institution_id', 'ILIKE', "%{$keyword}%");
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->where('school_level_id', $keyword);
             })
             ->filterColumn('is_active', function($query, $keyword) {
                 if ($keyword !== '') {
@@ -130,17 +139,7 @@ class SchoolYearDataTable extends DataTable
             ->parameters($parameters);
     }
 
-    private function getSchoolInstitution()
-    {
-        $schoolInstitutions = SchoolInstitution::pluck('name', 'id')->toArray();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($schoolInstitutions as $id => $name) {
-            $options[] = ['label' => $name, 'value' => $id];
-        }
-        return json_encode($options);
-    }
+
 
     /**
      * Get the dataTable columns definition.
@@ -157,7 +156,8 @@ class SchoolYearDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('school_institution_name')->name('school_institution_name')->title('Lembaga Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_name', 'data-label' => 'Lembaga Sekolah', 'data-value' => $this->getSchoolInstitution()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('name')->name('name')->title('Tahun Akademik')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Tahun Akademik', 'data-value' => null]);
         $column[] = Column::make('date_range')->name('date_range')->title('Periode')->searchable(false)->attributes(['data-type' => 'text', 'data-name' => 'date_range', 'data-label' => 'Periode', 'data-value' => null]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);

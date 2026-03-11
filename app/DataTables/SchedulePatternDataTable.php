@@ -109,29 +109,9 @@ class SchedulePatternDataTable extends DataTable
             ->parameters($parameters);
     }
 
-    private function getSchoolInstitutions()
-    {
-        $institutions = SchoolInstitution::active()->get();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($institutions as $institution) {
-            $options[] = ['label' => $institution->name, 'value' => $institution->id];
-        }
-        return json_encode($options);
-    }
 
-    private function getSchoolLevels()
-    {
-        $levels = SchoolLevel::active()->get();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($levels as $level) {
-            $options[] = ['label' => $level->name, 'value' => $level->id];
-        }
-        return json_encode($options);
-    }
+
+    
 
     /**
      * Get the dataTable columns definition.
@@ -143,8 +123,8 @@ class SchedulePatternDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
-        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Level Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Level Sekolah', 'data-value' => $this->getSchoolLevels()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('name')->name('name')->title('Nama Pola Jadwal')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Pola Jadwal', 'data-value' => null]);
         $column[] = Column::make('created_at')->name('created_at')->title('Dibuat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Dibuat']);
         return $column;

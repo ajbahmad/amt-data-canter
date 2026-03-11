@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Lembaga Sekolah')
+@section('title', 'Tambah Lembaga')
 
 @section('content')
 
 @include('layouts.partials.admin.breadcrumb', [
-    'title' => 'Tambah Lembaga Sekolah',
+    'title' => 'Tambah Lembaga',
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Lembaga Sekolah', 'url' => route('school_institutions.index')],
+        ['name' => 'Lembaga', 'url' => route('school_institutions.index')],
         ['name' => 'Tambah Baru', 'url' => '#']
     ]
 ])

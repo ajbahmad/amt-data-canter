@@ -38,6 +38,9 @@ class PersonTypeService
      */
     public function create($data)
     {
+        if (!isset($data['is_active'])) {
+            $data['is_active'] = false;
+        }
         return PersonType::create($data);
     }
 
@@ -46,6 +49,9 @@ class PersonTypeService
      */
     public function update($personType, $data)
     {
+        if (!isset($data['is_active'])) {
+            $data['is_active'] = false;
+        }
         $personType->update($data);
         return $personType;
     }

@@ -12,6 +12,8 @@ class TeacherSubjectAssignment extends BaseModel
     protected $table = 'teacher_subject_assignments';
 
     protected $fillable = [
+        'school_institution_id',
+        'school_level_id',
         'teacher_id',
         'subject_id',
         'class_room_id',
@@ -31,6 +33,22 @@ class TeacherSubjectAssignment extends BaseModel
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    /**
+     * Get the school institution
+     */
+    public function schoolInstitution(): BelongsTo
+    {
+        return $this->belongsTo(SchoolInstitution::class);
+    }
+
+    /**
+     * Get the school level
+     */
+    public function schoolLevel(): BelongsTo
+    {
+        return $this->belongsTo(SchoolLevel::class);
     }
 
     /**

@@ -42,21 +42,7 @@
     
 
 
-    <style>
-        .dt-paging-button{
-            border-radius: 50% !important;
-        }
-        .table-responsive{
-            overflow-x: auto;
-        }
-        #datatable thead tr.filters th{
-            padding: 10px 1px;
-            font-weight: 100 !important
-        }
-        #datatable thead tr th{
-            white-space: nowrap;
-        }
-    </style>
+    
 
 @endpush
 
@@ -298,7 +284,7 @@
                 <h5 style="margin-bottom: 12px; font-size: 14px;">Scope Event (Opsional)</h5>
 
                 <div class="form-group">
-                    <label>Institusi Sekolah (Pilih Multiple)</label>
+                    <label>Lembaga (Pilih Multiple)</label>
                     <select id="school_institution_id" multiple="multiple" style="width: 100%;">
                         ${institutions.map(i => `<option value="${i.id}">${i.name}</option>`).join('')}
                     </select>

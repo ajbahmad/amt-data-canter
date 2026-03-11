@@ -77,6 +77,20 @@
         .text-red-700 {
             color: #b91c1c;
         }
+        .dt-paging-button{
+            border-radius: 50% !important;
+        }
+        .table-responsive{
+            overflow-x: auto;
+        }
+        #datatable thead tr.filters th{
+            padding: 10px 1px;
+            font-weight: 100 !important
+        }
+        #datatable thead tr th,
+        #datatable tbody tr td{
+            white-space: nowrap;
+        }
     </style>
 </head>
 

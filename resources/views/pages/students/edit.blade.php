@@ -39,7 +39,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Sekolah <span class="text-red-500">*</span>
+                    Lembaga <span class="text-red-500">*</span>
                 </label>
                 <select name="school_institution_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
                     <option value="">-- Pilih Sekolah --</option>

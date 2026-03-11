@@ -48,6 +48,16 @@
         </div>
 
         <div>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Lembaga</p>
+            <p class="text-lg font-semibold text-gray-900 mt-1">{{ $idCard->schoolInstitution ? $idCard->schoolInstitution->name : '-' }}</p>
+        </div>
+
+        <div>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Sekolah</p>
+            <p class="text-lg font-semibold text-gray-900 mt-1">{{ $idCard->schoolLevel ? $idCard->schoolLevel->name : '-' }}</p>
+        </div>
+
+        <div>
             <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Status</p>
             <div class="mt-1">
                 @php

@@ -41,8 +41,8 @@ class SchoolYearController extends Controller
     public function create()
     {
         return view($this->viewDir.'create', [
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
         ]);
     }
 
@@ -70,8 +70,8 @@ class SchoolYearController extends Controller
     {
         return view($this->viewDir.'update', [
             'schoolYear' => $schoolYear,
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
         ]);
     }
 

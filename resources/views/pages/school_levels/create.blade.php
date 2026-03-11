@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Level Sekolah')
+@section('title', 'Tambah Sekolah')
 
 @section('content')
 
     @include('layouts.partials.admin.breadcrumb', [
-        'title' => 'Tambah Level Sekolah',
+        'title' => 'Tambah Sekolah',
         'breadcrumbs' => [
             ['name' => 'Dashboard', 'url' => route('dashboard')],
             ['name' => 'Data Master', 'url' => '#'],
-            ['name' => 'Level Sekolah', 'url' => route('school_levels.index')],
+            ['name' => 'Sekolah', 'url' => route('school_levels.index')],
             ['name' => 'Tambah Baru', 'url' => '#'],
         ],
     ])
@@ -22,7 +22,7 @@
                 <div class="col-span-2">
                     <label for="school_institution_id"
                         class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        <i class="ti ti-building mr-2"></i>Sekolah <span class="text-red-500">*</span>
+                        <i class="ti ti-building mr-2"></i>Lembaga <span class="text-red-500">*</span>
                     </label>
                     <select id="school_institution_id" name="school_institution_id" required
                         class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('school_institution_id') border-red-500 @enderror">
@@ -74,7 +74,7 @@
                 </label>
                 <textarea id="description" name="description" rows="3"
                     class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('description') border-red-500 @enderror"
-                    placeholder="Masukkan deskripsi level sekolah">{{ old('description') }}</textarea>
+                    placeholder="Masukkan deskripsi Sekolah">{{ old('description') }}</textarea>
                 @error('description')
                     <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
                 @enderror

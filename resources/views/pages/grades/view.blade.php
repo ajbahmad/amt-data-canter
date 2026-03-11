@@ -33,7 +33,7 @@
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         
         <div>
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Jenjang Sekolah</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Sekolah</p>
             <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">{{ $grade->schoolLevel->name ?? '-' }}</p>
         </div>
 

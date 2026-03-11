@@ -122,7 +122,7 @@ class SchoolYearService
     public function getActiveByInstitution($institutionId)
     {
         return SchoolYear::where('school_institution_id', $institutionId)
-            ->where('is_active', true)
+            
             ->first();
     }
 }

@@ -23,11 +23,11 @@
             <!-- Sekolah -->
             <div>
                 <label for="school_institution_id" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    <i class="ti ti-building mr-2"></i>Sekolah <span class="text-red-500">*</span>
+                    <i class="ti ti-building mr-2"></i>Lambaga <span class="text-red-500">*</span>
                 </label>
                 <select id="school_institution_id" name="school_institution_id" required
                     class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('school_institution_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Sekolah --</option>
+                    <option value="">-- Pilih Lambaga --</option>
                     @forelse($schoolInstitutions as $school)
                         <option value="{{ $school->id }}" {{ old('school_institution_id', $schoolYear->school_institution_id) == $school->id ? 'selected' : '' }}>
                             {{ $school->name }}
@@ -43,10 +43,10 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Jenjang Sekolah <span class="text-red-500">*</span>
+                    Sekolah <span class="text-red-500">*</span>
                 </label>
                 <select name="school_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Jenjang Sekolah --</option>
+                    <option value="">-- Pilih Sekolah --</option>
                     @foreach($schoolLevels as $schoolLevel)
                         <option value="{{ $schoolLevel->id }}" {{ $schoolYear->school_level_id == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}</option>
                     @endforeach

@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Level Sekolah')
+@section('title', 'Sekolah')
 
 @section('content')
 
 @include('layouts.partials.admin.breadcrumb', [
-    'title' => 'Daftar Level Sekolah',
+    'title' => 'Daftar Sekolah',
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Level Sekolah', 'url' => '#']
+        ['name' => 'Sekolah', 'url' => '#']
     ]
 ])
 
@@ -17,7 +17,7 @@
     
     <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-            <i class="ti ti-stack mr-2"></i>Daftar Level Sekolah
+            <i class="ti ti-stack mr-2"></i>Daftar Sekolah
         </h2>
         <a href="{{ route('school_levels.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
             <i class="ti ti-plus mr-2"></i>Tambah Level
@@ -34,21 +34,7 @@
     <link rel="stylesheet" href="{{asset('assets/libs/DataTables/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
 
-    <style>
-        .dt-paging-button{
-            border-radius: 50% !important;
-        }
-        .table-responsive{
-            overflow-x: auto;
-        }
-        #datatable thead tr.filters th{
-            padding: 10px 1px;
-            font-weight: 100 !important
-        }
-        #datatable thead tr th{
-            white-space: nowrap;
-        }
-    </style>
+    
 
 @endpush
 

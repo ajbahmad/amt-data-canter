@@ -32,10 +32,10 @@ class ClassRoomHomeroomTeacherController extends Controller
 
     public function create()
     {
-        $classRooms = ClassRoom::where('is_active', true)->get();
+        $classRooms = ClassRoom::get();
         $teachers = Teacher::with('person')->where('is_active', true)->get();
-        $schoolInstitutions = \App\Models\SchoolInstitution::where('is_active', true)->get();
-        $schoolLevels = \App\Models\SchoolLevel::where('is_active', true)->get();
+        $schoolInstitutions = \App\Models\SchoolInstitution::get();
+        $schoolLevels = \App\Models\SchoolLevel::get();
         return view($this->viewDir.'create', compact('schoolInstitutions','schoolLevels','classRooms', 'teachers'));
     }
 
@@ -57,9 +57,9 @@ class ClassRoomHomeroomTeacherController extends Controller
 
     public function edit(ClassRoomHomeroomTeacher $classRoomHomeroomTeacher)
     {
-        $schoolInstitutions = \App\Models\SchoolInstitution::where('is_active', true)->get();
-        $schoolLevels = \App\Models\SchoolLevel::where('is_active', true)->where('school_institution_id', $classRoomHomeroomTeacher->classRoom->school_institution_id)->get();
-        $classRooms = ClassRoom::where('is_active', true)->where('school_level_id', $classRoomHomeroomTeacher->classRoom->school_level_id)->get();
+        $schoolInstitutions = \App\Models\SchoolInstitution::get();
+        $schoolLevels = \App\Models\SchoolLevel::where('school_institution_id', $classRoomHomeroomTeacher->classRoom->school_institution_id)->get();
+        $classRooms = ClassRoom::where('school_level_id', $classRoomHomeroomTeacher->classRoom->school_level_id)->get();
         $teachers = Teacher::with('person')->where('is_active', true)->where('school_institution_id', $classRoomHomeroomTeacher->classRoom->school_institution_id)->get();
         return view($this->viewDir.'edit', compact('classRoomHomeroomTeacher', 'classRooms', 'teachers', 'schoolInstitutions', 'schoolLevels'));
     }

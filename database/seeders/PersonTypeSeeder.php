@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\PersonType;
+use App\Models\SchoolInstitution;
 use Illuminate\Database\Seeder;
 
 class PersonTypeSeeder extends Seeder
@@ -30,11 +31,17 @@ class PersonTypeSeeder extends Seeder
             ],
         ];
 
-        foreach ($personTypes as $personType) {
-            PersonType::firstOrCreate(
-                ['name' => $personType['name']],
-                $personType
-            );
+        foreach (SchoolInstitution::all() as $key => $value) {
+            # code...
+            foreach ($personTypes as $personType) {
+                PersonType::firstOrCreate(
+                    [
+                        'name' => $personType['name'],
+                        'school_institution_id' => $value->id
+                    ],
+                    $personType
+                );
+            }
         }
     }
 }

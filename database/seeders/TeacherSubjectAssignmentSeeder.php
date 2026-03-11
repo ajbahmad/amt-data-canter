@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\ClassRoom;
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -23,14 +25,20 @@ class TeacherSubjectAssignmentSeeder extends Seeder
         $subjects = Subject::all();
         $classRooms = ClassRoom::all();
         $semesters = Semester::all();
+        $schoolInstitutions = SchoolInstitution::where('is_active', true)->get();
+        $schoolLevels = SchoolLevel::where('is_active', true)->get();
 
-        if ($teachers->isEmpty() || $subjects->isEmpty() || $classRooms->isEmpty() || $semesters->isEmpty()) {
+        if ($teachers->isEmpty() || $subjects->isEmpty() || $classRooms->isEmpty() || $semesters->isEmpty() || $schoolInstitutions->isEmpty() || $schoolLevels->isEmpty()) {
             return;
         }
 
         // Assign teachers to subjects per classroom per semester
         foreach ($classRooms as $classRoom) {
             foreach ($semesters as $semester) {
+                // Get school institution and level from classRoom
+                $schoolInstitution = $classRoom->schoolInstitution;
+                $schoolLevel = $classRoom->schoolLevel;
+
                 // Assign 3-5 subject-teacher combinations per classroom per semester
                 $subjectsForClass = $subjects->random(min(4, $subjects->count()));
 
@@ -44,6 +52,8 @@ class TeacherSubjectAssignmentSeeder extends Seeder
                         ->where('semester_id', $semester->id)
                         ->exists()) {
                         TeacherSubjectAssignment::create([
+                            'school_institution_id' => $schoolInstitution ? $schoolInstitution->id : null,
+                            'school_level_id' => $schoolLevel ? $schoolLevel->id : null,
                             'teacher_id' => $randomTeacher->id,
                             'subject_id' => $subject->id,
                             'class_room_id' => $classRoom->id,

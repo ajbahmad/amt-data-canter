@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PersonType extends BaseModel
 {
@@ -13,12 +14,21 @@ class PersonType extends BaseModel
     protected $fillable = [
         'name',
         'description',
-        'is_active'
+        'is_active',
+        'school_institution_id'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the school institution that owns this person type
+     */
+    public function schoolInstitution(): BelongsTo
+    {
+        return $this->belongsTo(SchoolInstitution::class);
+    }
 
     /**
      * Get all person type memberships for this type

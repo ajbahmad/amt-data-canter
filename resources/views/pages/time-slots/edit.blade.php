@@ -22,7 +22,7 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Sekolah <span class="text-red-500">*</span>
+                    Lembaga <span class="text-red-500">*</span>
                 </label>
                 <select name="school_institution_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
                     <option value="">-- Pilih Sekolah --</option>

@@ -36,12 +36,12 @@ class TeacherSubjectAssignmentController extends Controller
 
     public function create()
     {
-        $schoolInstitutions = SchoolInstitution::where('is_active', true)->get();
-        $schoolLevels = SchoolLevel::where('is_active', true)->get();
-        $teachers = Teacher::where('is_active', true)->with('person')->get();
-        $subjects = Subject::where('is_active', true)->get();
-        $classRooms = ClassRoom::where('is_active', true)->get();
-        $semesters = Semester::where('is_active', true)->get();
+        $schoolInstitutions = SchoolInstitution::get();
+        $schoolLevels = SchoolLevel::get();
+        $teachers = Teacher::with('person')->get();
+        $subjects = Subject::get();
+        $classRooms = ClassRoom::get();
+        $semesters = Semester::get();
         return view($this->viewDir.'create', compact('schoolInstitutions', 'schoolLevels', 'teachers', 'subjects', 'classRooms', 'semesters'));
     }
 
@@ -63,12 +63,12 @@ class TeacherSubjectAssignmentController extends Controller
 
     public function edit(TeacherSubjectAssignment $teacherSubjectAssignment)
     {
-        $schoolInstitutions = SchoolInstitution::where('is_active', true)->get();
-        $schoolLevels = SchoolLevel::where('is_active', true)->get();
-        $teachers = Teacher::where('is_active', true)->where('school_institution_id', $teacherSubjectAssignment->semester->school_institution_id)->with('person')->get();
-        $subjects = Subject::where('is_active', true)->where('school_level_id', $teacherSubjectAssignment->semester->schoolYear->school_level_id)->get();
-        $classRooms = ClassRoom::where('is_active', true)->where('school_level_id', $teacherSubjectAssignment->semester->schoolYear->school_level_id)->get();
-        $semesters = Semester::where('is_active', true)->where('school_year_id', $teacherSubjectAssignment->semester->school_year_id)->get();
+        $schoolInstitutions = SchoolInstitution::get();
+        $schoolLevels = SchoolLevel::get();
+        $teachers = Teacher::where('school_institution_id', $teacherSubjectAssignment->semester->school_institution_id)->with('person')->get();
+        $subjects = Subject::where('school_level_id', $teacherSubjectAssignment->semester->schoolYear->school_level_id)->get();
+        $classRooms = ClassRoom::where('school_level_id', $teacherSubjectAssignment->semester->schoolYear->school_level_id)->get();
+        $semesters = Semester::where('school_year_id', $teacherSubjectAssignment->semester->school_year_id)->get();
         return view($this->viewDir.'edit', compact('schoolInstitutions', 'schoolLevels', 'teacherSubjectAssignment', 'teachers', 'subjects', 'classRooms', 'semesters'));
     }
 

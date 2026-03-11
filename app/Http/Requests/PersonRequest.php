@@ -54,6 +54,7 @@ class PersonRequest extends FormRequest
                 Rule::unique('persons')->ignore($personId),
             ],
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'school_institution_id' => 'nullable|uuid|exists:school_institutions,id',
             'is_active' => 'sometimes|boolean',
         ];
     }
@@ -78,6 +79,8 @@ class PersonRequest extends FormRequest
             'photo.mimes' => 'Format gambar harus JPEG, PNG, JPG, atau GIF.',
             'photo.max' => 'Ukuran gambar maksimal 5 MB.',
             'identity_number.unique' => 'Nomor identitas sudah terdaftar.',
+            'school_institution_id.uuid' => 'ID institusi sekolah tidak valid.',
+            'school_institution_id.exists' => 'Institusi sekolah yang dipilih tidak ditemukan.',
         ];
     }
 }

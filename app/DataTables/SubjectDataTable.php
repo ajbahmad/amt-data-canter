@@ -39,7 +39,10 @@ class SubjectDataTable extends DataTable
                 ';
                 return $data;
             })
-            ->addColumn('school_level_name', function($row){
+            ->addColumn('school_institution_id', function($row){
+                return $row->schoolInstitution->name ?? '-';
+            })
+            ->addColumn('school_level_id', function($row){
                 return $row->schoolLevel->name ?? '-';
             })
             ->addColumn('is_active', function($row){
@@ -61,6 +64,9 @@ class SubjectDataTable extends DataTable
             ->orderColumn('code', function($query, $direction) {
                 $query->orderBy('code', $direction);
             })
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
+            })
             ->orderColumn('school_level_id', function($query, $direction) {
                 $query->orderBy('school_level_id', $direction);
             })
@@ -72,15 +78,19 @@ class SubjectDataTable extends DataTable
             })
 
             // filterable
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->where('school_level_id', $keyword);
+            })
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'ILIKE', "%{$keyword}%");
             })
             ->filterColumn('code', function($query, $keyword) {
                 $query->where('code', 'ILIKE', "%{$keyword}%");
             })
-            ->filterColumn('school_level_name', function($query, $keyword) {
-                $query->where('school_level_id', 'ILIKE', "%{$keyword}%");
-            })
+           
             ->filterColumn('is_active', function($query, $keyword) {
                 if ($keyword !== '') {
                     $isActive = strtolower($keyword) === 'true' ? true : (strtolower($keyword) === 'false' ? false : null);
@@ -127,17 +137,7 @@ class SubjectDataTable extends DataTable
             ->parameters($parameters);
     }
 
-    private function getSchoolLevel()
-    {
-        $schoolLevels = SchoolLevel::pluck('name', 'id')->toArray();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($schoolLevels as $id => $name) {
-            $options[] = ['label' => $name, 'value' => $id];
-        }
-        return json_encode($options);
-    }
+    
 
     /**
      * Get the dataTable columns definition.
@@ -154,9 +154,10 @@ class SubjectDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('name')->name('name')->title('Nama Mata Pelajaran')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Mata Pelajaran', 'data-value' => null]);
         $column[] = Column::make('code')->name('code')->title('Kode')->attributes(['data-type' => 'text', 'data-name' => 'code', 'data-label' => 'Kode', 'data-value' => null]);
-        $column[] = Column::make('school_level_name')->name('school_level_name')->title('Jenjang Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_name', 'data-label' => 'Jenjang Sekolah', 'data-value' => $this->getSchoolLevel()]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);
         $column[] = Column::make('created_at')->name('created_at')->title('Dibuat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Dibuat']);
         return $column;

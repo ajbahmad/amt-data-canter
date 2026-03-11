@@ -1,6 +1,8 @@
 <?php
 namespace App\DataTables\Config;
 
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -89,6 +91,30 @@ class GlobalConfigDatatable
                 ]
             ],
         ];
+    }
+
+    static function getSchoolInstitutions()
+    {
+        $institutions = SchoolInstitution::active()->get();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($institutions as $institution) {
+            $options[] = ['label' => $institution->name, 'value' => $institution->id];
+        }
+        return json_encode($options);
+    }
+
+    static function getSchoolLevels()
+    {
+        $levels = SchoolLevel::active()->get();
+        $options = [
+            ['label'=>'Filter Semua', 'value' => '']
+        ];
+        foreach ($levels as $level) {
+            $options[] = ['label' => $level->name, 'value' => $level->id];
+        }
+        return json_encode($options);
     }
 
     static function formatCreatedAt($createdAt){

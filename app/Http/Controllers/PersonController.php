@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\PersonDataTable;
 use App\Http\Requests\PersonRequest;
 use App\Models\Person;
+use App\Models\SchoolInstitution;
 use App\Services\PersonService;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,8 @@ class PersonController extends Controller
      */
     public function create()
     {
-        return view($this->viewDir.'create');
+        $schoolInstitutions = SchoolInstitution::orderBy('name')->get();
+        return view($this->viewDir.'create', compact('schoolInstitutions'));
     }
 
     /**
@@ -66,7 +68,8 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        return view($this->viewDir.'edit', compact('person'));
+        $schoolInstitutions = SchoolInstitution::orderBy('name')->get();
+        return view($this->viewDir.'edit', compact('person', 'schoolInstitutions'));
     }
 
     /**

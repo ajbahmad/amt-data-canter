@@ -26,6 +26,7 @@ class Person extends BaseModel
         'birth_place',
         'identity_number',
         'photo',
+        'school_institution_id',
         'is_active'
     ];
 
@@ -59,6 +60,14 @@ class Person extends BaseModel
     public function memberships(): HasMany
     {
         return $this->hasMany(PersonTypeMembership::class);
+    }
+
+    /**
+     * Get school institution
+     */
+    public function schoolInstitution()
+    {
+        return $this->belongsTo(SchoolInstitution::class);
     }
 
     /**

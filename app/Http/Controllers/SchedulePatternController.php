@@ -43,8 +43,8 @@ class SchedulePatternController extends Controller
     public function create()
     {
         return view($this->viewDir.'create', [
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
         ]);
     }
 
@@ -72,8 +72,8 @@ class SchedulePatternController extends Controller
     {
         return view($this->viewDir.'update', [
             'schedulePattern' => $schedulePattern,
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => \App\Models\SchoolLevel::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolLevels' => \App\Models\SchoolLevel::get(),
         ]);
     }
 

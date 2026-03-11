@@ -34,6 +34,8 @@ class ClassRoomStudentSeeder extends Seeder
                 // Hindari duplikasi
                 if (!isset($assignedStudents[$student->id][$classRoom->id])) {
                     ClassRoomStudent::create([
+                        'school_institution_id' => $classRoom->school_institution_id,
+                        'school_level_id'       => $classRoom->school_level_id,
                         'class_room_id' => $classRoom->id,
                         'student_id' => $student->id,
                         'joined_at' => $faker->dateTimeBetween('-3 years', 'now')->format('Y-m-d'),

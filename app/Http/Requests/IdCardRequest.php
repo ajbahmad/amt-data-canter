@@ -32,6 +32,8 @@ class IdCardRequest extends FormRequest
             ],
             'card_number' => 'nullable|string|max:100',
             'person_id' => 'required|uuid|exists:persons,id',
+            'school_institution_id' => 'nullable|uuid|exists:school_institutions,id',
+            'school_level_id' => 'nullable|uuid|exists:school_levels,id',
             'status' => 'required|in:active,lost,blocked,expired',
             'issued_at' => 'nullable|date',
             'expired_at' => 'nullable|date|after_or_equal:issued_at',

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('persons', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('school_institution_id')->nullable()->foreign('school_institution_id')
+                  ->references('id')
+                  ->on('school_institutions')
+                  ->onDelete('set null');
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('email')->unique();

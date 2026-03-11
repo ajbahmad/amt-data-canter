@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Orang')
+@section('title', 'Pengguna')
 
 @section('content')
 
 @include('layouts.partials.admin.breadcrumb', [
-    'title' => 'Daftar Orang',
+    'title' => 'Daftar Pengguna',
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Orang', 'url' => '#']
+        ['name' => 'Pengguna', 'url' => '#']
     ]
 ])
 
@@ -17,10 +17,10 @@
     
     <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-gray-900">
-            <i class="ti ti-user mr-2"></i>Daftar Orang
+            <i class="ti ti-user mr-2"></i>Daftar Pengguna
         </h2>
         <a href="{{ route('persons.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
-            <i class="ti ti-plus mr-2"></i>Tambah Orang
+            <i class="ti ti-plus mr-2"></i>Tambah Pengguna
         </a>
     </div>
     
@@ -35,21 +35,7 @@
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
     
 
-    <style>
-        .dt-paging-button{
-            border-radius: 50% !important;
-        }
-        .table-responsive{
-            overflow-x: auto;
-        }
-        #datatable thead tr.filters th{
-            padding: 10px 1px;
-            font-weight: 100 !important
-        }
-        #datatable thead tr th{
-            white-space: nowrap;
-        }
-    </style>
+    
 
 @endpush
 

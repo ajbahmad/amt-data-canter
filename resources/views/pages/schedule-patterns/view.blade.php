@@ -26,7 +26,7 @@
                 <p class="text-lg font-semibold text-gray-900">{{ $schedulePattern->schoolInstitution->name }}</p>
             </div>
             <div>
-                <p class="text-sm text-gray-600">Level Sekolah</p>
+                <p class="text-sm text-gray-600">Sekolah</p>
                 <p class="text-lg font-semibold text-gray-900">{{ $schedulePattern->schoolLevel->name }}</p>
             </div>
         </div>

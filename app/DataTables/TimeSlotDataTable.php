@@ -29,8 +29,11 @@ class TimeSlotDataTable extends DataTable
                 </div>
                 ';
             })
-            ->addColumn('school_level_name', function ($row) {
-                return $row->schoolLevel ? $row->schoolLevel->name . ' - ' . $row->schoolLevel->schoolInstitution->name : 'N/A';
+            ->addColumn('school_institution_id', function($row){
+                return $row->schoolInstitution->name ?? '-';
+            })
+            ->addColumn('school_level_id', function($row){
+                return $row->schoolLevel->name ?? '-';
             })
             ->addColumn('time_range', function ($row) {
                 return $row->start_time . ' - ' . $row->end_time;
@@ -47,6 +50,12 @@ class TimeSlotDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa diurut (gunakan field database asli, bukan computed column)
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
+            })
+            ->orderColumn('school_level_id', function($query, $direction) {
+                $query->orderBy('school_level_id', $direction);
+            })
             ->orderColumn('name', function($query, $direction) {
                 $query->orderBy('name', $direction);
             })
@@ -70,14 +79,15 @@ class TimeSlotDataTable extends DataTable
             })
             
             // ✅ Kolom yang bisa di-filter
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->where('school_level_id', $keyword);
+            })
             ->filterColumn('name', function($query, $keyword) {
                 if ($keyword !== '') {
                     $query->where('name', 'ILIKE', "%{$keyword}%");
-                }
-            })
-            ->filterColumn('school_level_name', function($query, $keyword) {
-                if ($keyword !== '') {
-                    $query->where('school_level_id', 'ILIKE', "%{$keyword}%");
                 }
             })
             ->filterColumn('is_active', function($query, $keyword) {
@@ -141,9 +151,12 @@ class TimeSlotDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->width(80)
+                ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()])->printable(false)
+                ->width(80)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('name')->name('name')->title('Nama Jam')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Jam', 'data-value' => null]);
-        $column[] = Column::make('school_level_name')->name('school_level_name')->title('Tingkat Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_name', 'data-label' => 'Tingkat Sekolah', 'data-value' => $this->getSchoolLevels()]);
         $column[] = Column::make('time_range')->name('time_range')->title('Waktu')->searchable(false)->attributes(['data-type' => 'text', 'data-name' => 'time_range', 'data-label' => 'Waktu', 'data-value' => null]);
         $column[] = Column::make('order_no')->name('order_no')->title('Urutan')->attributes(['data-type' => 'number', 'data-name' => 'order_no', 'data-label' => 'Urutan', 'data-value' => null]);
         $column[] = Column::make('is_active')->name('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => $json]);

@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\ClassRoom;
 use App\Models\SchoolLevel;
 use App\Models\Grade;
+use App\Models\SchoolInstitution;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class ClassRoomSeeder extends Seeder
 {
@@ -14,31 +16,38 @@ class ClassRoomSeeder extends Seeder
      */
     public function run(): void
     {
-        $schoolLevels = SchoolLevel::all();
+        $schoolInstitutionIds = SchoolInstitution::all();
+        foreach ($schoolInstitutionIds as $key => $schoolInstitutionId) {
+            $schoolLevels = SchoolLevel::where('school_institution_id', $schoolInstitutionId->id)->get();
+            foreach ($schoolLevels as $key => $schoolLevel) {
+                $grades = Grade::where('school_institution_id', $schoolInstitutionId->id)
+                    ->where('school_level_id', $schoolLevel->id)
+                    ->get();
 
-        $classRoomVariations = ['A', 'B', 'C', 'D', 'E'];
-
-        foreach ($schoolLevels as $schoolLevel) {
-            // Get grades from the same school institution
-            $grades = Grade::where('school_institution_id', $schoolLevel->school_institution_id)->get();
-
-            foreach ($grades as $grade) {
-                // Create multiple class rooms per grade
-                for ($i = 0; $i < 3; $i++) {
-                    $variation = $classRoomVariations[$i] ?? 'A';
-                    
-                    ClassRoom::updateOrCreate(
-                        [
-                            'grade_id' => $grade->id,
+                $classRoomVariations = ['A', 'B', 'C'];
+                foreach ($grades as $key => $grade) {
+                    for ($i = 0; $i < 3; $i++) {
+                        ClassRoom::updateOrCreate(
+                            [
+                                'school_institution_id' => $schoolInstitutionId->id,
+                                'school_level_id' => $schoolLevel->id,
+                                'grade_id' => $grade->id,
+                                'name' => $grade->name . $classRoomVariations[$i],
+                            ],
+                            [
+                                'capacity' => 20,
+                                'is_active' => true,
+                            ]
+                        );
+                        Log::info([
+                            'school_institution_id' => $schoolInstitutionId->id,
                             'school_level_id' => $schoolLevel->id,
-                            'name' => $grade->name . '' . $variation,
-                        ],
-                        [
-                            'school_institution_id' => $schoolLevel->school_institution_id,
-                            'capacity' => 30,
+                            'grade_id' => $grade->id,
+                            'name' => $grade->name . $classRoomVariations[$i],
+                            'capacity' => 20,
                             'is_active' => true,
-                        ]
-                    );
+                        ]);
+                    }
                 }
             }
         }

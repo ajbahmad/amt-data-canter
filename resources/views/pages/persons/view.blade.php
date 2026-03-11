@@ -145,6 +145,11 @@
                     <label class="text-sm text-gray-600">Nomor Identitas</label>
                     <p class="text-gray-900 font-medium">{{ $person->identity_number ?? '-' }}</p>
                 </div>
+
+                <div>
+                    <label class="text-sm text-gray-600">Lembaga</label>
+                    <p class="text-gray-900 font-medium">{{ $person->schoolInstitution?->name ?? '-' }}</p>
+                </div>
             </div>
         </div>
 

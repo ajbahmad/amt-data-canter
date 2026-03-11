@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Level Sekolah')
+@section('title', 'Edit Sekolah')
 
 @section('content')
 
 @include('layouts.partials.admin.breadcrumb', [
-    'title' => 'Edit Level Sekolah',
+    'title' => 'Edit Sekolah',
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Level Sekolah', 'url' => route('school_levels.index')],
+        ['name' => 'Sekolah', 'url' => route('school_levels.index')],
         ['name' => 'Edit', 'url' => '#']
     ]
 ])
@@ -22,11 +22,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="col-span-2">
                 <label for="school_institution_id" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    <i class="ti ti-building mr-2"></i>Sekolah <span class="text-red-500">*</span>
+                    <i class="ti ti-building mr-2"></i>Lembaga <span class="text-red-500">*</span>
                 </label>
                 <select id="school_institution_id" name="school_institution_id" required
                     class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('school_institution_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Sekolah --</option>
+                    <option value="">-- Pilih Lembaga --</option>
                     @forelse($schoolInstitutions as $school)
                         <option value="{{ $school->id }}" {{ $schoolLevel->school_institution_id == $school->id ? 'selected' : '' }}>
                             {{ $school->name }}
@@ -73,7 +73,7 @@
             </label>
             <textarea id="description" name="description" rows="3"
                 class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('description') border-red-500 @enderror"
-                placeholder="Masukkan deskripsi level sekolah">{{ old('description', $schoolLevel->description) }}</textarea>
+                placeholder="Masukkan deskripsi Sekolah">{{ old('description', $schoolLevel->description) }}</textarea>
             @error('description')
                 <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
             @enderror

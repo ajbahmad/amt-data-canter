@@ -59,6 +59,40 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Lembaga
+                </label>
+                <select name="school_institution_id" class="select2-init w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Lembaga --</option>
+                    @foreach($schoolInstitutions as $institution)
+                        <option value="{{ $institution->id }}" {{ old('school_institution_id', $idCard->school_institution_id) === $institution->id ? 'selected' : '' }}>
+                            {{ $institution->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('school_institution_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Sekolah
+                </label>
+                <select name="school_level_id" class="select2-init w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
+                    <option value="">-- Pilih Sekolah --</option>
+                    @foreach($schoolLevels as $level)
+                        <option value="{{ $level->id }}" {{ old('school_level_id', $idCard->school_level_id) === $level->id ? 'selected' : '' }}>
+                            {{ $level->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('school_level_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Status <span class="text-red-500">*</span>
                 </label>
                 <select name="status" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('status') border-red-500 @enderror" required>

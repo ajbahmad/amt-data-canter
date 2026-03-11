@@ -41,8 +41,8 @@ class SemesterController extends Controller
     public function create()
     {
         return view($this->viewDir.'create', [
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolYears' => \App\Models\SchoolYear::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolYears' => \App\Models\SchoolYear::get(),
         ]);
     }
 
@@ -70,8 +70,8 @@ class SemesterController extends Controller
     {
         return view($this->viewDir.'update', [
             'semester' => $semester,
-            'schoolInstitutions' => \App\Models\SchoolInstitution::where('is_active', true)->get(),
-            'schoolYears' => \App\Models\SchoolYear::where('is_active', true)->get(),
+            'schoolInstitutions' => \App\Models\SchoolInstitution::get(),
+            'schoolYears' => \App\Models\SchoolYear::get(),
         ]);
     }
 

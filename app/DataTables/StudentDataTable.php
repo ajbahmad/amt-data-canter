@@ -29,6 +29,9 @@ class StudentDataTable extends DataTable
                 </div>
                 ';
             })
+            ->addColumn('school_institution_id', function($row) {
+                return $row->schoolInstitution ? $row->schoolInstitution->name : 'N/A';
+            })
             ->addColumn('person_name', function ($row) {
                 if ($row->person->photo) {
                     $urlPhoto = '<img src="'.asset('storage/'.$row->person->photo).'" alt="'.$row->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
@@ -42,10 +45,7 @@ class StudentDataTable extends DataTable
                         <div class="font-medium text-gray-900">'. $row->person->full_name .'</div>
                         <div class="text-sm text-gray-500">'. $row->person->email .'</div>
                     </div>
-                </div>
-                ';
-            })
-            ->addColumn('school_name', function ($row) {
+                </div>';
                 return $row->schoolInstitution ? $row->schoolInstitution->name : 'N/A';
             })
             ->addColumn('status', function($row){
@@ -68,6 +68,9 @@ class StudentDataTable extends DataTable
                 Carbon::setLocale('id');
                 return Carbon::parse($row->created_at)->translatedFormat('d F Y');
             })
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
+            })
             ->orderColumn('student_id', function($query, $direction) {
                 $query->orderBy('student_id', $direction);
             })
@@ -79,6 +82,10 @@ class StudentDataTable extends DataTable
             })
             ->orderColumn('created_at', function($query, $direction) {
                 $query->orderBy('created_at', $direction);
+            })
+            
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
             })
             ->filterColumn('student_id', function($query, $keyword) {
                 $query->where('student_id', 'ILIKE', "%{$keyword}%");
@@ -147,9 +154,9 @@ class StudentDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
         $column[] = Column::make('person_name')->name('person_id')->title('Nama Siswa')->attributes(['data-type' => 'text', 'data-name' => 'person_name', 'data-label' => 'Nama Siswa', 'data-value' => null]);
         $column[] = Column::make('student_id')->name('student_id')->title('NIS')->attributes(['data-type' => 'text', 'data-name' => 'student_id', 'data-label' => 'NIS', 'data-value' => null]);
-        $column[] = Column::make('school_name')->name('school_institution_id')->title('Sekolah')->attributes(['data-type' => 'text', 'data-name' => 'school_name', 'data-label' => 'Sekolah', 'data-value' => null]);
         $column[] = Column::make('status')->name('status')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'status', 'data-label' => 'Status', 'data-value' => $statusJson]);
         $column[] = Column::make('is_active')->name('is_active')->title('Aktif')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Aktif', 'data-value' => $activeJson]);
         $column[] = Column::make('created_at')->name('created_at')->title('Tanggal Buat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Tanggal Buat']);

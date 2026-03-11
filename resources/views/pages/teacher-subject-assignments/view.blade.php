@@ -31,6 +31,16 @@
         </div>
 
         <div>
+            <label class="text-sm text-gray-600 ">Institusi Sekolah</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->schoolInstitution?->name ?? '-' }}</p>
+        </div>
+
+        <div>
+            <label class="text-sm text-gray-600 ">Jenjang Sekolah</label>
+            <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->schoolLevel?->name ?? '-' }}</p>
+        </div>
+
+        <div>
             <label class="text-sm text-gray-600 ">Mata Pelajaran</label>
             <p class="text-gray-900 font-medium">{{ $teacherSubjectAssignment->subject->name }}</p>
         </div>

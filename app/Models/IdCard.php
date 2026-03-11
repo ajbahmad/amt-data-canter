@@ -16,6 +16,8 @@ class IdCard extends BaseModel
         'card_uid',
         'card_number',
         'person_id',
+        'school_institution_id',
+        'school_level_id',
         'status',
         'issued_at',
         'expired_at',
@@ -32,6 +34,16 @@ class IdCard extends BaseModel
     public function person()
     {
         return $this->belongsTo(Person::class);
+    }
+
+    public function schoolInstitution()
+    {
+        return $this->belongsTo(SchoolInstitution::class);
+    }
+
+    public function schoolLevel()
+    {
+        return $this->belongsTo(SchoolLevel::class);
     }
 
     public function history()

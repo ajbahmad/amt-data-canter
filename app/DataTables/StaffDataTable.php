@@ -45,7 +45,7 @@ class StaffDataTable extends DataTable
                 </div>
                 ';
             })
-            ->addColumn('school_name', function ($row) {
+            ->addColumn('school_institution_id', function ($row) {
                 return $row->schoolInstitution->name ?? 'N/A';
             })
             ->addColumn('employment_type', function($row){
@@ -76,6 +76,9 @@ class StaffDataTable extends DataTable
                 Carbon::setLocale('id');
                 return Carbon::parse($row->created_at)->translatedFormat('d F Y');
             })
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
+            })
             ->orderColumn('staff_id', function($query, $direction) {
                 $query->orderBy('staff_id', $direction);
             })
@@ -90,6 +93,10 @@ class StaffDataTable extends DataTable
             })
             ->orderColumn('created_at', function($query, $direction) {
                 $query->orderBy('created_at', $direction);
+            })
+
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
             })
             ->filterColumn('staff_id', function($query, $keyword) {
                 $query->where('staff_id', 'ILIKE', "%{$keyword}%");
@@ -169,9 +176,9 @@ class StaffDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
         $column[] = Column::make('person_name')->name('person_id')->title('Nama Staf')->attributes(['data-type' => 'text', 'data-name' => 'person_name', 'data-label' => 'Nama Staf', 'data-value' => null]);
         $column[] = Column::make('staff_id')->name('staff_id')->title('ID Staf')->attributes(['data-type' => 'text', 'data-name' => 'staff_id', 'data-label' => 'ID Staf', 'data-value' => null]);
-        $column[] = Column::make('school_name')->name('school_institution_id')->title('Sekolah')->attributes(['data-type' => 'text', 'data-name' => 'school_name', 'data-label' => 'Sekolah', 'data-value' => null]);
         $column[] = Column::make('employment_type')->name('employment_type')->title('Jenis Kerjasama')->attributes(['data-type' => 'select', 'data-name' => 'employment_type', 'data-label' => 'Jenis Kerjasama', 'data-value' => $employmentJson]);
         $column[] = Column::make('status')->name('status')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'status', 'data-label' => 'Status', 'data-value' => $statusJson]);
         $column[] = Column::make('is_active')->name('is_active')->title('Aktif')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Aktif', 'data-value' => $activeJson]);

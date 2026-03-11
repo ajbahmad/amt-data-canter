@@ -36,12 +36,12 @@ class ClassScheduleController extends Controller
         return view('pages.class_schedules.index', [
             'teachers' => Teacher::with('person', 'teacherSubjectAssignments.subject')->where('is_active', true)->get(),
             'schedules' => $this->service->getSchedulesByDay(null, null),
-            'classes' => ClassRoom::where('is_active', true)->get(),
-            'sessionTimes' => TimeSlot::where('is_active', true)->orderBy('start_time')->get(),
-            'subjects' => Subject::where('is_active', true)->get(),
-            'semesters' => Semester::where('is_active', true)->get(),
-            'schoolInstitutions' => SchoolInstitution::where('is_active', true)->get(),
-            'schoolLevels' => SchoolLevel::where('is_active', true)->get(),
+            'classes' => ClassRoom::get(),
+            'sessionTimes' => TimeSlot::orderBy('start_time')->get(),
+            'subjects' => Subject::get(),
+            'semesters' => Semester::get(),
+            'schoolInstitutions' => SchoolInstitution::get(),
+            'schoolLevels' => SchoolLevel::get(),
         ]);
     }
 
@@ -51,12 +51,12 @@ class ClassScheduleController extends Controller
     public function create(): View
     {
         return view('pages.class_schedules.create', [
-            'classRooms' => ClassRoom::where('is_active', true)->get(),
-            'schoolLevels' => SchoolLevel::where('is_active', true)->get(),
+            'classRooms' => ClassRoom::get(),
+            'schoolLevels' => SchoolLevel::get(),
             'teachers' => Teacher::with('person')->where('is_active', true)->get(),
-            'subjects' => Subject::where('is_active', true)->get(),
-            'timeSlots' => TimeSlot::where('is_active', true)->get(),
-            'semesters' => Semester::where('is_active', true)->get(),
+            'subjects' => Subject::get(),
+            'timeSlots' => TimeSlot::get(),
+            'semesters' => Semester::get(),
         ]);
     }
 
@@ -104,12 +104,12 @@ class ClassScheduleController extends Controller
         
         return view('pages.class_schedules.edit', [
             'schedule' => $schedule,
-            'classRooms' => ClassRoom::where('is_active', true)->get(),
-            'schoolLevels' => SchoolLevel::where('is_active', true)->get(),
+            'classRooms' => ClassRoom::get(),
+            'schoolLevels' => SchoolLevel::get(),
             'teachers' => Teacher::with('person')->where('is_active', true)->get(),
-            'subjects' => Subject::where('is_active', true)->get(),
-            'timeSlots' => TimeSlot::where('is_active', true)->get(),
-            'semesters' => Semester::where('is_active', true)->get(),
+            'subjects' => Subject::get(),
+            'timeSlots' => TimeSlot::get(),
+            'semesters' => Semester::get(),
         ]);
     }
 
@@ -150,8 +150,8 @@ class ClassScheduleController extends Controller
         $classRoomId = $request->query('class_room_id');
         $semesterId = $request->query('semester_id');
 
-        $classRooms = ClassRoom::where('is_active', true)->get();
-        $semesters = Semester::where('is_active', true)->get();
+        $classRooms = ClassRoom::get();
+        $semesters = Semester::get();
         
         $schedulesByDay = [];
         

@@ -39,6 +39,23 @@
         </div>
 
         <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Lembaga
+            </label>
+            <select name="school_institution_id" class="select2-init w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+                <option value="">-- Pilih Lembaga --</option>
+                @foreach($schoolInstitutions as $institution)
+                    <option value="{{ $institution->id }}" {{ old('school_institution_id') === $institution->id ? 'selected' : '' }}>
+                        {{ $institution->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('school_institution_id')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="mb-6">
             <label class="flex items-center gap-2">
                 <input type="checkbox" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }} class="w-4 h-4 text-blue-600">
                 <span class="text-sm font-medium text-gray-700">Aktif</span>

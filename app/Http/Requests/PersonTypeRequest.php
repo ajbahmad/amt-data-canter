@@ -30,6 +30,7 @@ class PersonTypeRequest extends FormRequest
             ],
             'description' => 'nullable|string|max:1000',
             'is_active' => 'sometimes|boolean',
+            'school_institution_id' => 'nullable|uuid|exists:school_institutions,id',
         ];
     }
 
@@ -43,6 +44,8 @@ class PersonTypeRequest extends FormRequest
             'name.unique' => 'Nama tipe orang sudah ada.',
             'name.max' => 'Nama tipe orang maksimal 255 karakter.',
             'description.max' => 'Deskripsi maksimal 1000 karakter.',
+            'school_institution_id.uuid' => 'ID institusi sekolah tidak valid.',
+            'school_institution_id.exists' => 'Institusi sekolah yang dipilih tidak ditemukan.',
         ];
     }
 }

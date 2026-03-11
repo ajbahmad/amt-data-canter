@@ -31,6 +31,16 @@
         </div>
 
         <div>
+            <label class="text-sm text-gray-600 dark:text-gray-400">Lembaga</label>
+            <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomStudent->schoolInstitution?->name ?? '-' }}</p>
+        </div>
+
+        <div>
+            <label class="text-sm text-gray-600 dark:text-gray-400">Sekolah</label>
+            <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomStudent->schoolLevel?->name ?? '-' }}</p>
+        </div>
+
+        <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">NIS</label>
             <p class="text-gray-900 dark:text-white font-medium">{{ $classRoomStudent->student->student_id }}</p>
         </div>

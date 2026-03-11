@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\PersonTypeDataTable;
 use App\Http\Requests\PersonTypeRequest;
 use App\Models\PersonType;
+use App\Models\SchoolInstitution;
 use App\Services\PersonTypeService;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,8 @@ class PersonTypeController extends Controller
 
     public function create()
     {
-        return view($this->viewDir.'create');
+        $schoolInstitutions = SchoolInstitution::orderBy('name')->get();
+        return view($this->viewDir.'create', compact('schoolInstitutions'));
     }
 
     public function store(PersonTypeRequest $request)
@@ -51,7 +53,8 @@ class PersonTypeController extends Controller
 
     public function edit(PersonType $personType)
     {
-        return view($this->viewDir.'edit', compact('personType'));
+        $schoolInstitutions = SchoolInstitution::orderBy('name')->get();
+        return view($this->viewDir.'edit', compact('personType', 'schoolInstitutions'));
     }
 
     public function update(PersonTypeRequest $request, PersonType $personType)

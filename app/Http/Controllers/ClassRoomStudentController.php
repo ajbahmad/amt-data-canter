@@ -6,6 +6,8 @@ use App\DataTables\ClassRoomStudentDataTable;
 use App\Http\Requests\ClassRoomStudentRequest;
 use App\Models\ClassRoom;
 use App\Models\ClassRoomStudent;
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
 use App\Models\Student;
 use App\Services\ClassRoomStudentService;
 use Illuminate\Http\Request;
@@ -33,8 +35,10 @@ class ClassRoomStudentController extends Controller
     public function create()
     {
         $classRooms = ClassRoom::all();
+        $schoolInstitutions = SchoolInstitution::orderBy('name')->get();
+        $schoolLevels = SchoolLevel::orderBy('name')->get();
         $students = Student::with('person')->get();
-        return view($this->viewDir.'create', compact('classRooms', 'students'));
+        return view($this->viewDir.'create', compact('classRooms', 'schoolInstitutions', 'schoolLevels', 'students'));
     }
 
     public function store(ClassRoomStudentRequest $request)
@@ -56,8 +60,10 @@ class ClassRoomStudentController extends Controller
     public function edit(ClassRoomStudent $classRoomStudent)
     {
         $classRooms = ClassRoom::all();
+        $schoolInstitutions = SchoolInstitution::orderBy('name')->get();
+        $schoolLevels = SchoolLevel::orderBy('name')->get();
         $students = Student::with('person')->get();
-        return view($this->viewDir.'edit', compact('classRoomStudent', 'classRooms', 'students'));
+        return view($this->viewDir.'edit', compact('classRoomStudent', 'classRooms', 'schoolInstitutions', 'schoolLevels', 'students'));
     }
 
     public function update(ClassRoomStudentRequest $request, ClassRoomStudent $classRoomStudent)

@@ -30,6 +30,11 @@
             </span>
         </div>
 
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700  mb-2">Lembaga</label>
+            <p class="text-gray-900">{{ $personType->schoolInstitution?->name ?? '-' }}</p>
+        </div>
+
         <div class="flex gap-3">
             <a href="{{ route('person_types.index') }}"
                 class="inline-flex items-center rounded-lg bg-gray-300 px-6 py-2 text-gray-800 hover:bg-gray-400 transition">

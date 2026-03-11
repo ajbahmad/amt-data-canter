@@ -17,13 +17,8 @@ class SchedulePatternSeeder extends Seeder
     public function run(): void
     {
         // Get first active school institution and level
-        $institution = SchoolInstitution::where('is_active', true)->first();
-        $level = SchoolLevel::where('is_active', true)->first();
-
-        if (!$institution || !$level) {
-            $this->command->warn('Tidak ada institusi atau level sekolah yang aktif. Lewati seeder SchedulePattern.');
-            return;
-        }
+        $schoolInstitutionId = SchoolInstitution::get();
+        $schoolLevelId = SchoolLevel::get();
 
         $patterns = [
             [
@@ -46,37 +41,38 @@ class SchedulePatternSeeder extends Seeder
             ],
         ];
 
-        foreach ($patterns as $patternData) {
-            $schedulePattern = SchedulePattern::create([
-                'id' => Str::uuid(),
-                'school_institution_id' => $institution->id,
-                'school_level_id' => $level->id,
-                'name' => $patternData['name'],
-                'description' => $patternData['description'],
-            ]);
+        foreach (SchoolInstitution::get() as $key => $institution) {
+            foreach (SchoolLevel::where('school_institution_id', $institution->id)->get() as $key => $level) {
+                foreach ($patterns as $patternData) {
+                    $schedulePattern = SchedulePattern::create([
+                        'id' => Str::uuid(),
+                        'school_institution_id' => $institution->id,
+                        'school_level_id' => $level->id,
+                        'name' => $patternData['name'],
+                        'description' => $patternData['description'],
+                    ]);
 
-            // Create default school day schedules (Monday - Saturday)
-            $schedules = [];
-            for ($day = 0; $day <= 6; $day++) {
-                $isFriday = $day === 4;
+                    $schedules = [];
+                    for ($day = 0; $day <= 6; $day++) {
+                        $isFriday = $day === 4;
 
-                $schedules[] = [
-                    'id' => Str::uuid(),
-                    'schedule_pattern_id' => $schedulePattern->id,
-                    'school_institution_id' => $institution->id,
-                    'school_level_id' => $level->id,
-                    'day_of_week' => $day,
-                    'start_time' => $isFriday ? null : $patternData['default_start_time'],
-                    'end_time' => $isFriday ? null : $patternData['default_end_time'],
-                    'is_holiday' => $isFriday,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+                        $schedules[] = [
+                            'id' => Str::uuid(),
+                            'schedule_pattern_id' => $schedulePattern->id,
+                            'school_institution_id' => $institution->id,
+                            'school_level_id' => $level->id,
+                            'day_of_week' => $day,
+                            'start_time' => $isFriday ? null : $patternData['default_start_time'],
+                            'end_time' => $isFriday ? null : $patternData['default_end_time'],
+                            'is_holiday' => $isFriday,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    }
+
+                    SchoolDaySchedule::insert($schedules);
+                }
             }
-
-            SchoolDaySchedule::insert($schedules);
         }
-
-        $this->command->info('Schedule Patterns berhasil di-seed dengan ' . count($patterns) . ' data.');
     }
 }

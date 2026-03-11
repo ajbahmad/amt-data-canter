@@ -68,7 +68,7 @@ class AuthController extends Controller
      */
     public function showRegisterForm()
     {
-        $roles = Role::where('is_active', true)->get();
+        $roles = Role::get();
         return view('auth.register', compact('roles'));
     }
 

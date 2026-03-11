@@ -49,6 +49,25 @@
                 <div class="rounded-lg border border-gray-200 bg-white p-6">
                     <div class="grid grid-cols-1 gap-6 grid-cols-2">
                         <!-- Form Fields Section -->
+
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Lembaga
+                            </label>
+                            <select name="school_institution_id"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+                                <option value="">-- Pilih --</option>
+                                @foreach($schoolInstitutions ?? [] as $institution)
+                                    <option value="{{ $institution->id }}" {{ old('school_institution_id') === $institution->id ? 'selected' : '' }}>
+                                        {{ $institution->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('school_institution_id')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Nama Depan <span class="text-red-500">*</span>

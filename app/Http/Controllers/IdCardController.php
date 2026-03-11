@@ -6,6 +6,8 @@ use App\DataTables\IdCardDataTable;
 use App\Http\Requests\IdCardRequest;
 use App\Models\IdCard;
 use App\Models\Person;
+use App\Models\SchoolInstitution;
+use App\Models\SchoolLevel;
 use App\Services\IdCardService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -37,8 +39,9 @@ class IdCardController extends Controller
     public function create(): View
     {
         return view($this->viewDir . 'create', [
-            'persons' => Person::where('is_active', true)
-                ->get(),
+            'persons' => Person::get(),
+            'schoolInstitutions' => SchoolInstitution::orderBy('name')->get(),
+            'schoolLevels' => SchoolLevel::orderBy('name')->get(),
             'statuses' => [
                 'active' => 'Aktif',
                 'lost' => 'Hilang',
@@ -90,9 +93,9 @@ class IdCardController extends Controller
 
         return view($this->viewDir . 'update', [
             'idCard' => $idCard,
-            'persons' => Person::where('is_active', true)
-                // ->orderBy('full_name')
-                ->get(),
+            'persons' => Person::get(),
+            'schoolInstitutions' => SchoolInstitution::orderBy('name')->get(),
+            'schoolLevels' => SchoolLevel::orderBy('name')->get(),
             'statuses' => [
                 'active' => 'Aktif',
                 'lost' => 'Hilang',

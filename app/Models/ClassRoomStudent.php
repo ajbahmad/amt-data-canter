@@ -13,6 +13,8 @@ class ClassRoomStudent extends BaseModel
 
     protected $fillable = [
         'class_room_id',
+        'school_institution_id',
+        'school_level_id',
         'student_id',
         'is_active',
         'joined_at'
@@ -29,6 +31,22 @@ class ClassRoomStudent extends BaseModel
     public function classRoom(): BelongsTo
     {
         return $this->belongsTo(ClassRoom::class);
+    }
+
+    /**
+     * Get the school institution
+     */
+    public function schoolInstitution(): BelongsTo
+    {
+        return $this->belongsTo(SchoolInstitution::class);
+    }
+
+    /**
+     * Get the school level
+     */
+    public function schoolLevel(): BelongsTo
+    {
+        return $this->belongsTo(SchoolLevel::class);
     }
 
     /**

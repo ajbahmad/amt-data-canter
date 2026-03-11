@@ -123,17 +123,7 @@ class SchoolLevelDataTable extends DataTable
             ->parameters($parameters);
     }
 
-    private function getSchoolInstitutions()
-    {
-        $institutions = SchoolInstitution::active()->get();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($institutions as $institution) {
-            $options[] = ['label' => $institution->name, 'value' => $institution->id];
-        }
-        return json_encode($options);
-    }
+
 
     /**
      * Get the dataTable columns definition.
@@ -145,7 +135,7 @@ class SchoolLevelDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
         $column[] = Column::make('code')->title('Kode')->attributes(['data-type' => 'text', 'data-name' => 'code', 'data-label' => 'Kode', 'data-value' => null]);
         $column[] = Column::make('name')->title('Nama Level')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Level', 'data-value' => null]);
         $column[] = Column::make('description')->title('Deskripsi')->attributes(['data-type' => 'text', 'data-name' => 'description', 'data-label' => 'Deskripsi', 'data-value' => null]);

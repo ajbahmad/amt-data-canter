@@ -37,11 +37,11 @@ class SchoolLevelSeeder extends Seeder
             //     'name' => 'Sekolah menengah pertama',
             //     'description' => 'Sekolah menengah pertama',
             // ],
-            // [
-            //     'code' => 'MA',
-            //     'name' => 'Madrasah Aliyah',
-            //     'description' => 'Madrasah Aliyah',
-            // ],
+            [
+                'code' => 'MA',
+                'name' => 'MA',
+                'description' => 'Madrasah Aliyah',
+            ],
             // [
             //     'code' => 'SMA',
             //     'name' => 'Sekolah menengah atas',

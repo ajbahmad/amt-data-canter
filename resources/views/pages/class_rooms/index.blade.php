@@ -42,21 +42,7 @@
     
 
 
-    <style>
-        .dt-paging-button{
-            border-radius: 50% !important;
-        }
-        .table-responsive{
-            overflow-x: auto;
-        }
-        #datatable thead tr.filters th{
-            padding: 10px 1px;
-            font-weight: 100 !important
-        }
-        #datatable thead tr th{
-            white-space: nowrap;
-        }
-    </style>
+    
 
 @endpush
 

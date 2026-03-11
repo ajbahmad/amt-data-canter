@@ -171,30 +171,6 @@ class SchoolDayScheduleDataTable extends DataTable
         return json_encode($options);
     }
 
-    private function getSchoolInstitutions()
-    {
-        $institutions = \App\Models\SchoolInstitution::where('is_active', true)->get();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($institutions as $inst) {
-            $options[] = ['label' => $inst->name, 'value' => $inst->id];
-        }
-        return json_encode($options);
-    }
-
-    private function getSchoolLevels()
-    {
-        $levels = \App\Models\SchoolLevel::where('is_active', true)->get();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($levels as $level) {
-            $options[] = ['label' => $level->name, 'value' => $level->id];
-        }
-        return json_encode($options);
-    }
-
     private function getDaysOfWeek() {
         $dayJson = json_encode([
             ['label'=>'Filter Semua', 'value' => ''],
@@ -224,8 +200,8 @@ class SchoolDayScheduleDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
-        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Institusi')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => $this->getSchoolInstitutions()]);
-        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Level')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Level', 'data-value' => $this->getSchoolLevels()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Institusi')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Level')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Level', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('day_of_week')->name('day_of_week')->title('Hari')->attributes(['data-type' => 'select', 'data-name' => 'day_of_week', 'data-label' => 'Hari', 'data-value' => $this->getDaysOfWeek()]);
         $column[] = Column::make('schedule_pattern_id')->name('schedule_pattern_id')->title('Pola Jadwal')->attributes(['data-type' => 'select', 'data-name' => 'schedule_pattern_id', 'data-label' => 'Pola Jadwal', 'data-value' => $this->getSchedulePatterns()]);
         $column[] = Column::make('start_time')->name('start_time')->title('Jam Masuk')->searchable(false)->attributes(['data-type' => 'text', 'data-name' => 'start_time', 'data-label' => 'Jam Masuk', 'data-value' => null]);

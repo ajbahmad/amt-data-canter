@@ -51,12 +51,19 @@ class PersonDataTable extends DataTable
             ->addColumn('gender', function ($row){
                 return $row->gender == 'male' ? 'Laki - Laki' : 'Perempuan';
             })
+            ->addColumn('school_institution_id', function ($row){
+                return $row->schoolInstitution ? $row->schoolInstitution->name : '-';
+            })
             ->addColumn('is_active', function($row){
                 return $row->is_active ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                             <i class="ti ti-circle-check mr-2"></i>Aktif
                         </span>' : '<span style="white-space: nowrap;" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
                             <i class="ti ti-circle-x mr-2"></i>Non Aktif
                         </span>';
+            })
+
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
             })
             ->addColumn('created_at', function ($row) {
                 Carbon::setLocale('id');
@@ -82,6 +89,10 @@ class PersonDataTable extends DataTable
             })
             ->orderColumn('created_at', function($query, $direction) {
                 $query->orderBy('created_at', $direction);
+            })
+
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
             })
             ->filterColumn('full_name', function($query, $keyword) {
                 $query->where(function($query) use ($keyword) {
@@ -126,7 +137,7 @@ class PersonDataTable extends DataTable
 
     public function query(Person $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('schoolInstitution');
     }
 
     public function html(): HtmlBuilder
@@ -165,6 +176,7 @@ class PersonDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
         $column[] = Column::make('full_name')->name('first_name')->title('Nama Lengkap')->attributes(['data-type' => 'text', 'data-name' => 'full_name', 'data-label' => 'Nama Lengkap', 'data-value' => null]);
         $column[] = Column::make('phone')->name('phone')->title('Telepon')->attributes(['data-type' => 'text', 'data-name' => 'phone', 'data-label' => 'Telepon', 'data-value' => null]);
         $column[] = Column::make('tetala')->name('tetala')->title('Tetala')->attributes(['data-type' => 'text', 'data-name' => 'tetala', 'data-label' => 'Tetala', 'data-value' => null]);

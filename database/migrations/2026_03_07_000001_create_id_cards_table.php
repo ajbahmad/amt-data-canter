@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('id_cards', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
+            $table->uuid('school_institution_id')->nullable()->foreign('school_institution_id')
+                  ->references('id')
+                  ->on('school_institutions')
+                  ->onDelete('set null');
+            $table->uuid('school_level_id')->nullable()->foreign('school_level_id')
+                  ->references('id')
+                  ->on('school_levels')
+                  ->onDelete('set null');
             // UID unik dari RFID reader
             $table->string('card_uid', 100)->unique();
 

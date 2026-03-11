@@ -54,7 +54,7 @@ class SemesterService
     {
         return Semester::whereHas('schoolYear', function ($query) use ($schoolLevelId) {
             $query->where('school_level_id', $schoolLevelId);
-        })->where('is_active', true)->get();
+        })->get();
     }
 
     /**

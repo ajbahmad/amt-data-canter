@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Lembaga Sekolah')
+@section('title', 'Lembaga')
 
 @section('content')
 
 @include('layouts.partials.admin.breadcrumb', [
-    'title' => 'Daftar Lembaga Sekolah',
+    'title' => 'Daftar Lembaga',
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Data Master', 'url' => '#'],
-        ['name' => 'Lembaga Sekolah', 'url' => '#']
+        ['name' => 'Lembaga', 'url' => '#']
     ]
 ])
 
@@ -18,7 +18,7 @@
     
     <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-            <i class="ti ti-building mr-2"></i>Daftar Lembaga Sekolah
+            <i class="ti ti-building mr-2"></i>Daftar Lembaga
         </h2>
     </div>
     
@@ -34,21 +34,7 @@
     
 
 
-    <style>
-        .dt-paging-button{
-            border-radius: 50% !important;
-        }
-        .table-responsive{
-            overflow-x: auto;
-        }
-        #datatable thead tr.filters th{
-            padding: 10px 1px;
-            font-weight: 100 !important
-        }
-        #datatable thead tr th{
-            white-space: nowrap;
-        }
-    </style>
+    
 
 @endpush
 

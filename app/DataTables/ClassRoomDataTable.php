@@ -152,29 +152,9 @@ class ClassRoomDataTable extends DataTable
             ->parameters($parameters);
     }
 
-    private function getSchoolInstitution()
-    {
-        $schoolInstitutions = SchoolInstitution::pluck('name', 'id')->toArray();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($schoolInstitutions as $id => $name) {
-            $options[] = ['label' => $name, 'value' => $id];
-        }
-        return json_encode($options);
-    }
 
-    private function getSchoolLevel()
-    {
-        $schoolLevels = SchoolLevel::pluck('name', 'id')->toArray();
-        $options = [
-            ['label'=>'Filter Semua', 'value' => '']
-        ];
-        foreach ($schoolLevels as $id => $name) {
-            $options[] = ['label' => $name, 'value' => $id];
-        }
-        return json_encode($options);
-    }
+
+    
 
     private function getGrade()
     {
@@ -214,9 +194,9 @@ class ClassRoomDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('name')->name('name')->title('Nama Rombel')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Rombel', 'data-value' => null]);
-        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Sekolah', 'data-value' => $this->getSchoolInstitution()]);
-        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Jenjang Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Jenjang Sekolah', 'data-value' => $this->getSchoolLevel()]);
         $column[] = Column::make('grade_id')->name('grade_id')->title('Kelas')->attributes(['data-type' => 'select', 'data-name' => 'grade_id', 'data-label' => 'Kelas', 'data-value' => $this->getGrade()]);
         $column[] = Column::make('capacity')->name('capacity')->title('Kapasitas')->attributes(['data-type' => 'number', 'data-name' => 'capacity', 'data-label' => 'Kapasitas', 'data-value' => null]);
         $column[] = Column::make('schedule_pattern_id')->name('schedule_pattern_id')->title('Pola Jadwal')->attributes(['data-type' => 'select', 'data-name' => 'schedule_pattern_id', 'data-label' => 'Pola Jadwal', 'data-value' => $this->getSchedulePatterns()]);

@@ -51,6 +51,12 @@ class IdCardDataTable extends DataTable
                 </div>
                 ';
             })
+            ->addColumn('school_institution_id', function($row) {
+                return $row->schoolInstitution ? $row->schoolInstitution->name : '-';
+            })
+            ->addColumn('school_level_id', function($row) {
+                return $row->schoolLevel ? $row->schoolLevel->name : '-';
+            })
             ->addColumn('status', function($row){
                 $statusMap = [
                     'active' => ['label' => 'Aktif', 'color' => 'green'],
@@ -87,6 +93,12 @@ class IdCardDataTable extends DataTable
             ->orderColumn('person_name', function($query, $direction) {
                 $query->orderBy('person_id', $direction);
             })
+            ->orderColumn('school_institution_id', function($query, $direction) {
+                $query->orderBy('school_institution_id', $direction);
+            })
+            ->orderColumn('school_level_id', function($query, $direction) {
+                $query->orderBy('school_level_id', $direction);
+            })
             ->orderColumn('status', function($query, $direction) {
                 $query->orderBy('status', $direction);
             })
@@ -112,6 +124,12 @@ class IdCardDataTable extends DataTable
                     $q->where('full_name', 'ILIKE', "%{$keyword}%");
                 });
             })
+            ->filterColumn('school_institution_id', function($query, $keyword) {
+                $query->where('school_institution_id', $keyword);
+            })
+            ->filterColumn('school_level_id', function($query, $keyword) {
+                $query->where('school_level_id', $keyword);
+            })
             ->filterColumn('status', function($query, $keyword) {
                 if ($keyword !== '') {
                     $query->where('status', $keyword);
@@ -131,7 +149,7 @@ class IdCardDataTable extends DataTable
      */
     public function query(IdCard $model): QueryBuilder
     {
-        return $model->newQuery()->with('person');
+        return $model->newQuery()->with(['person', 'schoolInstitution', 'schoolLevel']);
     }
 
     /**
@@ -166,6 +184,26 @@ class IdCardDataTable extends DataTable
         ]);
     }
 
+    private function getSchoolInstitutions()
+    {
+        $institutions = \App\Models\SchoolInstitution::where('is_active', true)->get();
+        $options = [['label' => 'Filter Semua', 'value' => '']];
+        foreach ($institutions as $institution) {
+            $options[] = ['label' => $institution->name, 'value' => $institution->id];
+        }
+        return json_encode($options);
+    }
+
+    private function getSchoolLevels()
+    {
+        $levels = \App\Models\SchoolLevel::where('is_active', true)->get();
+        $options = [['label' => 'Filter Semua', 'value' => '']];
+        foreach ($levels as $level) {
+            $options[] = ['label' => $level->name, 'value' => $level->id];
+        }
+        return json_encode($options);
+    }
+
     /**
      * Get the dataTable columns definition.
      */
@@ -176,6 +214,8 @@ class IdCardDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
+        $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Lembaga', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
+        $column[] = Column::make('school_level_id')->name('school_level_id')->title('Sekolah')->attributes(['data-type' => 'select', 'data-name' => 'school_level_id', 'data-label' => 'Sekolah', 'data-value' => GlobalConfigDatatable::getSchoolLevels()]);
         $column[] = Column::make('person_name')->name('person_name')->title('Person')->attributes(['data-type' => 'text', 'data-name' => 'person_name', 'data-label' => 'Person', 'data-value' => null]);
         $column[] = Column::make('card_uid')->name('card_uid')->title('UID Kartu')->attributes(['data-type' => 'text', 'data-name' => 'card_uid', 'data-label' => 'UID Kartu', 'data-value' => null]);
         $column[] = Column::make('card_number')->name('card_number')->title('Nomor Kartu')->attributes(['data-type' => 'text', 'data-name' => 'card_number', 'data-label' => 'Nomor Kartu', 'data-value' => null]);

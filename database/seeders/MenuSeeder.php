@@ -61,7 +61,7 @@ class MenuSeeder extends Seeder
                 'children' => [
                     [
                         'type' => 'item',
-                        'title' => 'Institusi Sekolah',
+                        'title' => 'Lembaga',
                         'icon' => 'ti ti-building',
                         'color' => 'indigo',
                         'route' => 'school_institutions.index',
@@ -70,7 +70,7 @@ class MenuSeeder extends Seeder
                     ],
                     [
                         'type' => 'item',
-                        'title' => 'Level Sekolah',
+                        'title' => 'Sekolah',
                         'icon' => 'ti ti-box',
                         'color' => 'indigo',
                         'route' => 'school_levels.index',

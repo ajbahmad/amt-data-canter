@@ -281,7 +281,7 @@
                     <h5 style="margin-bottom: 12px; font-size: 14px;">Scope Event (Opsional)</h5>
 
           <div class="form-group">
-            <label>Institusi Sekolah (Pilih Multiple)</label>
+            <label>Lembaga (Pilih Multiple)</label>
             <select id="school_institution_id" multiple="multiple" style="width: 100%;">
               ${institutions.map(i => `<option value="${i.id}">${i.name}</option>`).join('')}
             </select>

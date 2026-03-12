@@ -12,6 +12,8 @@ class ClassRoomHomeroomTeacher extends BaseModel
     protected $table = 'class_room_homeroom_teachers';
 
     protected $fillable = [
+        'school_institution_id',
+        'school_level_id',
         'class_room_id',
         'teacher_id',
         'assigned_at',
@@ -37,5 +39,21 @@ class ClassRoomHomeroomTeacher extends BaseModel
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    /**
+     * Get the school institution
+     */
+    public function schoolInstitution(): BelongsTo
+    {
+        return $this->belongsTo(SchoolInstitution::class);
+    }
+
+    /**
+     * Get the school level
+     */
+    public function schoolLevel(): BelongsTo
+    {
+        return $this->belongsTo(SchoolLevel::class);
     }
 }

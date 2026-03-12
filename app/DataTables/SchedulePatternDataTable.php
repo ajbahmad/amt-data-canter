@@ -85,7 +85,7 @@ class SchedulePatternDataTable extends DataTable
      */
     public function query(SchedulePattern $model): QueryBuilder
     {
-        return $model->newQuery()->with(['schoolInstitution', 'schoolLevel']);
+        return $model->withoutGlobalScope('is_active')->newQuery()->with(['schoolInstitution', 'schoolLevel']);
     }
 
     /**

@@ -149,7 +149,7 @@ class IdCardDataTable extends DataTable
      */
     public function query(IdCard $model): QueryBuilder
     {
-        return $model->newQuery()->with(['person', 'schoolInstitution', 'schoolLevel']);
+        return $model->withoutGlobalScope('is_active')->newQuery()->with(['person', 'schoolInstitution', 'schoolLevel']);
     }
 
     /**

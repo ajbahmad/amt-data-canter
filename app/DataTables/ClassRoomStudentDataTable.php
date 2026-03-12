@@ -117,7 +117,7 @@ class ClassRoomStudentDataTable extends DataTable
 
     public function query(ClassRoomStudent $model): QueryBuilder
     {
-        return $model->newQuery()->with(['classRoom', 'student.person', 'schoolInstitution', 'schoolLevel']);
+        return $model->withoutGlobalScope('is_active')->newQuery()->with(['classRoom', 'student.person', 'schoolInstitution', 'schoolLevel']);
     }
 
     public function html(): HtmlBuilder

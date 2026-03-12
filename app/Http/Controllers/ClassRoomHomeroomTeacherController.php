@@ -51,7 +51,7 @@ class ClassRoomHomeroomTeacherController extends Controller
 
     public function show(ClassRoomHomeroomTeacher $classRoomHomeroomTeacher)
     {
-        $classRoomHomeroomTeacher->load(['classRoom', 'teacher.person']);
+        $classRoomHomeroomTeacher->load(['classRoom', 'teacher.person', 'schoolInstitution', 'schoolLevel']);
         return view($this->viewDir.'view', compact('classRoomHomeroomTeacher'));
     }
 

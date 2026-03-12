@@ -67,7 +67,7 @@ class GradeController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Grade $grade)
-    {
+    { 
         return view($this->viewDir.'update', [
             'grade' => $grade,
             'schoolInstitutions' => \App\Models\SchoolInstitution::all(),

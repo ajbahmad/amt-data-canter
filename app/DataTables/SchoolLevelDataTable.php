@@ -98,7 +98,7 @@ class SchoolLevelDataTable extends DataTable
      */
     public function query(SchoolLevel $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->withoutGlobalScope('is_active')->newQuery();
     }
 
     /**

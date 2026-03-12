@@ -49,7 +49,8 @@ class SchoolLevelService
         return SchoolLevel::findOrFail($id);
     }
 
-    public function filter($id){
+    public function filter($id)
+    {
         return SchoolLevel::where('school_institution_id', $id)->get();
     }
 
@@ -58,6 +59,9 @@ class SchoolLevelService
      */
     public function update($id, array $data)
     {
+        if (!isset($data['is_active'])) {
+            $data['is_active'] = false;
+        }
         $schoolLevel = $this->getById($id);
         $schoolLevel->update($data);
         return $schoolLevel;

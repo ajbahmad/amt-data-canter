@@ -18,7 +18,7 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->rawColumns(['action', 'is_active', 'assigned_at'])
+            ->rawColumns(['action', 'teacher_name', 'is_active', 'assigned_at'])
             ->addColumn('action', function ($row) {
                 $showUrl = route('class_room_homeroom_teachers.show', $row->id);
                 $editUrl = route('class_room_homeroom_teachers.edit', $row->id);
@@ -32,16 +32,29 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
                 ';
             })
             ->addColumn('school_institution_id', function($row){
-                return $row->classRoom->schoolInstitution->name ?? '-';
+                return $row->schoolInstitution->name ?? $row->classRoom->schoolInstitution->name ?? '-';
             })
             ->addColumn('school_level_id', function($row){
-                return $row->classRoom->schoolLevel->name ?? '-';
+                return $row->schoolLevel->name ?? $row->classRoom->schoolLevel->name ?? '-';
             })
             ->addColumn('class_room_id', function ($row) {
                 return $row->classRoom ? $row->classRoom->name : 'N/A';
             })
             ->addColumn('teacher_name', function ($row) {
-                return $row->teacher ? ($row->teacher->person ? $row->teacher->person->full_name : 'N/A') : 'N/A';
+                if ($row->teacher->person->photo) {
+                    $urlPhoto = '<img src="'.asset('storage/'.$row->teacher->person->photo).'" alt="'.$row->teacher->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                } else {
+                    $urlPhoto = '<img src="https://ui-avatars.com/api/?name='.urlencode($row->teacher->person->full_name).'" alt="'.$row->teacher->person->full_name.'" class="w-10 h-10 rounded-full object-cover">';
+                }
+                return '
+                <div class="flex items-center gap-2">
+                    '.$urlPhoto.'
+                    <div>
+                        <div class="font-medium text-gray-900">'. $row->teacher->person->full_name .'</div>
+                        <div class="text-sm text-gray-500">'. $row->teacher->person->email .'</div>
+                    </div>
+                </div>
+                ';
             })
             ->addColumn('is_active', function($row){
                 return $row->is_active ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
@@ -80,9 +93,7 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
                 $query->where('school_institution_id', $keyword);
             })
             ->filterColumn('school_level_id', function($query, $keyword) {
-                $query->whereHas('classRoom.schoolLevel', function($q) use ($keyword) {
-                    $q->where('id', $keyword);
-                });
+                $query->where('school_level_id', $keyword);
             })
             ->filterColumn('class_room_id', function($query, $keyword) {
                 $query->where('class_room_id', $keyword);
@@ -106,7 +117,7 @@ class ClassRoomHomeroomTeacherDataTable extends DataTable
 
     public function query(ClassRoomHomeroomTeacher $model): QueryBuilder
     {
-        return $model->newQuery()->with(['classRoom', 'teacher.person']);
+        return $model->withoutGlobalScope('is_active')->newQuery()->with(['classRoom', 'teacher.person', 'schoolInstitution', 'schoolLevel']);
     }
 
     public function html(): HtmlBuilder

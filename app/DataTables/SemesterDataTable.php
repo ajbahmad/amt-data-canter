@@ -109,7 +109,7 @@ class SemesterDataTable extends DataTable
      */
     public function query(Semester $model): QueryBuilder
     {
-        return $model->newQuery()->with('schoolYear');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('schoolYear');
     }
 
     /**

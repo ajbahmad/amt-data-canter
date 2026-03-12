@@ -129,7 +129,7 @@ class StaffDataTable extends DataTable
 
     public function query(Staff $model): QueryBuilder
     {
-        return $model->with('person', 'schoolInstitution')->newQuery();
+        return $model->withoutGlobalScope('is_active')->with('person', 'schoolInstitution')->newQuery();
     }
 
     public function html(): HtmlBuilder

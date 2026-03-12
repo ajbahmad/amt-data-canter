@@ -47,9 +47,13 @@ class BaseModel extends Model
                 });
             }
 
-            static::addGlobalScope('is_active', function ($query) {
-                $query->where('is_active', true);
-            });
+            $method = request()->route()?->getActionMethod();
+
+            if (!in_array($method, ['edit', 'show', 'update', 'destroy'])) {
+                static::addGlobalScope('is_active', function ($query) {
+                    $query->where('is_active', true);
+                });
+            }
         }
 
         // filter school_institution
@@ -76,7 +80,7 @@ class BaseModel extends Model
             });
         }
     }
-    
+
 
     /**
      * Scope Active

@@ -14,6 +14,8 @@ class ClassRoomHomeroomTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'school_institution_id' => 'nullable|uuid|exists:school_institutions,id',
+            'school_level_id' => 'nullable|uuid|exists:school_levels,id',
             'class_room_id' => 'required|uuid|exists:class_rooms,id',
             'teacher_id' => 'required|uuid|exists:teachers,id',
             'assigned_at' => 'nullable',
@@ -24,6 +26,10 @@ class ClassRoomHomeroomTeacherRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'school_institution_id.uuid' => 'ID institusi sekolah harus valid.',
+            'school_institution_id.exists' => 'Institusi sekolah tidak ditemukan.',
+            'school_level_id.uuid' => 'ID tingkat sekolah harus valid.',
+            'school_level_id.exists' => 'Tingkat sekolah tidak ditemukan.',
             'class_room_id.required' => 'Kelas harus dipilih.',
             'class_room_id.exists' => 'Kelas tidak ditemukan.',
             'teacher_id.required' => 'Guru harus dipilih.',

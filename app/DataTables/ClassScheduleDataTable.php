@@ -52,7 +52,7 @@ class ClassScheduleDataTable extends DataTable
      */
     public function query(ClassSchedule $model): QueryBuilder
     {
-        return $model->newQuery()
+        return $model->withoutGlobalScope('is_active')->newQuery()
             ->with([
                 'schoolInstitution',
                 'schoolLevel',

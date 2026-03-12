@@ -113,7 +113,7 @@ class SubjectDataTable extends DataTable
      */
     public function query(Subject $model): QueryBuilder
     {
-        return $model->newQuery()->with('schoolLevel');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('schoolLevel');
     }
 
     /**

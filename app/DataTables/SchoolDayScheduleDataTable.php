@@ -135,7 +135,7 @@ class SchoolDayScheduleDataTable extends DataTable
      */
     public function query(SchoolDaySchedule $model): QueryBuilder
     {
-        return $model->newQuery()->with(['schedulePattern', 'schoolInstitution', 'schoolLevel']);
+        return $model->withoutGlobalScope('is_active')->newQuery()->with(['schedulePattern', 'schoolInstitution', 'schoolLevel']);
     }
 
     /**

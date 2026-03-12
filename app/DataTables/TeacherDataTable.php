@@ -143,7 +143,7 @@ class TeacherDataTable extends DataTable
 
     public function query(Teacher $model): QueryBuilder
     {
-        return $model->with('person', 'schoolInstitution')->newQuery();
+        return $model->withoutGlobalScope('is_active')->with('person', 'schoolInstitution')->newQuery();
     }
 
     public function html(): HtmlBuilder

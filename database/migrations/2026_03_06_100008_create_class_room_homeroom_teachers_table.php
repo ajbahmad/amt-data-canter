@@ -10,6 +10,8 @@ return new class extends Migration
     {
         Schema::create('class_room_homeroom_teachers', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('school_institution_id')->constrained('school_institutions')->cascadeOnDelete();
+            $table->foreignUuid('school_level_id')->constrained('school_levels')->cascadeOnDelete();
             $table->foreignUuid('class_room_id')->constrained('class_rooms')->cascadeOnDelete();
             $table->foreignUuid('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->dateTime('assigned_at')->nullable();

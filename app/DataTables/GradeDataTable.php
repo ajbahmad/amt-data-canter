@@ -101,7 +101,7 @@ class GradeDataTable extends DataTable
      */
     public function query(Grade $model): QueryBuilder
     {
-        return $model->newQuery()->with('schoolLevel');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('schoolLevel');
     }
 
     /**

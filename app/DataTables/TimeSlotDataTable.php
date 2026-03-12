@@ -109,7 +109,7 @@ class TimeSlotDataTable extends DataTable
 
     public function query(TimeSlot $model): QueryBuilder
     {
-        return $model->newQuery()->with('schoolInstitution', 'schoolLevel');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('schoolInstitution', 'schoolLevel');
     }
 
     public function html(): HtmlBuilder

@@ -115,7 +115,7 @@ class SchoolYearDataTable extends DataTable
      */
     public function query(SchoolYear $model): QueryBuilder
     {
-        return $model->newQuery()->with('schoolInstitution');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('schoolInstitution');
     }
 
     /**

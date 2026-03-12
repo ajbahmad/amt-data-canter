@@ -104,7 +104,7 @@ class CalendarDataTable extends DataTable
      */
     public function query(Calendar $model): QueryBuilder
     {
-        return $model->newQuery()->with('scopes');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('scopes');
     }
 
     /**

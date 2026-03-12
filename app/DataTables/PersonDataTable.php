@@ -137,7 +137,7 @@ class PersonDataTable extends DataTable
 
     public function query(Person $model): QueryBuilder
     {
-        return $model->newQuery()->with('schoolInstitution');
+        return $model->withoutGlobalScope('is_active')->newQuery()->with('schoolInstitution');
     }
 
     public function html(): HtmlBuilder

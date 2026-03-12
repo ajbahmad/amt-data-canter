@@ -133,7 +133,7 @@ class TeacherSubjectAssignmentDataTable extends DataTable
 
     public function query(TeacherSubjectAssignment $model): QueryBuilder
     {
-        return $model->newQuery()->with(['teacher.person', 'subject', 'classRoom', 'semester', 'schoolInstitution', 'schoolLevel']);
+        return $model->withoutGlobalScope('is_active')->newQuery()->with(['teacher.person', 'subject', 'classRoom', 'semester', 'schoolInstitution', 'schoolLevel']);
     }
 
     public function html(): HtmlBuilder

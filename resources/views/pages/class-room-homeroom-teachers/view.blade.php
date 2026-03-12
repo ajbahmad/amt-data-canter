@@ -21,6 +21,16 @@
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
+            <label class="text-sm text-gray-600 dark:text-gray-400">Lembaga</label>
+            <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->schoolInstitution->name ?? '-' }}</p>
+        </div>
+
+        <div>
+            <label class="text-sm text-gray-600 dark:text-gray-400">Tingkat Sekolah</label>
+            <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->schoolLevel->name ?? '-' }}</p>
+        </div>
+
+        <div>
             <label class="text-sm text-gray-600 dark:text-gray-400">Kelas</label>
             <p class="text-gray-900 font-medium">{{ $classRoomHomeroomTeacher->classRoom->name }}</p>
         </div>

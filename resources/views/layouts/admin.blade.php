@@ -77,18 +77,27 @@
         .text-red-700 {
             color: #b91c1c;
         }
-        .dt-paging-button{
+
+        .dt-paging-button {
             border-radius: 50% !important;
         }
-        .table-responsive{
-            overflow-x: auto;
+
+        .container {
+            max-width: 1345px !important;
         }
-        #datatable thead tr.filters th{
+
+        .table-responsive {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        #datatable thead tr.filters th {
             padding: 10px 1px;
             font-weight: 100 !important
         }
+
         #datatable thead tr th,
-        #datatable tbody tr td{
+        #datatable tbody tr td {
             white-space: nowrap;
         }
     </style>
@@ -127,7 +136,7 @@
 
                         <!------Container-------->
                         <div class="max-w-full">
-                            <div class="container full-container max-w-full">
+                            <div class="container full-container w-full">
                                 @yield('content')
                             </div>
                         </div>

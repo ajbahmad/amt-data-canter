@@ -6,11 +6,12 @@
     <div class="p-3.5 flex justify-between">
         <div class="brand-logo d-flex align-items-center justify-center">
             <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
-                <img src="{{ asset('assets/images/logos/logo-light.svg') }}" class="dark:hidden block rtl:hidden" alt="Logo-Dark" />
-                <img src="{{ asset('assets/images/logos/logo-dark.svg') }}" class="dark:block hidden rtl:hidden rtl:dark:hidden" alt="Logo-light" />
-                <img src="{{ asset('assets/images/logos/logo-light-rtl.svg') }}" class="dark:hidden hidden rtl:block rtl:dark:hidden" alt="Logo-Dark" />
-                <img src="{{ asset('assets/images/logos/logo-dark-rtl.svg') }}" class="dark:hidden hidden rtl:hidden rtl:dark:block" alt="Logo-light" />
+                <img src="{{ asset('assets/images/logos/data-center.png') }}" style="width: 50px" class="w-1/2"/>
             </a>
+        </div>
+        <div>
+            <h1 class="text-lg font-bold">DATA CENTER</h1>
+            <p class="text-sm">Kelola data dengan efisien</p>
         </div>
 
     </div>

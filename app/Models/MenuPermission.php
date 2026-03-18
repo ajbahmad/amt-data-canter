@@ -23,6 +23,7 @@ class MenuPermission extends BaseModel
      */
     protected $fillable = [
         'menu_id',
+        'role_id',
         'role_code',
         'can_view',
         'can_create',
@@ -52,6 +53,14 @@ class MenuPermission extends BaseModel
     public function menu(): BelongsTo
     {
         return $this->belongsTo(Menu::class, 'menu_id', 'id');
+    }
+
+    /**
+     * Relasi ke Role
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
     /**

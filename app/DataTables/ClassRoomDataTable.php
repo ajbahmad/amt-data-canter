@@ -57,7 +57,7 @@ class ClassRoomDataTable extends DataTable
                         </span>';
             })
             ->addColumn('schedule_pattern_id', function ($row) {
-                return $row->schedulePattern ? '<a href="'.route('schedule-patterns.show', $row->schedulePattern->id).'" class="bg-lightprimary text-gray-800 text-xs d-block font-medium text-center px-3 py-1.5 rounded">'.$row->schedulePattern->name.'</a>' : '<div class="text-gray-300">Belum diatur</div>';
+                return $row->schedulePattern ? '<a href="'.route('schedule_patterns.show', $row->schedulePattern->id).'" class="bg-lightprimary text-gray-800 text-xs d-block font-medium text-center px-3 py-1.5 rounded">'.$row->schedulePattern->name.'</a>' : '<div class="text-gray-300">Belum diatur</div>';
             })
             ->addColumn('created_at', function ($row) {
                 Carbon::setLocale('id');

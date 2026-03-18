@@ -20,7 +20,7 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
             <i class="ti ti-calendar-month mr-2"></i>Daftar Pola Jadwal
         </h2>
-        <a href="{{ route('schedule-patterns.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
+        <a href="{{ route('schedule_patterns.create') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition">
             <i class="ti ti-plus mr-2"></i>Tambah Pola Jadwal
         </a>
     </div>

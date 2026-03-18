@@ -22,6 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'debug/*',
         ]);
+
+        // Register RBAC middleware aliases
+        $middleware->alias([
+            'auth.menu' => \App\Http\Middleware\CheckMenuAccess::class,
+            'auth.role' => \App\Http\Middleware\CheckRoleAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

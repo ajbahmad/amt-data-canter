@@ -27,7 +27,34 @@ return new class extends Migration
         Schema::create('menus', function (Blueprint $table) {
             // UUID primary key
             $table->uuid('id')->primary();
-
+            
+            /**
+             * is_global:
+             * - true = menu global (tersedia di semua aplikasi)
+             * - false = menu spesifik untuk aplikasi tertentu
+             */
+            $table->boolean('is_global')->default(false);
+            $table->index('is_global');
+            
+            /**
+             * application_id:
+             * - Aplikasi yang memiliki menu ini
+             * - null jika is_global=true
+             * - required jika is_global=false
+             */
+            $table->uuid('application_id')->nullable();
+                $table->foreign('application_id')
+                    ->references('id')
+                    ->on('applications')
+                    ->onDelete('cascade');
+                $table->index('application_id');
+            
+            /**
+             * is_sidebar_menu:
+             * Menu ditampilkan di sidebar atau tidak
+             */
+            $table->boolean('is_sidebar_menu')->default(true);
+            $table->index('is_sidebar_menu');
             /**
              * parent_id:
              * - null = menu root (item di root level)
@@ -75,6 +102,7 @@ return new class extends Migration
              * Contoh: admin.students.index
              * Hanya digunakan jika type='item'
              */
+            $table->string('resource', 150)->nullable();
             $table->string('route', 200)->nullable();
             $table->index('route');
 
@@ -117,6 +145,7 @@ return new class extends Migration
              */
             $table->boolean('is_active')->default(true);
             $table->index('is_active');
+
 
             $table->timestamps();
         });

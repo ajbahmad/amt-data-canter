@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 class SchedulePatternController extends Controller
 {
     protected $service;
-    protected $viewDir = 'pages.schedule-patterns.';
-    protected $route = 'schedule-patterns';
+    protected $viewDir = 'pages.schedule_patterns.';
+    protected $route = 'schedule_patterns';
     protected $title = 'Pola Jadwal Sekolah';
 
     public function __construct()

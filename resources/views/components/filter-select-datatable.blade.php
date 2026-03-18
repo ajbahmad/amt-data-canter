@@ -92,7 +92,7 @@
         if ($('select[data-name=schedule_pattern_id]').length) {
             $('[data-name=school_level_id]').change(function(){
                 let school_level_id = $(this).find(':selected').val();
-                let url             = '{{ route('schedule-patterns.index') }}?school_level_id=' + school_level_id;
+                let url             = '{{ route('schedule_patterns.index') }}?school_level_id=' + school_level_id;
                 let target          = $('select[data-name=schedule_pattern_id]');
                 let label           = 'Filter Pola Jadwal';
                 ajaxGet(url, target, label);

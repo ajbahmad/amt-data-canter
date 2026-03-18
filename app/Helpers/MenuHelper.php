@@ -2,11 +2,14 @@
 
 namespace App\Helpers;
 
+use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Menu;
 
 class MenuHelper
 {
+    // Get all menu items from database and filter by user role 
+
 
     /**
      * Get all menu items from database and filter by user role
@@ -97,13 +100,26 @@ class MenuHelper
             return [];
         }
 
+        $idDataCenter = Application::where('slug', 'data-center')->first()?->id;
         // Get menus berdasarkan user role
-        $roleCode = self::mapUserRoleToRoleCode($user->role);
-        $rootMenus = Menu::roots()
+        $userRoleIds = $user->roles()->where('application_id', $idDataCenter)->pluck('role_id')->toArray();
+
+        $rootMenus = Menu::where(function($query) use($idDataCenter){
+                $query->where('is_global', true)
+                    ->orWhere('application_id', $idDataCenter);
+            })
+            ->where(function($query) use ($userRoleIds) {
+                $query->whereHas('permissions', function ($q) use ($userRoleIds) {
+                    $q->whereIn('role_id', $userRoleIds)->where('can_view', true);
+                });
+            })
+            ->where('is_sidebar_menu', true)
+            ->roots()
             ->active()
             ->with('childrenRecursive')
             ->orderBy('order_no')
             ->get();
+        // dd($rootMenus);
 
         $sections = [];
         $dashboardItems = [];

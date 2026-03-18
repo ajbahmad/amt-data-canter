@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
             GradeSeeder::class,
             SubjectSeeder::class,
             ClassRoomSeeder::class,
+            ApplicationSeeder::class,
+            RoleSeeder::class,
+
+
             MenuSeeder::class,
             PersonTypeSeeder::class,
             PersonSeeder::class,
@@ -38,6 +42,7 @@ class DatabaseSeeder extends Seeder
             SchedulePatternSeeder::class,
             IdCardSeeder::class,
             CardHistorySeeder::class,
+            // IAM System Seeders (Applications and Roles)
         ]);
     }
 }

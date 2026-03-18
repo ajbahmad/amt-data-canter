@@ -9,7 +9,7 @@
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Akademik', 'url' => '#'],
-        ['name' => 'Jadwal Harian', 'url' => route('school-day-schedules.index')],
+        ['name' => 'Jadwal Harian', 'url' => route('school_day_schedules.index')],
         ['name' => 'Detail', 'url' => '#']
     ]
 ])
@@ -21,7 +21,7 @@
             <i class="ti ti-calendar-time mr-2"></i>{{ $schedule->day_name }}
         </h2>
         <div class="flex gap-2">
-            <a href="{{ route('school-day-schedules.edit', $schedule->id) }}" class="inline-flex items-center rounded-lg bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 transition">
+            <a href="{{ route('school_day_schedules.edit', $schedule->id) }}" class="inline-flex items-center rounded-lg bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 transition">
                 <i class="ti ti-edit mr-2"></i>Edit
             </a>
         </div>
@@ -88,7 +88,7 @@
     </div>
 
     <div class="mt-6 flex gap-3">
-        <a href="{{ route('school-day-schedules.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
+        <a href="{{ route('school_day_schedules.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
             <i class="ti ti-arrow-left mr-2"></i>Kembali
         </a>
     </div>

@@ -9,14 +9,14 @@
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Akademik', 'url' => '#'],
-        ['name' => 'Jadwal Harian', 'url' => route('school-day-schedules.index')],
+        ['name' => 'Jadwal Harian', 'url' => route('school_day_schedules.index')],
         ['name' => 'Edit', 'url' => '#']
     ]
 ])
 
 <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
 
-    <form action="{{ route('school-day-schedules.update', $schedule) }}" method="POST">
+    <form action="{{ route('school_day_schedules.update', $schedule) }}" method="POST">
         @csrf
         @method('PUT')
         
@@ -88,7 +88,7 @@
             <button type="submit" class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">
                 <i class="ti ti-check mr-2"></i>Simpan
             </button>
-            <a href="{{ route('school-day-schedules.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
+            <a href="{{ route('school_day_schedules.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
                 <i class="ti ti-x mr-2"></i>Batal
             </a>
         </div>

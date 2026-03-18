@@ -188,7 +188,7 @@
 
     function schedulePatterns(schoolLevelId) {
         $.ajax({
-            url: '{{ route('schedule-patterns.index') }}?school_level_id=' + schoolLevelId,
+            url: '{{ route('schedule_patterns.index') }}?school_level_id=' + schoolLevelId,
             type: 'get',
             dataType: 'json',
             success: function(response) {

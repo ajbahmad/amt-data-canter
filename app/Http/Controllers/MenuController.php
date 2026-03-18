@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMenuRequest;
@@ -15,18 +15,87 @@ use Illuminate\Http\JsonResponse;
 class MenuController extends Controller
 {
     /**
-     * Menampilkan list menu dengan hierarchy
+     * Menampilkan list menu dengan hierarchy dan filter
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        // Get semua root menu dengan children recursive
-        $menus = Menu::roots()
-            ->active()
-            ->with('childrenRecursive')
-            ->orderBy('order_no')
-            ->get();
+        // Get aplikasi dan role untuk filter
+        $applications = \App\Models\Application::all();
+        $roles = \App\Models\Role::all();
 
-        return view('admin.menus.index', compact('menus'));
+        // Filter aplikasi dan role
+        $applicationId = $request->get('application_id');
+        $roleId = $request->get('role_id');
+
+        // Base query
+        $query = Menu::roots()->active()->with('childrenRecursiveAll');
+
+        // Terapkan filter
+        if ($applicationId) {
+            $roles = $roles->where('application_id', $applicationId);
+            $query->where(function ($q) use ($applicationId) {
+                $q->where('is_global', true)
+                  ->orWhere('application_id', $applicationId);
+            });
+        }
+
+        // Get menus dengan permissions
+        $menus = $query->orderBy('order_no')->get();
+
+        // Load menu_permissions jika ada role filter
+        if ($roleId) {
+            $menus->each(function ($menu) use ($roleId) {
+                $menu->permissions = $menu->permissions()
+                    ->where('role_id', $roleId)
+                    ->get();
+            });
+        }
+        return view('pages.menus.index', compact('menus', 'applications', 'roles', 'applicationId', 'roleId'));
+    }
+
+    /**
+     * Simpan perubahan permissions untuk menu dan role
+     */
+    public function updatePermissions(Request $request): JsonResponse
+    {
+        try {
+            $data = $request->validate([
+                'permissions' => 'required|array',
+                'permissions.*.menu_id' => 'required|uuid|exists:menus,id',
+                'permissions.*.role_id' => 'required|uuid|exists:roles,id',
+                'permissions.*.can_view' => 'boolean',
+                'permissions.*.can_create' => 'boolean',
+                'permissions.*.can_edit' => 'boolean',
+                'permissions.*.can_delete' => 'boolean',
+            ]);
+            $role = \App\Models\Role::find($data['permissions'][0]['role_id'] ?? null)->toArray();
+
+            foreach ($data['permissions'] as $permission) {
+                MenuPermission::updateOrCreate(
+                    [
+                        'menu_id' => $permission['menu_id'],
+                        'role_id' => $permission['role_id'],
+                    ],
+                    [
+                        'role_code' => $role['slug'] ?? 'unknown',
+                        'can_view' => $permission['can_view'] ?? false,
+                        'can_create' => $permission['can_create'] ?? false,
+                        'can_edit' => $permission['can_edit'] ?? false,
+                        'can_delete' => $permission['can_delete'] ?? false,
+                    ]
+                );
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Permissions berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menyimpan permissions: ' . $e->getMessage(),
+            ], 422);
+        }
     }
 
     /**
@@ -53,7 +122,7 @@ class MenuController extends Controller
             'staff' => 'Staff',
         ];
 
-        return view('admin.menus.create', compact('parentMenus', 'availableRoles'));
+        return view('pages.menus.create', compact('parentMenus', 'availableRoles'));
     }
 
     /**
@@ -90,7 +159,7 @@ class MenuController extends Controller
         }
 
         return redirect()
-            ->route('admin.menus.index')
+            ->route('menus.index')
             ->with('success', "Menu '{$menu->title}' berhasil dibuat");
     }
 
@@ -122,7 +191,7 @@ class MenuController extends Controller
         // Get existing permissions
         $permissions = $menu->permissions()->get();
 
-        return view('admin.menus.edit', compact('menu', 'parentMenus', 'availableRoles', 'permissions'));
+        return view('pages.menus.edit', compact('menu', 'parentMenus', 'availableRoles', 'permissions'));
     }
 
     /**
@@ -163,7 +232,7 @@ class MenuController extends Controller
         }
 
         return redirect()
-            ->route('admin.menus.index')
+            ->route('menus.index')
             ->with('success', "Menu '{$menu->title}' berhasil diupdate");
     }
 
@@ -175,7 +244,7 @@ class MenuController extends Controller
         // Check apakah menu punya children
         if ($menu->children()->exists()) {
             return redirect()
-                ->route('admin.menus.index')
+                ->route('menus.index')
                 ->with('error', "Menu '{$menu->title}' tidak bisa dihapus karena memiliki submenu");
         }
 
@@ -183,7 +252,7 @@ class MenuController extends Controller
         $menu->delete();
 
         return redirect()
-            ->route('admin.menus.index')
+            ->route('menus.index')
             ->with('success', "Menu '{$title}' berhasil dihapus");
     }
 

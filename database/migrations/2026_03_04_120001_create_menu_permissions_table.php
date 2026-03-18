@@ -24,7 +24,12 @@ return new class extends Migration
         Schema::create('menu_permissions', function (Blueprint $table) {
             // UUID primary key
             $table->uuid('id')->primary();
-
+            $table->uuid('role_id')->nullable();
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('cascade');
+            $table->index('role_id');
             // Relasi ke menu
             $table->uuid('menu_id');
             $table->foreign('menu_id')->references('id')->on('menus')->cascadeOnDelete();
@@ -37,8 +42,8 @@ return new class extends Migration
              *
              * Harus sesuai dengan sistem role di auth service
              */
-            $table->string('role_code', 50);
-            $table->index('role_code');
+            $table->string('role_code', 50)->nullable();
+
 
             /**
              * can_view:
@@ -67,7 +72,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Mencegah duplikasi role yang sama pada menu yang sama
-            $table->unique(['menu_id', 'role_code']);
+            $table->unique(['menu_id', 'role_id']);
         });
     }
 

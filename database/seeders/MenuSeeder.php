@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Application;
 use App\Models\Menu;
 use App\Models\MenuPermission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
@@ -16,6 +18,8 @@ class MenuSeeder extends Seeder
         // Clear existing menus
         Menu::query()->delete();
 
+        $idAbsensi = Application::where('slug', 'absensi')->first()?->id;
+        $idDataCenter = Application::where('slug', 'data-center')->first()?->id;
         // Define menu structure with support for unlimited nesting levels
         $menus = [
             // Dashboard
@@ -24,6 +28,7 @@ class MenuSeeder extends Seeder
                 'title' => 'Dashboard',
                 'icon' => 'ti ti-dashboard',
                 'color' => 'indigo',
+                'resource' => 'dashboard',
                 'route' => 'dashboard',
                 'order_no' => 0,
                 'is_active' => true,
@@ -35,6 +40,7 @@ class MenuSeeder extends Seeder
                 'title' => 'Kalender Akademik',
                 'icon' => 'ti ti-calendar-event',
                 'color' => 'indigo',
+                'resource' => 'calendars',
                 'route' => 'calendars.grid',
                 'order_no' => 5,
                 'is_active' => true,
@@ -44,7 +50,6 @@ class MenuSeeder extends Seeder
                 'title' => 'MASTER DATA',
                 'icon' => '',
                 'color' => 'indigo',
-                'route' => '',
                 'order_no' => 5,
                 'is_active' => true,
             ],
@@ -64,6 +69,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Lembaga',
                         'icon' => 'ti ti-building',
                         'color' => 'indigo',
+                        'resource' => 'school_institutions',
                         'route' => 'school_institutions.index',
                         'order_no' => 0,
                         'is_active' => true,
@@ -73,6 +79,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Sekolah',
                         'icon' => 'ti ti-box',
                         'color' => 'indigo',
+                        'resource' => 'school_levels',
                         'route' => 'school_levels.index',
                         'order_no' => 1,
                         'is_active' => true,
@@ -82,6 +89,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Tingkat Kelas',
                         'icon' => 'ti ti-list',
                         'color' => 'indigo',
+                        'resource' => 'grades',
                         'route' => 'grades.index',
                         'order_no' => 2,
                         'is_active' => true,
@@ -113,6 +121,7 @@ class MenuSeeder extends Seeder
                                 'title' => 'Tahun Ajaran',
                                 'icon' => 'ti ti-calendar',
                                 'color' => 'indigo',
+                                'resource' => 'school_years',
                                 'route' => 'school_years.index',
                                 'order_no' => 0,
                                 'is_active' => true,
@@ -122,6 +131,7 @@ class MenuSeeder extends Seeder
                                 'title' => 'Semester',
                                 'icon' => 'ti ti-clock',
                                 'color' => 'indigo',
+                                'resource' => 'semesters',
                                 'route' => 'semesters.index',
                                 'order_no' => 1,
                                 'is_active' => true,
@@ -131,6 +141,7 @@ class MenuSeeder extends Seeder
                                 'title' => 'Mata Pelajaran',
                                 'icon' => 'ti ti-book',
                                 'color' => 'indigo',
+                                'resource' => 'subjects',
                                 'route' => 'subjects.index',
                                 'order_no' => 2,
                                 'is_active' => true,
@@ -140,6 +151,7 @@ class MenuSeeder extends Seeder
                                 'title' => 'Jam Pelajaran',
                                 'icon' => 'ti ti-clock',
                                 'color' => 'indigo',
+                                'resource' => 'time_slots',
                                 'route' => 'time_slots.index',
                                 'order_no' => 3,
                                 'is_active' => true,
@@ -149,7 +161,8 @@ class MenuSeeder extends Seeder
                                 'title' => 'Pola Jadwal',
                                 'icon' => 'ti ti-calendar-event',
                                 'color' => 'indigo',
-                                'route' => 'schedule-patterns.index',
+                                'resource' => 'schedule_patterns',
+                                'route' => 'schedule_patterns.index',
                                 'order_no' => 8,
                                 'is_active' => true,
                             ],
@@ -160,7 +173,21 @@ class MenuSeeder extends Seeder
                         'title' => 'Rombel & Jadwal',
                         'icon' => 'ti ti-users',
                         'color' => 'indigo',
+                        'resource' => 'class_rooms',
                         'route' => 'class_rooms.index',
+                        'order_no' => 4,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'is_global' => false,
+                        'application_id' => $idDataCenter,
+                        'is_sidebar_menu' => false,
+                        'title' => 'Set Schedule',
+                        'icon' => 'ti ti-clock',
+                        'color' => 'indigo',
+                        'resource' => 'class_rooms',
+                        'route' => 'class_rooms.set_schedule',
                         'order_no' => 4,
                         'is_active' => true,
                     ],
@@ -169,6 +196,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Guru Mapel',
                         'icon' => 'ti ti-book-2',
                         'color' => 'indigo',
+                        'resource' => 'teacher_subject_assignments',
                         'route' => 'teacher_subject_assignments.index',
                         'order_no' => 5,
                         'is_active' => true,
@@ -178,6 +206,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Wali Kelas',
                         'icon' => 'ti ti-users-group',
                         'color' => 'indigo',
+                        'resource' => 'class_room_homeroom_teachers',
                         'route' => 'class_room_homeroom_teachers.index',
                         'order_no' => 6,
                         'is_active' => true,
@@ -187,6 +216,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Jadwal Kelas',
                         'icon' => 'ti ti-file-text',
                         'color' => 'indigo',
+                        'resource' => 'class_schedules',
                         'route' => 'class_schedules.index',
                         'order_no' => 7,
                         'is_active' => true,
@@ -196,7 +226,8 @@ class MenuSeeder extends Seeder
                         'title' => 'Jadwal Harian',
                         'icon' => 'ti ti-calendar-time',
                         'color' => 'indigo',
-                        'route' => 'school-day-schedules.index',
+                        'resource' => 'school_day_schedules',
+                        'route' => 'school_day_schedules.index',
                         'order_no' => 9,
                         'is_active' => true,
                     ],
@@ -218,6 +249,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Pengguna',
                         'icon' => 'ti ti-user',
                         'color' => 'indigo',
+                        'resource' => 'persons',
                         'route' => 'persons.index',
                         'order_no' => 0,
                         'is_active' => true,
@@ -227,6 +259,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Tipe Pengguna',
                         'icon' => 'ti ti-users-group',
                         'color' => 'indigo',
+                        'resource' => 'person_types',
                         'route' => 'person_types.index',
                         'order_no' => 1,
                         'is_active' => true,
@@ -236,6 +269,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Guru',
                         'icon' => 'ti ti-chalkboard',
                         'color' => 'indigo',
+                        'resource' => 'teachers',
                         'route' => 'teachers.index',
                         'order_no' => 2,
                         'is_active' => true,
@@ -245,6 +279,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Staf',
                         'icon' => 'ti ti-briefcase',
                         'color' => 'indigo',
+                        'resource' => 'staffs',
                         'route' => 'staffs.index',
                         'order_no' => 3,
                         'is_active' => true,
@@ -267,6 +302,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Siswa',
                         'icon' => 'ti ti-users-group',
                         'color' => 'indigo',
+                        'resource' => 'students',
                         'route' => 'students.index',
                         'order_no' => 0,
                         'is_active' => true,
@@ -276,6 +312,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Penempatan Siswa',
                         'icon' => 'ti ti-book-2',
                         'color' => 'indigo',
+                        'resource' => 'class_room_students',
                         'route' => 'class_room_students.index',
                         'order_no' => 1,
                         'is_active' => true,
@@ -290,7 +327,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-id',
                 'color' => 'indigo',
                 'menu_key' => 'identitas',
-                'order_no' => 50,
+                'order_no' => 41,
                 'is_active' => true,
                 'children' => [
                     [
@@ -298,6 +335,7 @@ class MenuSeeder extends Seeder
                         'title' => 'Kartu ID',
                         'icon' => 'ti ti-id',
                         'color' => 'indigo',
+                        'resource' => 'id_cards',
                         'route' => 'id_cards.index',
                         'order_no' => 0,
                         'is_active' => true,
@@ -321,8 +359,8 @@ class MenuSeeder extends Seeder
             //             'type' => 'item',
             //             'title' => 'Laporan Siswa',
             //             'icon' => 'ti ti-file-text',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.reports.students',
+            //             'color' => 'indigoresource
+            //             'route' 'admin.reports.students',//             
             //             'order_no' => 0,
             //             'is_active' => false,
             //         ],
@@ -337,54 +375,72 @@ class MenuSeeder extends Seeder
             //         ],
             //     ],
             // ],
-
-            // SISTEM (Dropdown)
+            // SISTEM & KEAMANAN (Dropdown - IAM)
             [
                 'type' => 'dropdown',
-                'title' => 'SISTEM',
-                'icon' => 'ti ti-settings',
+                'title' => 'SISTEM & KEAMANAN',
+                'icon' => 'ti ti-shield-check',
                 'color' => 'indigo',
-                'menu_key' => 'system',
-                'order_no' => 50,
+                'menu_key' => 'security-access',
+                'order_no' => 43,
                 'is_active' => true,
                 'children' => [
                     [
                         'type' => 'item',
-                        'title' => 'Menu Sidebar',
-                        'icon' => 'ti ti-menu',
+                        'title' => 'Applications',
+                        'icon' => 'ti ti-app-window',
                         'color' => 'indigo',
-                        'route' => 'admin.menus.index',
+                        'resource' => 'applications',
+                        'route' => 'applications.index',
                         'order_no' => 0,
                         'is_active' => true,
                     ],
-                    // [
-                    //     'type' => 'item',
-                    //     'title' => 'User & Role',
-                    //     'icon' => 'ti ti-lock',
-                    //     'color' => 'indigo',
-                    //     'route' => 'admin.users.index',
-                    //     'order_no' => 1,
-                    //     'is_active' => true,
-                    // ],
-                    // [
-                    //     'type' => 'item',
-                    //     'title' => 'Audit Log',
-                    //     'icon' => 'ti ti-history',
-                    //     'color' => 'indigo',
-                    //     'route' => 'admin.audit-logs.index',
-                    //     'order_no' => 2,
-                    //     'is_active' => true,
-                    // ],
-                    // [
-                    //     'type' => 'item',
-                    //     'title' => 'Pengaturan',
-                    //     'icon' => 'ti ti-settings-2',
-                    //     'color' => 'indigo',
-                    //     'route' => 'admin.settings.index',
-                    //     'order_no' => 3,
-                    //     'is_active' => true,
-                    // ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Menu & Permissions',
+                        'icon' => 'ti ti-menu',
+                        'color' => 'indigo',
+                        'resource' => 'menus',
+                        'route' => 'menus.index',
+                        'order_no' => 0,
+                        'is_active' => true,
+                    ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Roles',
+                        'icon' => 'ti ti-badge',
+                        'color' => 'indigo',
+                        'resource' => 'roles',
+                        'route' => 'roles.index',
+                        'order_no' => 1,
+                        'is_active' => true,
+                    ],
                 ],
+            ],
+
+            [
+                'type' => 'item',
+                'title' => 'Kalender Akademik',
+                'icon' => 'ti ti-calendar-event',
+                'color' => 'indigo',
+                'resource' => 'calendars',
+                'route' => 'calendars.grid',
+                'is_global' => false,
+                'application_id' => $idAbsensi,
+                'order_no' => 5,
+                'is_active' => true,
+            ],
+            [
+                'type' => 'item',
+                'title' => 'Absensi',
+                'icon' => 'ti ti-calendar-event',
+                'color' => 'indigo',
+                'resource' => 'calendars',
+                'route' => 'calendars.grid',
+                'is_global' => false,
+                'application_id' => $idAbsensi,
+                'order_no' => 5,
+                'is_active' => true,
             ],
         ];
 
@@ -395,54 +451,59 @@ class MenuSeeder extends Seeder
 
         // Create permissions for all menus
         $menus = Menu::all();
-        $roles = ['super-admin', 'admin', 'teacher', 'student', 'parent', 'staff'];
+        $roleId = Role::get()->first();
 
         foreach ($menus as $menu) {
             // Super admin dapat akses semua dengan full permission
             MenuPermission::create([
                 'menu_id' => $menu->id,
-                'role_code' => 'super-admin',
+                'role_id' => $roleId->id,
+                'role_code' => $roleId->slug,
                 'can_view' => true,
                 'can_create' => true,
                 'can_edit' => true,
                 'can_delete' => true,
             ]);
 
-            // Admin can view semua, edit master data
-            if ($menu->type === 'item' && strpos($menu->route ?? '', 'master-data') === false) {
-                MenuPermission::create([
-                    'menu_id' => $menu->id,
-                    'role_code' => 'admin',
-                    'can_view' => true,
-                    'can_create' => false,
-                    'can_edit' => false,
-                    'can_delete' => false,
-                ]);
-            }
+            //     // Admin can view semua, edit master data
+            //     if ($menu->type === 'item' && strpos($menu->route ?? '', 'master-data') === false) {
+            //         MenuPermission::create([
+            //             'menu_id' => $menu->id,
+            //             'role_id' => $roleId,
+            //             'role_code' => 'admin',
+            //             'can_view' => true,
+            //             'can_create' => false,
+            //             'can_edit' => false,
+            //             'can_delete' => false,
+            //         ]);
+            //     }
 
-            // Teacher dapat akses dashboard dan academic
-            if (in_array($menu->menu_key, ['academic']) || $menu->title === 'Dashboard') {
-                MenuPermission::create([
-                    'menu_id' => $menu->id,
-                    'role_code' => 'teacher',
-                    'can_view' => true,
-                    'can_create' => false,
-                    'can_edit' => false,
-                    'can_delete' => false,
-                ]);
-            }
+            //     // Teacher dapat akses dashboard dan academic
+            //     if (in_array($menu->menu_key, ['academic']) || $menu->title === 'Dashboard') {
+            //         MenuPermission::create([
+            //             'menu_id' => $menu->id,
+            //             'role_id' => $roleId,
+            //             'role_code' => 'teacher',
+            //             'can_view' => true,
+            //             'can_create' => false,
+            //             'can_edit' => false,
+            //             'can_delete' => false,
+            //         ]);
+            //     }
 
-            // Student dapat akses dashboard
-            if ($menu->title === 'Dashboard') {
-                MenuPermission::create([
-                    'menu_id' => $menu->id,
-                    'role_code' => 'student',
-                    'can_view' => true,
-                    'can_create' => false,
-                    'can_edit' => false,
-                    'can_delete' => false,
-                ]);
-            }
+            //     // Student dapat akses dashboard
+            //     if ($menu->title === 'Dashboard') {
+            //         MenuPermission::create([
+            //             'menu_id' => $menu->id,
+            //             'role_id' => $roleId,
+            //             'role_code' => 'student',
+            //             'can_view' => true,
+            //             'can_create' => false,
+            //             'can_edit' => false,
+            //             'can_delete' => false,
+            //         ]);
+            //     }
+            // }
         }
     }
 
@@ -462,6 +523,16 @@ class MenuSeeder extends Seeder
             // Set parent_id if this is a child menu
             if ($parentMenu !== null) {
                 $menuData['parent_id'] = $parentMenu->id;
+            }
+
+            // Set default is_sidebar_menu to true if not provided
+            if (!isset($menuData['is_sidebar_menu'])) {
+                $menuData['is_sidebar_menu'] = true;
+            }
+
+            // Set default is_global to true if not provided (global menu by default)
+            if (!isset($menuData['is_global'])) {
+                $menuData['is_global'] = true;
             }
 
             // Create the menu

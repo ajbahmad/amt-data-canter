@@ -41,10 +41,10 @@
 
         <!-- Actions -->
         <div class="flex items-center gap-2 ml-4">
-            <a href="{{ route('admin.menus.edit', $menu) }}" class="p-2 hover:bg-gray-200 rounded transition" title="Edit">
+            <a href="{{ route('menus.edit', $menu) }}" class="p-2 hover:bg-gray-200 rounded transition" title="Edit">
                 <i class="ti ti-edit "></i>
             </a>
-            <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
+            <form action="{{ route('menus.destroy', $menu) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="p-2 hover:bg-red-100 rounded transition">
@@ -58,7 +58,7 @@
     @if ($menu->children->count() > 0)
         <div class="menu-children">
             @foreach ($menu->children as $child)
-                @include('admin.menus.partials.menu-item', ['menu' => $child])
+                @include('pages.menus.partials.menu-item', ['menu' => $child])
             @endforeach
         </div>
     @endif

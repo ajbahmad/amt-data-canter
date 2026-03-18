@@ -25,11 +25,15 @@ class Menu extends BaseModel
      */
     protected $fillable = [
         'parent_id',
+        'application_id',
+        'is_global',
+        'is_sidebar_menu',
         'type',
         'title',
         'icon',
         'color',
         'menu_key',
+        'resource',
         'route',
         'url',
         'order_no',
@@ -45,6 +49,8 @@ class Menu extends BaseModel
     protected $casts = [
         'order_no' => 'integer',
         'is_active' => 'boolean',
+        'is_sidebar_menu' => 'boolean',
+        'is_global' => 'boolean',
     ];
 
     /**
@@ -52,6 +58,14 @@ class Menu extends BaseModel
      * RELATIONSHIPS
      * ============================================================
      */
+
+    /**
+     * Application relationship
+     */
+    public function application(): BelongsTo
+    {
+        return $this->belongsTo(Application::class);
+    }
 
     /**
      * Menu parent (self-relation)
@@ -70,6 +84,7 @@ class Menu extends BaseModel
     {
         return $this->hasMany(Menu::class, 'parent_id', 'id')
             ->where('is_active', true)
+            ->where('is_sidebar_menu', true)
             ->orderBy('order_no');
     }
 
@@ -79,6 +94,25 @@ class Menu extends BaseModel
     public function childrenRecursive(): HasMany
     {
         return $this->children()->with('childrenRecursive');
+    }
+
+    /**
+     * Children menu (self-relation)
+     * Untuk dropdown menu, menampilkan semua submenu
+     */
+    public function childrenAll(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'parent_id', 'id')
+            ->where('is_active', true)
+            ->orderBy('order_no');
+    }
+
+    /**
+     * Recursive children (untuk load seluruh tree)
+     */
+    public function childrenRecursiveAll(): HasMany
+    {
+        return $this->childrenAll()->with('childrenRecursiveAll');
     }
 
     /**

@@ -9,7 +9,7 @@
     'breadcrumbs' => [
         ['name' => 'Dashboard', 'url' => route('dashboard')],
         ['name' => 'Akademik', 'url' => '#'],
-        ['name' => 'Pola Jadwal Sekolah', 'url' => route('schedule-patterns.index')],
+        ['name' => 'Pola Jadwal Sekolah', 'url' => route('schedule_patterns.index')],
         ['name' => 'Detail', 'url' => '#']
     ]
 ])
@@ -67,7 +67,7 @@
                         </p>
                     @endif
                 </div>
-                <form action="{{ route('school-day-schedules.update', $schedule->id) }}" method="POST" class="inline">
+                <form action="{{ route('school_day_schedules.update', $schedule->id) }}" method="POST" class="inline">
                     @csrf
                     @method('PUT')
                     <button type="button" onclick="editSchedule('{{ $schedule->id }}', '{{ $schedule->start_time }}', '{{ $schedule->end_time }}', {{ $schedule->is_holiday ? 'true' : 'false' }})" class="btn btn-rounded w-8 h-8 bg-white border border-warning text-warning hover:bg-warning hover:text-white p-0 btn-sm">
@@ -80,13 +80,13 @@
 </div>
 
 <div class="mt-6 flex justify-start gap-3">
-    <a href="{{ route('schedule-patterns.edit', $schedulePattern->id) }}" class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">
+    <a href="{{ route('schedule_patterns.edit', $schedulePattern->id) }}" class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">
         <i class="ti ti-edit mr-2"></i>Edit
     </a>
-    <button type="button" onclick="deleteData('{{ $schedulePattern->id }}', '{{ route('schedule-patterns.destroy', $schedulePattern->id) }}')" class="inline-flex items-center rounded-lg bg-red-600 px-6 py-2 text-white hover:bg-red-700 transition">
+    <button type="button" onclick="deleteData('{{ $schedulePattern->id }}', '{{ route('schedule_patterns.destroy', $schedulePattern->id) }}')" class="inline-flex items-center rounded-lg bg-red-600 px-6 py-2 text-white hover:bg-red-700 transition">
         <i class="ti ti-trash mr-2"></i>Hapus
     </button>
-    <a href="{{ route('schedule-patterns.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
+    <a href="{{ route('schedule_patterns.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
         <i class="ti ti-arrow-left mr-2"></i>Kembali
     </a>
 </div>

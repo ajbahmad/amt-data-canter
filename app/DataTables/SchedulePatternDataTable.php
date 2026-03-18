@@ -25,9 +25,9 @@ class SchedulePatternDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->rawColumns(['action', 'created_at'])
             ->addColumn('action', function ($row) {
-                $showUrl = route('schedule-patterns.show', $row->id);
-                $editUrl = route('schedule-patterns.edit', $row->id);
-                $deleteUrl = route('schedule-patterns.destroy', $row->id);
+                $showUrl = route('schedule_patterns.show', $row->id);
+                $editUrl = route('schedule_patterns.edit', $row->id);
+                $deleteUrl = route('schedule_patterns.destroy', $row->id);
                 $data = '
                 <div class="flex justify-center items-center gap-2">
                     <button class="btn btn-rounded w-8 h-8 bg-white border border-warning text-warning hover:bg-warning hover:text-white p-0 btn-sm" onclick="editData(\''.$row->id.'\', \''.$editUrl.'\')" title="Edit"><i class="ti ti-edit"></i></button>

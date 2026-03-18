@@ -22,7 +22,7 @@ class SchoolDayScheduleController extends Controller
      */
     public function index(SchoolDayScheduleDataTable $dataTable)
     {
-        return $dataTable->render('pages.school-day-schedules.index');
+        return $dataTable->render('pages.school_day_schedules.index');
     }
 
     /**
@@ -45,7 +45,7 @@ class SchoolDayScheduleController extends Controller
             ]);
         }
         
-        return view('pages.school-day-schedules.show', [
+        return view('pages.school_day_schedules.show', [
             'schedule' => $schedule
         ]);
     }
@@ -55,7 +55,7 @@ class SchoolDayScheduleController extends Controller
      */
     public function edit(SchoolDaySchedule $schedule)
     {
-        return view('pages.school-day-schedules.edit', [
+        return view('pages.school_day_schedules.edit', [
             'schedule' => $schedule
         ]);
     }
@@ -74,6 +74,6 @@ class SchoolDayScheduleController extends Controller
             ]);
         }
         
-        return redirect()->route('school-day-schedules.index')->with('success', 'Jadwal hari berhasil diperbarui');
+        return redirect()->route('school_day_schedules.index')->with('success', 'Jadwal hari berhasil diperbarui');
     }
 }

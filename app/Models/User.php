@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -75,23 +77,60 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * User belongs to a role
-     */
-    // public function role(): BelongsTo
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
+    // ============================================================
+    // RELATIONSHIPS
+    // ============================================================
+
+    public function userRoles(): HasMany
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Role::class,
+            'user_roles',
+            'user_id',
+            'role_id'
+        )->withPivot('school_institution_id', 'school_level_id', 'assigned_at', 'expires_at')
+          ->withTimestamps();
+    }
+
+    public function institutions(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            SchoolInstitution::class,
+            'institution_users',
+            'user_id',
+            'school_institution_id'
+        )->withPivot('role_code', 'joined_at', 'left_at', 'is_active');
+    }
+
+    public function schoolLevels(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            SchoolLevel::class,
+            'school_level_users',
+            'user_id',
+            'school_level_id'
+        )->withPivot('role_code', 'assigned_at', 'unassigned_at', 'is_active');
+    }
+
+    // ============================================================
+    // METHODS
+    // ============================================================
 
     /**
-     * Check if user has a specific permission
+     * Get roles for specific application
      */
-    public function hasPermission($permissionName): bool
+    public function getRolesForApplication($application): \Illuminate\Support\Collection
     {
-        if (!$this->role) {
-            return false;
-        }
-        return $this->role->hasPermission($permissionName);
+        $appId = $application instanceof Application ? $application->id : $application;
+
+        return $this->roles()
+            ->where('application_id', $appId)
+            ->get();
     }
 
     /**
@@ -99,7 +138,7 @@ class User extends Authenticatable
      */
     public function hasAnyPermission(array $permissions): bool
     {
-        if (!$this->role) {
+        if (!isset($this->role)) {
             return false;
         }
         return $this->role->permissions()
@@ -112,7 +151,7 @@ class User extends Authenticatable
      */
     public function hasAllPermissions(array $permissions): bool
     {
-        if (!$this->role) {
+        if (!isset($this->role)) {
             return false;
         }
         foreach ($permissions as $permission) {

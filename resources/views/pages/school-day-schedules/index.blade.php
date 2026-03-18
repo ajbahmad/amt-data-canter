@@ -49,7 +49,7 @@
 function editData(id, url) {
 
     $.ajax({
-        url: `/school-day-schedules/${id}`,
+        url: `/school_day_schedules/${id}`,
         type: "GET",
         dataType: "json",
         success: function (response) {
@@ -129,7 +129,7 @@ function editData(id, url) {
                     };
 
                     $.ajax({
-                        url: `/school-day-schedules/${id}`,
+                        url: `/school_day_schedules/${id}`,
                         type: "POST",
                         data: JSON.stringify(data),
                         contentType: "application/json",

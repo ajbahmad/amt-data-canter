@@ -27,7 +27,7 @@ class CheckRoleAccess
         }
         // label can_view, can_create, can_edit, can_delete
         $routeLabel = $request->route()->defaults['label'] ?? 'can_view';
-
+        
         // get menu id by route name
         $routeResource = str($request->route()->getAction('as'))->before('.')->toString();
 
@@ -39,8 +39,6 @@ class CheckRoleAccess
 
         // Get user's roles
         $userRoleIds = $user->roles()->where('application_id', $applicationId->id)->pluck('role_id')->toArray();
-
-        // dd($routeResource, $routeMenuId, $applicationId, $userRoleIds);
 
         if (empty($userRoleIds)) {
             abort(403, 'Anda tidak memiliki akses pada aplikasi ini.');

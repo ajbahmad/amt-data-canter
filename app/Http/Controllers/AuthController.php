@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -44,6 +45,20 @@ class AuthController extends Controller
         if ($user && !$user->is_active) {
             throw ValidationException::withMessages([
                 'email' => 'Akun Anda telah dinonaktifkan. Hubungi administrator.'
+            ]);
+        }
+
+        // dd($user->roles());
+
+        // get application name in env APPLICATION_NAME
+        $applicationId = Application::where('slug', env('APPLICATION_NAME'))->first();
+
+        // Get user's roles
+        $userRoleIds = $user->roles()->where('application_id', $applicationId->id)->pluck('role_id')->toArray();
+
+        if (!$userRoleIds) {
+            throw ValidationException::withMessages([
+                'email' => 'Username atau password anda salah'
             ]);
         }
 

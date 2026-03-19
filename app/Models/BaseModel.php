@@ -63,9 +63,16 @@ class BaseModel extends Model
         ) {
             $schoolInstitutionId = request()->school_institution_id;
 
-            static::addGlobalScope('school_institution', function ($query) use ($schoolInstitutionId) {
-                $query->where('school_institution_id', $schoolInstitutionId);
-            });
+            if ($table == 'roles') {
+                static::addGlobalScope('school_institution', function ($query) use ($schoolInstitutionId, $table) {
+                    $query->where("{$table}.school_institution_id", $schoolInstitutionId)
+                        ->orWhereNull("{$table}.school_institution_id");
+                });
+            } else {
+                static::addGlobalScope('school_institution', function ($query) use ($schoolInstitutionId, $table) {
+                    $query->where("{$table}.school_institution_id", $schoolInstitutionId);
+                });
+            }
         }
 
         // filter school_level
@@ -75,9 +82,16 @@ class BaseModel extends Model
         ) {
             $schoolLevelId = request()->school_level_id;
 
-            static::addGlobalScope('school_level', function ($query) use ($schoolLevelId) {
-                $query->where('school_level_id', $schoolLevelId);
-            });
+            if ($table == 'roles') {
+                static::addGlobalScope('school_level', function ($query) use ($schoolLevelId, $table) {
+                    $query->where("{$table}.school_level_id", $schoolLevelId)
+                        ->orWhereNull("{$table}.school_level_id");
+                });
+            } else {
+                static::addGlobalScope('school_level', function ($query) use ($schoolLevelId, $table) {
+                    $query->where("{$table}.school_level_id", $schoolLevelId);
+                });
+            }
         }
     }
 

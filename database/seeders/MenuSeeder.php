@@ -415,6 +415,16 @@ class MenuSeeder extends Seeder
                         'order_no' => 1,
                         'is_active' => true,
                     ],
+                    [
+                        'type' => 'item',
+                        'title' => 'Users',
+                        'icon' => 'ti ti-users',
+                        'color' => 'indigo',
+                        'resource' => 'users',
+                        'route' => 'users.index',
+                        'order_no' => 2,
+                        'is_active' => true,
+                    ],
                 ],
             ],
 

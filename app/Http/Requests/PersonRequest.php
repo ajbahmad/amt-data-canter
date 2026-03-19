@@ -23,7 +23,7 @@ class PersonRequest extends FormRequest
         $personId = $this->person ? $this->person->id : null;
         if ($this->photo_only) {
             return [
-                'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ];
         }
         return [
@@ -53,7 +53,7 @@ class PersonRequest extends FormRequest
                 'max:30',
                 Rule::unique('persons')->ignore($personId),
             ],
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'school_institution_id' => 'nullable|uuid|exists:school_institutions,id',
             'is_active' => 'sometimes|boolean',
         ];
@@ -77,7 +77,7 @@ class PersonRequest extends FormRequest
             'birth_date.before' => 'Tanggal lahir harus sebelum hari ini.',
             'photo.image' => 'File harus berupa gambar.',
             'photo.mimes' => 'Format gambar harus JPEG, PNG, JPG, atau GIF.',
-            'photo.max' => 'Ukuran gambar maksimal 5 MB.',
+            'photo.max' => 'Ukuran gambar maksimal 2 MB.',
             'identity_number.unique' => 'Nomor identitas sudah terdaftar.',
             'school_institution_id.uuid' => 'ID institusi sekolah tidak valid.',
             'school_institution_id.exists' => 'Institusi sekolah yang dipilih tidak ditemukan.',

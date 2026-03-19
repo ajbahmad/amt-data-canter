@@ -45,10 +45,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
+        'person_id',
         'is_active',
-        'phone',
-        'address',
         'last_login_at'
     ];
 
@@ -129,8 +127,14 @@ class User extends Authenticatable
         $appId = $application instanceof Application ? $application->id : $application;
 
         return $this->roles()
-            ->where('application_id', $appId)
+            ->where('roles.application_id', $appId)
+            ->select('roles.id', 'roles.name', 'roles.slug')
             ->get();
+    }
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class);    
     }
 
     /**

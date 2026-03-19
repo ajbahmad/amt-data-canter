@@ -25,6 +25,7 @@ use App\Http\Controllers\SchoolDayScheduleController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 
 
 require __DIR__ . '/auth.php';
@@ -356,6 +357,16 @@ Route::middleware(['auth', 'auth.menu', 'auth.role'])->group(function () {
         Route::get('/{role}/edit', [RoleController::class, 'edit'])->name('edit')->defaults('label','can_edit');
         Route::put('/{role}', [RoleController::class, 'update'])->name('update')->defaults('label','can_edit');
         Route::delete('/{role}', [RoleController::class, 'destroy'])->name('destroy')->defaults('label','can_delete');
+    });
+
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index')->defaults('label','can_view');
+        Route::get('/create', [UserController::class, 'create'])->name('create')->defaults('label','can_create');
+        Route::post('/', [UserController::class, 'store'])->name('store')->defaults('label','can_create');
+        Route::get('/{user}', [UserController::class, 'show'])->name('show')->defaults('label','can_view');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit')->defaults('label','can_edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update')->defaults('label','can_edit');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->defaults('label','can_delete');
     });
 
     // =========================================================================

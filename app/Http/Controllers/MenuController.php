@@ -17,7 +17,7 @@ class MenuController extends Controller
     /**
      * Menampilkan list menu dengan hierarchy dan filter
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
         // Get aplikasi dan role untuk filter
         $applications = \App\Models\Application::all();
@@ -27,8 +27,8 @@ class MenuController extends Controller
         $applicationId = $request->get('application_id');
         $roleId = $request->get('role_id');
 
-        // Base query
-        $query = Menu::roots()->active()->with('childrenRecursiveAll');
+        // Base query - jangan load childrenRecursiveAll dulu
+        $query = Menu::roots()->active();
 
         // Terapkan filter
         if ($applicationId) {
@@ -39,18 +39,87 @@ class MenuController extends Controller
             });
         }
 
-        // Get menus dengan permissions
+        // Get menus
         $menus = $query->orderBy('order_no')->get();
 
-        // Load menu_permissions jika ada role filter
+        // Jika ada role filter, build tree dengan filtered permissions
         if ($roleId) {
-            $menus->each(function ($menu) use ($roleId) {
-                $menu->permissions = $menu->permissions()
-                    ->where('role_id', $roleId)
-                    ->get();
+            $menus = $menus->map(function ($menu) use ($roleId) {
+                return $this->buildMenuTreeWithFilter($menu, $roleId);
+            })->filter();
+        } else {
+            // Jika tidak ada role filter, load dengan semua permissions
+            $menus = $menus->map(function ($menu) {
+                return $this->loadMenuTreeFull($menu);
             });
         }
+
+        // return $menus;
         return view('pages.menus.index', compact('menus', 'applications', 'roles', 'applicationId', 'roleId'));
+    }
+
+    /**
+     * Build menu tree dan filter permissions by specific role_id
+     */
+    private function buildMenuTreeWithFilter($menu, $roleId)
+    {
+        // Query permissions spesifik untuk role ini
+        $permissions = \App\Models\MenuPermission::where('menu_id', $menu->id)
+            ->where('role_id', $roleId)
+            ->get();
+
+        // Jika tidak ada permission record, buat default dengan semua false
+        if ($permissions->isEmpty()) {
+            $permissions = collect([
+                (object)[
+                    'id' => null,
+                    'menu_id' => $menu->id,
+                    'role_id' => $roleId,
+                    'role_code' => null,
+                    'can_view' => false,
+                    'can_create' => false,
+                    'can_edit' => false,
+                    'can_delete' => false,
+                ]
+            ]);
+        }
+
+        $menu->permissions = $permissions;
+
+        // Load children dan recursively filter
+        $children = $menu->childrenAll()->get();
+        
+        if ($children->isNotEmpty()) {
+            $filteredChildren = $children
+                ->map(function ($child) use ($roleId) {
+                    return $this->buildMenuTreeWithFilter($child, $roleId);
+                })
+                ->filter(function ($child) {
+                    // Handle null values - skip if child is null
+                    if ($child === null) {
+                        return false;
+                    }
+                    // Always keep child - even if no permissions (default false)
+                    return true;
+                })
+                ->values();
+            
+            $menu->childrenRecursiveAll = $filteredChildren;
+        } else {
+            $menu->childrenRecursiveAll = collect();
+        }
+
+        // Always return menu - even if no permissions
+        return $menu;
+    }
+
+    /**
+     * Load menu tree dengan semua permissions (tanpa filter)
+     */
+    private function loadMenuTreeFull($menu)
+    {
+        $menu->load(['childrenRecursiveAll', 'permissions']);
+        return $menu;
     }
 
     /**
@@ -264,7 +333,7 @@ class MenuController extends Controller
     {
         $menus = Menu::roots()
             ->active()
-            ->with('childrenRecursive')
+            ->with(['childrenRecursive', 'permissions'])
             ->orderBy('order_no')
             ->get()
             ->map(fn ($menu) => $this->formatMenuForTree($menu))
@@ -331,7 +400,16 @@ class MenuController extends Controller
             'id' => $menu->id,
             'text' => $menu->title,
             'type' => $menu->type,
-            'children' => $menu->children
+            'permissions' => $menu->permissions->map(fn ($p) => [
+                'id' => $p->id,
+                'role_id' => $p->role_id,
+                'role_code' => $p->role_code,
+                'can_view' => $p->can_view,
+                'can_create' => $p->can_create,
+                'can_edit' => $p->can_edit,
+                'can_delete' => $p->can_delete,
+            ])->toArray(),
+            'children' => $menu->childrenRecursive
                 ->map(fn ($child) => $this->formatMenuForTree($child))
                 ->toArray(),
         ];

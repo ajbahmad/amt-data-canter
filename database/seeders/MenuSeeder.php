@@ -61,7 +61,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-building-community',
                 'color' => 'indigo',
                 'menu_key' => 'organisasi',
-                'order_no' => 10,
+                'order_no' => 6,
                 'is_active' => true,
                 'children' => [
                     [
@@ -104,7 +104,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-school',
                 'color' => 'indigo',
                 'menu_key' => 'akademik',
-                'order_no' => 20,
+                'order_no' => 7,
                 'is_active' => true,
                 'children' => [
                     [
@@ -113,7 +113,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'ti ti-settings',
                         'color' => 'indigo',
                         'menu_key' => 'master_akademik',
-                        'order_no' => 20,
+                        'order_no' => 1,
                         'is_active' => true,
                         'children'  => [
                             [
@@ -175,7 +175,7 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'resource' => 'class_rooms',
                         'route' => 'class_rooms.index',
-                        'order_no' => 4,
+                        'order_no' => 2,
                         'is_active' => true,
                     ],
                     [
@@ -188,7 +188,7 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'resource' => 'class_rooms',
                         'route' => 'class_rooms.set_schedule',
-                        'order_no' => 4,
+                        'order_no' => 3,
                         'is_active' => true,
                     ],
                     [
@@ -198,7 +198,7 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'resource' => 'teacher_subject_assignments',
                         'route' => 'teacher_subject_assignments.index',
-                        'order_no' => 5,
+                        'order_no' => 4,
                         'is_active' => true,
                     ],
                     [
@@ -208,7 +208,7 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'resource' => 'class_room_homeroom_teachers',
                         'route' => 'class_room_homeroom_teachers.index',
-                        'order_no' => 6,
+                        'order_no' => 5,
                         'is_active' => true,
                     ],
                     [
@@ -218,7 +218,7 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'resource' => 'class_schedules',
                         'route' => 'class_schedules.index',
-                        'order_no' => 7,
+                        'order_no' => 6,
                         'is_active' => true,
                     ],
                     [
@@ -228,7 +228,7 @@ class MenuSeeder extends Seeder
                         'color' => 'indigo',
                         'resource' => 'school_day_schedules',
                         'route' => 'school_day_schedules.index',
-                        'order_no' => 9,
+                        'order_no' => 7,
                         'is_active' => true,
                     ],
                 ],
@@ -241,7 +241,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-users',
                 'color' => 'indigo',
                 'menu_key' => 'sdm',
-                'order_no' => 30,
+                'order_no' => 8,
                 'is_active' => true,
                 'children' => [
                     [
@@ -294,7 +294,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-users-group',
                 'color' => 'indigo',
                 'menu_key' => 'peserta-didik',
-                'order_no' => 40,
+                'order_no' => 9,
                 'is_active' => true,
                 'children' => [
                     [
@@ -327,7 +327,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-id',
                 'color' => 'indigo',
                 'menu_key' => 'identitas',
-                'order_no' => 41,
+                'order_no' => 10,
                 'is_active' => true,
                 'children' => [
                     [
@@ -343,38 +343,6 @@ class MenuSeeder extends Seeder
                 ],
             ],
 
-            // LAPORAN (Dropdown)
-            // [
-            //     'type' => 'dropdown',
-            //     'title' => 'Laporan',
-            //     'icon' => 'ti ti-report',
-            //     'color' => 'indigo',
-            //     'menu_key' => 'reporting',
-            //     'order_no' => 40,
-            //     'is_active' => true,
-            //     'badge' => 'Coming',
-            //     'badge_color' => 'yellow',
-            //     'children' => [
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Laporan Siswa',
-            //             'icon' => 'ti ti-file-text',
-            //             'color' => 'indigoresource
-            //             'route' 'admin.reports.students',//             
-            //             'order_no' => 0,
-            //             'is_active' => false,
-            //         ],
-            //         [
-            //             'type' => 'item',
-            //             'title' => 'Laporan Absensi',
-            //             'icon' => 'ti ti-file-text',
-            //             'color' => 'indigo',
-            //             'route' => 'admin.reports.attendance',
-            //             'order_no' => 1,
-            //             'is_active' => false,
-            //         ],
-            //     ],
-            // ],
             // SISTEM & KEAMANAN (Dropdown - IAM)
             [
                 'type' => 'dropdown',
@@ -382,7 +350,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ti ti-shield-check',
                 'color' => 'indigo',
                 'menu_key' => 'security-access',
-                'order_no' => 43,
+                'order_no' => 11,
                 'is_active' => true,
                 'children' => [
                     [
@@ -426,31 +394,6 @@ class MenuSeeder extends Seeder
                         'is_active' => true,
                     ],
                 ],
-            ],
-
-            [
-                'type' => 'item',
-                'title' => 'Kalender Akademik',
-                'icon' => 'ti ti-calendar-event',
-                'color' => 'indigo',
-                'resource' => 'calendars',
-                'route' => 'calendars.grid',
-                'is_global' => false,
-                'application_id' => $idAbsensi,
-                'order_no' => 5,
-                'is_active' => true,
-            ],
-            [
-                'type' => 'item',
-                'title' => 'Absensi',
-                'icon' => 'ti ti-calendar-event',
-                'color' => 'indigo',
-                'resource' => 'calendars',
-                'route' => 'calendars.grid',
-                'is_global' => false,
-                'application_id' => $idAbsensi,
-                'order_no' => 5,
-                'is_active' => true,
             ],
         ];
 

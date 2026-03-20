@@ -117,9 +117,12 @@
     </div>
 
     <!-- Children -->
-    @if ($menu->childrenAll->count() > 0)
+    @php
+        $children = $menu->childrenRecursiveAll ?? $menu->childrenAll ?? collect();
+    @endphp
+    @if ($children->count() > 0)
         <div class="menu-children">
-            @foreach ($menu->childrenAll as $child)
+            @foreach ($children as $child)
                 @include('pages.menus.partials.menu-item-with-permissions', ['menu' => $child, 'roleId' => $roleId])
             @endforeach
         </div>

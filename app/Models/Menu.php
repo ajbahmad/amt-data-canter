@@ -93,7 +93,8 @@ class Menu extends BaseModel
      */
     public function childrenRecursive(): HasMany
     {
-        return $this->children()->with('childrenRecursive');
+        return $this->children()
+            ->with(['childrenRecursive', 'permissions']);
     }
 
     /**
@@ -112,7 +113,8 @@ class Menu extends BaseModel
      */
     public function childrenRecursiveAll(): HasMany
     {
-        return $this->childrenAll()->with('childrenRecursiveAll');
+        return $this->childrenAll()
+            ->with(['childrenRecursiveAll', 'permissions']);
     }
 
     /**

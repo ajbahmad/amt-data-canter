@@ -11,7 +11,9 @@ use Illuminate\Support\Collection;
 class MenuService
 {
     public function __construct(private RbacService $rbacService)
-    {}
+    {
+        //
+    }
 
     /**
      * Get menu tree for user in specific application

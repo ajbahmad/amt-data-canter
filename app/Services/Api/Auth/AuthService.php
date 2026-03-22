@@ -119,9 +119,13 @@ class AuthService
         return Menu::query()
             ->where('is_active', true)
             ->whereNull('parent_id')
-            ->where(function ($query) use ($application) {
+            ->where(function ($query) use ($application, $roleIds) {
                 $query->where('is_global', true)
-                    ->orWhere('application_id', $application->id);
+                    ->orWhere('application_id', $application->id)
+                    ->whereHas('permissions', function ($query) use ($roleIds) {
+                        $query->whereIn('role_id', $roleIds);
+                        $query->where('can_view', true);
+                    });
             })
             ->orderBy('order_no')
             ->get()
@@ -151,6 +155,7 @@ class AuthService
         // Check if menu has explicit permission or children have permissions
         $hasPermission = $menu->permissions()
             ->whereIn('role_id', $roleIds)
+            ->where('can_view', true)
             ->exists();
 
         if ($hasPermission || $children->isNotEmpty()) {
@@ -164,6 +169,7 @@ class AuthService
                 'type' => $menu->type,
                 'url' => $menu->url,
                 'order_no' => $menu->order_no,
+                'permissions'   => $menu->permissions()->whereIn('role_id', $roleIds)->first(),
                 'children' => $children,
             ];
         }

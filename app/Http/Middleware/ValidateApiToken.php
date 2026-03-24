@@ -33,7 +33,6 @@ class ValidateApiToken
 
         // Verify token
         $tokenData = $this->authService->verifyToken($token);
-
         if (!$tokenData) {
             return response()->json([
                 'success' => false,

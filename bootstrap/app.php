@@ -30,6 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.role' => \App\Http\Middleware\CheckRoleAccess::class,
             'validate.api.client' => \App\Http\Middleware\ValidateApiClient::class,
             'auth.api.token' => \App\Http\Middleware\ValidateApiToken::class,
+            'validate.menu.permission' => \App\Http\Middleware\ValidateMenuPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

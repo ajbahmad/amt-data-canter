@@ -41,6 +41,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - amt-data-center-network
+      - shared-amt-network
 
   amt-data-center-nginx:
     image: nginx:alpine
@@ -75,3 +76,5 @@ volumes:
 
 networks:
   amt-data-center-network:
+  shared-amt-network:
+    external: true

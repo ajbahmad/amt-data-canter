@@ -10,15 +10,8 @@ $isSingleItem = $menu['type'] === 'single';
 $isLabelItem = $menu['type'] === 'label';
 $hasChildren = !empty($menu['children']) && is_array($menu['children']);
 
-// Get styling based on depth
-$paddingClass = match($depth) {
-    0 => 'ps-0',
-    1 => 'ps-4',
-    2 => 'ps-8',
-    3 => 'ps-12',
-    4 => 'ps-16',
-    default => 'ps-20',
-};
+// Get styling based on depth - using inline style to override class specificity and purge issues
+$paddingStyle = $depth > 0 ? 'padding-left: ' . ($depth * 1.5) . 'rem !important;' : '';
 
 $textSizeClass = match($depth) {
     0 => 'text-sm',
@@ -31,7 +24,7 @@ $textSizeClass = match($depth) {
     {{-- Safety check: stop rendering if depth exceeds max --}}
 @elseif($isLabelItem)
     {{-- Label menu item --}}
-    <li class="sidebar-item sidebar-label {{ $paddingClass }} {{ $textSizeClass }} my-5 text-gray-500 dark:text-gray-400">
+    <li class="sidebar-item sidebar-label {{ $textSizeClass }} my-5 text-gray-500 dark:text-gray-400" style="{{ $paddingStyle }}">
         <span class="hide-menu">{{ $menu['title'] }}</span>
     </li>
 @elseif($isSingleItem)
@@ -40,7 +33,8 @@ $textSizeClass = match($depth) {
         $isMenuActive = MenuHelper::isActive($menu);
     @endphp
     <li class="sidebar-item p-0 m-0 {{ $depth > 0 ? 'dropdown-submenu' : '' }}">
-        <a class="sidebar-link {{ $depth === 0 ? MenuHelper::getColorClass($menu['color'], 'background') . ' ' . MenuHelper::getColorClass($menu['color'], 'hover') : 'textlink dark:opacity-70' }} {{ $isMenuActive ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] . ($depth > 0 ? ' font-semibold' : '') : '' }} {{ $paddingClass }} {{ $textSizeClass }}"
+        <a class="sidebar-link {{ $depth === 0 ? MenuHelper::getColorClass($menu['color'], 'background') . ' ' . MenuHelper::getColorClass($menu['color'], 'hover') : 'textlink dark:opacity-70' }} {{ $isMenuActive ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] . ($depth > 0 ? ' font-semibold' : '') : '' }} {{ $textSizeClass }}"
+            style="{{ $paddingStyle }}"
             href="{{ MenuHelper::getRouteUrl($menu['route']) }}">
             <i class="text-lg {{ $menu['icon'] }}"></i>
             <span class="hide-menu flex-shrink-0">{{ $menu['title'] }}</span>
@@ -54,7 +48,8 @@ $textSizeClass = match($depth) {
         $contentId = str_replace('-accordion', '-content', $accordionId);
     @endphp
     <li class="hs-accordion sidebar-item {{ $depth > 0 ? 'dropdown-submenu' : '' }} {{ $hasActiveChild ? 'active' : '' }}" id="{{ $accordionId }}">
-        <a class="cursor-pointer hs-accordion-toggle sidebar-link {{ $depth === 0 ? MenuHelper::getColorClass($menu['color'], 'background') . ' ' . MenuHelper::getColorClass($menu['color'], 'hover') : 'textlink dark:opacity-70' }} {{ $hasActiveChild ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] : '' }} {{ $paddingClass }} {{ $textSizeClass }}">
+        <a class="cursor-pointer hs-accordion-toggle sidebar-link {{ $depth === 0 ? MenuHelper::getColorClass($menu['color'], 'background') . ' ' . MenuHelper::getColorClass($menu['color'], 'hover') : 'textlink dark:opacity-70' }} {{ $hasActiveChild ? 'active text-' . $menu['color'] . ' dark:text-' . $menu['color'] : '' }} {{ $textSizeClass }}"
+            style="{{ $paddingStyle }}">
             <i class="text-lg {{ $menu['icon'] }}"></i>
             <span class="hide-menu">{{ $menu['title'] }}</span>
             @if($depth === 0)

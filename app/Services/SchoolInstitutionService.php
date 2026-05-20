@@ -16,8 +16,7 @@ class SchoolInstitutionService
 
         if ($search) {
             $query->where('name', 'like', "%{$search}%")
-                ->orWhere('code', 'like', "%{$search}%")
-                ->orWhere('npsn', 'like', "%{$search}%");
+                ->orWhere('code', 'like', "%{$search}%");
         }
 
         return $query->paginate($perPage, ['*'], 'page', $page);

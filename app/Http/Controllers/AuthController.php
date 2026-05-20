@@ -50,11 +50,18 @@ class AuthController extends Controller
 
         // dd($user->roles());
 
-        // get application name in env APPLICATION_NAME
-        $applicationId = Application::where('slug', env('APPLICATION_NAME'))->first();
+        // get application name from config
+        $applicationSlug = config('app.application_name');
+        $application = Application::where('slug', $applicationSlug)->first();
+
+        if (!$application) {
+            throw ValidationException::withMessages([
+                'email' => 'Konfigurasi aplikasi tidak ditemukan di database.'
+            ]);
+        }
 
         // Get user's roles
-        $userRoleIds = $user->roles()->where('application_id', $applicationId->id)->pluck('role_id')->toArray();
+        $userRoleIds = $user->roles()->where('application_id', $application->id)->pluck('role_id')->toArray();
 
         if (!$userRoleIds) {
             throw ValidationException::withMessages([

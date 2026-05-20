@@ -9,7 +9,6 @@ class SchoolInstitution extends BaseModel
     protected $fillable = [
         'code',
         'name',
-        'npsn',
         'address',
         'phone',
         'email',

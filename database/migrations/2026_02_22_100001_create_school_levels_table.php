@@ -27,6 +27,9 @@ return new class extends Migration
             // nama level (SD, SMP, SMA, SMK)
             $table->string('name', 50);
 
+            // NPSN sekolah (opsional)
+            $table->string('npsn', 20)->nullable();
+
             // deskripsi (opsional)
             $table->text('description')->nullable();
 

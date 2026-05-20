@@ -10,6 +10,7 @@ class SchoolLevel extends BaseModel
         'school_institution_id',
         'code',
         'name',
+        'npsn',
         'description',
         'is_active',
     ];

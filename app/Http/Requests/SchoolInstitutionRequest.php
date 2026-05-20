@@ -27,7 +27,6 @@ class SchoolInstitutionRequest extends FormRequest
             $roles['code']          = 'required|string|max:50|unique:school_institutions,code,' . $id;
         }
         $roles['name']          = 'required|string|max:255';
-        $roles['npsn']          = 'nullable|string|max:20';
         $roles['address']       = 'nullable|string';
         $roles['phone']         = 'nullable|string|max:30';
         $roles['email']         = 'nullable|email|max:255';

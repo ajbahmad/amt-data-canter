@@ -65,6 +65,19 @@
                         <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
                     @enderror
                 </div>
+
+                <!-- NPSN -->
+                <div class="col-span-2">
+                    <label for="npsn" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="ti ti-number mr-2"></i>NPSN
+                    </label>
+                    <input type="text" id="npsn" name="npsn" value="{{ old('npsn') }}"
+                        class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('npsn') border-red-500 @enderror"
+                        placeholder="Masukkan NPSN (Opsional)">
+                    @error('npsn')
+                        <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             <!-- Deskripsi -->

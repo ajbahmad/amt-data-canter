@@ -21,8 +21,7 @@ return new class extends Migration
             // nama sekolah
             $table->string('name');
 
-            // NPSN sekolah (opsional)
-            $table->string('npsn', 20)->nullable();
+
 
             $table->text('address')->nullable();
             $table->string('phone', 30)->nullable();

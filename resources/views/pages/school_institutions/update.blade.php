@@ -48,19 +48,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- NPSN -->
-            <div>
-                <label for="npsn" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    <i class="ti ti-number mr-2"></i>NPSN
-                </label>
-                <input type="text" id="npsn" name="npsn" value="{{ old('npsn', $schoolInstitution->npsn) }}"
-                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('npsn') border-red-500 @enderror"
-                    placeholder="Nomor Pokok Sekolah Nasional">
-                @error('npsn')
-                    <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
-                @enderror
-            </div>
-
             <!-- Email -->
             <div>
                 <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -73,9 +60,7 @@
                     <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
                 @enderror
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Telepon -->
             <div>
                 <label for="phone" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -88,18 +73,16 @@
                     <p class="mt-2 text-sm text-red-500"><i class="ti ti-alert-circle mr-1"></i>{{ $message }}</p>
                 @enderror
             </div>
+        </div>
 
-            <!-- Status -->
-            <div class="flex items-end">
-                <div class="flex items-center space-x-3 w-full">
-                    <div class="flex items-center h-10 px-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
-                        <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $schoolInstitution->is_active) ? 'checked' : '' }}
-                            class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
-                        <label for="is_active" class="ml-3 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
-                            Status Aktif
-                        </label>
-                    </div>
-                </div>
+        <!-- Status -->
+        <div>
+            <div class="flex items-center h-10 px-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 w-fit">
+                <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $schoolInstitution->is_active) ? 'checked' : '' }}
+                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                <label for="is_active" class="ml-3 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
+                    Status Aktif
+                </label>
             </div>
         </div>
 

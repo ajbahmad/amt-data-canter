@@ -33,13 +33,6 @@
 
         <div>
             <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-number mr-2"></i>NPSN</p>
-                <p class="text-lg font-semibold ">{{ $schoolInstitution->npsn ?? '-' }}</p>
-            </div>
-        </div>
-
-        <div>
-            <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-mail mr-2"></i>Email</p>
                 <p class="text-lg font-semibold ">{{ $schoolInstitution->email ?? '-' }}</p>
             </div>

@@ -9,7 +9,7 @@
                 <img src="{{ asset('assets/images/logos/data-center.png') }}" style="width: 50px" class="w-1/2"/>
             </a>
         </div>
-        <div>
+        <div class="hide-menu">
             <h1 class="text-lg font-bold">DATA CENTER</h1>
             <p class="text-sm">Kelola data dengan efisien</p>
         </div>

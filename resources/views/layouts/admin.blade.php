@@ -100,6 +100,77 @@
         #datatable tbody tr td {
             white-space: nowrap;
         }
+
+        /* Collapse Sidebar Hide Menu */
+        body[data-sidebartype="mini-sidebar"] .left-sidebar .hide-menu {
+            display: none !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:hover .hide-menu {
+            display: block !important;
+        }
+
+        /* Centering elements when collapsed (not hovered) */
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .p-3.5 {
+            justify-content: center !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .brand-logo {
+            width: auto !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            overflow: visible !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .brand-logo img {
+            width: 40px !important;
+            max-width: 40px !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .mini-layout {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .sidebar-link {
+            justify-content: center !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .sidebar-link i {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .sidebar-link::before {
+            left: 0 !important;
+            width: 100% !important;
+            border-radius: 8px !important;
+        }
+
+        /* Force hide all active dropdown submenu contents in mini sidebar when not hovered */
+        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .hs-accordion-content {
+            display: none !important;
+        }
+
+        /* Adjust page-wrapper margin dynamically for screens 1280px and wider */
+        @media (min-width: 1280px) {
+            html[dir="ltr"] body[data-sidebartype="full"] .page-wrapper {
+                margin-left: 270px !important;
+                margin-right: 0 !important;
+            }
+            html[dir="ltr"] body[data-sidebartype="mini-sidebar"] .page-wrapper {
+                margin-left: 65px !important;
+                margin-right: 0 !important;
+            }
+            html[dir="rtl"] body[data-sidebartype="full"] .page-wrapper {
+                margin-right: 270px !important;
+                margin-left: 0 !important;
+            }
+            html[dir="rtl"] body[data-sidebartype="mini-sidebar"] .page-wrapper {
+                margin-right: 65px !important;
+                margin-left: 0 !important;
+            }
+        }
     </style>
 </head>
 
@@ -135,8 +206,8 @@
                         <!-- Horizontal Sidebar Menu End -->
 
                         <!------Container-------->
-                        <div class="max-w-full">
-                            <div class="container full-container w-full">
+                        <div class="max-w-full w-full">
+                            <div class="w-full">
                                 @yield('content')
                             </div>
                         </div>
@@ -209,37 +280,37 @@
         // });
     </script>
 
-    {{-- <script>
+    <script>
         function handleColorTheme(e) {
             document.documentElement.setAttribute("data-color-theme", e);
         }
 
         // Connect headerCollapse to mini-sidebar functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const headerCollapseBtn = document.getElementById('headerCollapse');
-            // get storage value for sidebar type
-            const sidebarType = localStorage.getItem('sidebarType') || userSettings.sidebarType || 'full';
+            // Get storage value safely
+            const defaultSidebarType = typeof userSettings !== 'undefined' ? userSettings.sidebarType : 'full';
+            const sidebarType = localStorage.getItem('sidebarType') || defaultSidebarType || 'full';
             document.body.setAttribute("data-sidebartype", sidebarType);
 
-            if (headerCollapseBtn) {
-                headerCollapseBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    // Get current sidebar type
-                    var currentSidebarType = document.body.getAttribute("data-sidebartype");
-
-                    // Toggle between full and mini-sidebar
-                    if (currentSidebarType === "full") {
-                        document.body.setAttribute("data-sidebartype", "mini-sidebar");
-                        localStorage.setItem('sidebarType', 'mini-sidebar');
-                    } else {
-                        document.body.setAttribute("data-sidebartype", "full");
-                        localStorage.setItem('sidebarType', 'full');
-                    }
-                });
+            // Toggle function
+            function toggleSidebar() {
+                var currentSidebarType = document.body.getAttribute("data-sidebartype") || 'full';
+                var newSidebarType = currentSidebarType === "full" ? "mini-sidebar" : "full";
+                
+                document.body.setAttribute("data-sidebartype", newSidebarType);
+                localStorage.setItem('sidebarType', newSidebarType);
             }
+
+            // Bind to all elements with class sidebartoggler
+            const togglers = document.querySelectorAll('.sidebartoggler');
+            togglers.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleSidebar();
+                });
+            });
         });
-    </script> --}}
+    </script>
     @stack('scripts')
 </body>
 

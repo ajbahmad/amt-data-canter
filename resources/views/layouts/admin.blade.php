@@ -7,83 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - AMT DATA CENTER</title>
+    <title>@yield('title') - Donezo Data Center</title>
 
     <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/data-center.png') }}" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap"
+    <link rel="shortcut icon" type="image/png" href="{{ asset('logo-amt.webp') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     @stack('styles')
+    
     <style>
-        /* Red Background Utilities */
-
-        .bg-red-100 {
-            background-color: #fee2e2;
-        }
-
-        .bg-red-200 {
-            background-color: #fecaca;
-        }
-
-        .bg-red-300 {
-            background-color: #fca5a5;
-        }
-
-        .bg-red-400 {
-            background-color: #f87171;
-        }
-
-        .bg-red-500 {
-            background-color: #ef4444;
-        }
-
-        .bg-red-600 {
-            background-color: #dc2626;
-        }
-
-        .bg-red-700 {
-            background-color: #b91c1c;
-        }
-
-
-        .text-red-100 {
-            color: #fee2e2;
-        }
-
-        .text-red-200 {
-            color: #fecaca;
-        }
-
-        .text-red-300 {
-            color: #fca5a5;
-        }
-
-        .text-red-400 {
-            color: #f87171;
-        }
-
-        .text-red-500 {
-            color: #ef4444;
-        }
-
-        .text-red-600 {
-            color: #dc2626;
-        }
-
-        .text-red-700 {
-            color: #b91c1c;
-        }
-
-        .dt-paging-button {
-            border-radius: 50% !important;
+        body, #main-wrapper, .page-wrapper, .DEFAULT_THEME {
+            background-color: #f8fafc !important; /* Cool grey background */
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
         }
 
         .container {
-            max-width: 1345px !important;
+            max-width: 1440px !important;
         }
 
         .table-responsive {
@@ -101,140 +44,133 @@
             white-space: nowrap;
         }
 
-        /* Collapse Sidebar Hide Menu */
-        body[data-sidebartype="mini-sidebar"] .left-sidebar .hide-menu {
-            display: none !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:hover .hide-menu {
-            display: block !important;
-        }
-
-        /* Centering elements when collapsed (not hovered) */
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .p-3.5 {
-            justify-content: center !important;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .brand-logo {
-            width: auto !important;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            overflow: visible !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .brand-logo img {
-            width: 40px !important;
-            max-width: 40px !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .mini-layout {
-            padding-left: 10px !important;
-            padding-right: 10px !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .sidebar-link {
-            justify-content: center !important;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .sidebar-link i {
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .sidebar-link::before {
-            left: 0 !important;
+        /* Donezo Premium DataTables Styling Overrides */
+        #datatable, table.dataTable, #dataTable-table, .dataTables_wrapper table {
             width: 100% !important;
-            border-radius: 8px !important;
+            border-collapse: collapse !important;
+            margin: 1.5rem 0 !important;
+            border: 1px solid #f1f5f9 !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
         }
-
-        /* Force hide all active dropdown submenu contents in mini sidebar when not hovered */
-        body[data-sidebartype="mini-sidebar"] .left-sidebar:not(:hover) .hs-accordion-content {
-            display: none !important;
+        #datatable thead tr, table.dataTable thead tr, #dataTable-table thead tr {
+            background-color: #f8fafc !important;
+            border-bottom: 2px solid #e2e8f0 !important;
         }
-
-        /* Adjust page-wrapper margin dynamically for screens 1280px and wider */
-        @media (min-width: 1280px) {
-            html[dir="ltr"] body[data-sidebartype="full"] .page-wrapper {
-                margin-left: 270px !important;
-                margin-right: 0 !important;
-            }
-            html[dir="ltr"] body[data-sidebartype="mini-sidebar"] .page-wrapper {
-                margin-left: 65px !important;
-                margin-right: 0 !important;
-            }
-            html[dir="rtl"] body[data-sidebartype="full"] .page-wrapper {
-                margin-right: 270px !important;
-                margin-left: 0 !important;
-            }
-            html[dir="rtl"] body[data-sidebartype="mini-sidebar"] .page-wrapper {
-                margin-right: 65px !important;
-                margin-left: 0 !important;
-            }
+        #datatable thead th, table.dataTable thead th, #dataTable-table thead th {
+            padding: 1rem 1.5rem !important;
+            text-align: left !important;
+            font-size: 0.75rem !important;
+            font-weight: 800 !important;
+            color: #64748b !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+        #datatable tbody tr, table.dataTable tbody tr, #dataTable-table tbody tr {
+            transition: background-color 0.2s ease-in-out !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+        }
+        #datatable tbody tr:hover, table.dataTable tbody tr:hover, #dataTable-table tbody tr:hover {
+            background-color: #f8fafc !important;
+        }
+        #datatable tbody td, table.dataTable tbody td, #dataTable-table tbody td {
+            padding: 1rem 1.5rem !important;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+            color: #334155 !important;
+            vertical-align: middle !important;
+        }
+        .dt-paging-button {
+            border-radius: 50% !important;
         }
     </style>
 </head>
 
-<body class="DEFAULT_THEME bg-lightprimary dark:bg-darkbody">
-
-    <!-- Toast -->
-    {{-- @include('layouts.partials.admin.toast') --}}
-    <!-- End Toast -->
+<body class="DEFAULT_THEME bg-[#f8fafc]">
 
     <!-- Modal Confirmation -->
     @include('layouts.partials.admin.modal-confirmation')
 
     <main>
         <!--start the project-->
-        <div id="main-wrapper" class="flex p-5">
+        <div id="main-wrapper" class="flex p-0 xl:p-5 gap-6 min-h-screen">
 
-            <!-- Vertical Sidebar -->
+            <!-- Donezo Vertical Sidebar -->
             @include('layouts.partials.admin.vertical-sidebar')
-            <!-- Vertical Sidebar End -->
+            <!-- Donezo Vertical Sidebar End -->
 
-            <div class="page-wrapper w-full" role="main">
+            <div class="page-wrapper w-full flex-grow xl:ps-[290px] ps-0 pt-0 pe-0" role="main">
 
                 <!-- Main Content -->
-                <main class="h-full ">
-                    <div class="container full-container py-5 xl:ps-6 ps-0 pt-0 pe-0 remove-ps max-w-full">
-
-                        <!--  Header Start -->
-                        @include('layouts.partials.admin.header')
-                        <!--  Header End -->
-
-                        <!-- Horizontal Sidebar Menu -->
-                        {{-- @include('layouts.partials.admin.horizontal-sidebar') --}}
-                        <!-- Horizontal Sidebar Menu End -->
-
-                        <!------Container-------->
-                        <div class="max-w-full w-full">
-                            <div class="w-full">
-                                @yield('content')
+                <main class="h-full py-5 px-4 xl:px-6">
+                    
+                    {{-- Custom Donezo Header / Topbar --}}
+                    <header class="w-full bg-white border border-slate-100 rounded-2xl p-4 mb-6 shadow-sm flex items-center justify-between">
+                        {{-- Left: Search Task Input --}}
+                        <div class="flex items-center gap-3 flex-grow max-w-md">
+                            {{-- Mobile Sidebar Toggle Button --}}
+                            <a class="xl:hidden p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-50 rounded-lg cursor-pointer sidebartoggler"
+                                data-hs-overlay="#application-sidebar-brand"
+                                aria-controls="application-sidebar-brand" aria-label="Toggle navigation">
+                                <iconify-icon icon="solar:list-bold-duotone" class="text-2xl"></iconify-icon>
+                            </a>
+                            
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-slate-400">
+                                    <iconify-icon icon="lucide:search" class="text-lg"></iconify-icon>
+                                </div>
+                                <input type="text" placeholder="Search task" class="w-full bg-slate-50 border-0 focus:ring-2 focus:ring-emerald-500/20 text-slate-700 placeholder-slate-400 text-xs rounded-xl py-2.5 ps-10 pe-12 font-medium focus:outline-none transition-all">
+                                <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                                    <kbd class="hidden sm:inline-block px-1.5 py-0.5 text-[9px] font-black text-slate-400 bg-white border border-slate-200 rounded-md">⌘ F</kbd>
+                                </div>
                             </div>
                         </div>
-                        <!-------End Container------->
 
+                        {{-- Right: Mail, Notification, and User Profile --}}
+                        <div class="flex items-center gap-4">
+                            {{-- Envelope --}}
+                            <a href="#" class="size-10 rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-700 hover:bg-slate-50 transition-all shrink-0">
+                                <iconify-icon icon="lucide:mail" class="text-lg"></iconify-icon>
+                            </a>
+
+                            {{-- Bell Notification --}}
+                            <a href="#" class="relative size-10 rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-700 hover:bg-slate-50 transition-all shrink-0">
+                                <iconify-icon icon="lucide:bell" class="text-lg"></iconify-icon>
+                                <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-emerald-600 rounded-full ring-2 ring-white"></span>
+                            </a>
+
+                            <div class="h-6 w-px bg-slate-200 mx-1"></div>
+
+                            {{-- Profile block matching Totok Michael --}}
+                            <div class="flex items-center gap-3 pl-1 select-none">
+                                <img class="w-10 h-10 rounded-full border border-emerald-100 object-cover shadow-sm shrink-0"
+                                     src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f0fdf4&color=0f513d&size=64" alt="Avatar">
+                                <div class="hidden sm:block text-left">
+                                    <p class="text-xs font-black text-slate-800 leading-snug">{{ auth()->user()->name }}</p>
+                                    <p class="text-[10px] font-bold text-slate-400 mt-0.5 leading-none">{{ auth()->user()->email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!------Container-------->
+                    <div class="max-w-full w-full">
+                        <div class="w-full">
+                            @yield('content')
+                        </div>
                     </div>
+                    <!-------End Container------->
+
                 </main>
                 <!-- Main Content End -->
-                <!-- Footer -->
-                @include('layouts.partials.admin.footer')
-                <!-- Footer End -->
             </div>
         </div>
         <!--end of project-->
     </main>
-    <!-- Menu Canvas-->
-    {{-- @include('layouts.partials.admin.menu-canvas') --}}
-    <!-- End Menu Canvas-->
-    <!------- Customizer button--------->
-    {{-- @include('layouts.partials.admin.customizer-button') --}}
-    <!------- End Customizer button--------->
 
-    <!------- Customizer Options--------->
-    {{-- @include('layouts.partials.admin.customizer-options') --}}
-    <!------- End Customizer Options--------->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
-
     <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
@@ -245,68 +181,17 @@
     <script src="{{ asset('assets/libs/@preline/stepper/index.js') }}"></script>
 
     <script>
-        // Wait for jQuery to be available before loading vector map plugins
-        // function waitForjQuery(callback) {
-        //     if (window.jQuery && window.$) {
-        //         callback();
-        //     } else {
-        //         setTimeout(function() {
-        //             waitForjQuery(callback);
-        //         }, 50);
-        //     }
-        // }
-
-        // Load vector map scripts after jQuery is ready
-        // waitForjQuery(function() {
-        //     // Load JVectorMap scripts dynamically
-        //     var script1 = document.createElement('script');
-        //     script1.src = "{{ asset('assets/libs/jvectormap/jquery-jvectormap.min.js') }}";
-        //     script1.onload = function() {
-        //         var script2 = document.createElement('script');
-        //         script2.src = "{{ asset('assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js') }}";
-        //         script2.onload = function() {
-        //             var script3 = document.createElement('script');
-        //             script3.src = "{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}";
-        //             script3.onload = function() {
-        //                 var script4 = document.createElement('script');
-        //                 script4.src = "{{ asset('assets/js/dashboards/dashboard.js') }}";
-        //                 document.head.appendChild(script4);
-        //             };
-        //             document.head.appendChild(script3);
-        //         };
-        //         document.head.appendChild(script2);
-        //     };
-        //     document.head.appendChild(script1);
-        // });
-    </script>
-
-    <script>
-        function handleColorTheme(e) {
-            document.documentElement.setAttribute("data-color-theme", e);
-        }
-
         // Connect headerCollapse to mini-sidebar functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Get storage value safely
-            const defaultSidebarType = typeof userSettings !== 'undefined' ? userSettings.sidebarType : 'full';
-            const sidebarType = localStorage.getItem('sidebarType') || defaultSidebarType || 'full';
-            document.body.setAttribute("data-sidebartype", sidebarType);
-
-            // Toggle function
-            function toggleSidebar() {
-                var currentSidebarType = document.body.getAttribute("data-sidebartype") || 'full';
-                var newSidebarType = currentSidebarType === "full" ? "mini-sidebar" : "full";
-                
-                document.body.setAttribute("data-sidebartype", newSidebarType);
-                localStorage.setItem('sidebarType', newSidebarType);
-            }
-
-            // Bind to all elements with class sidebartoggler
             const togglers = document.querySelectorAll('.sidebartoggler');
             togglers.forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    toggleSidebar();
+                    const sidebar = document.getElementById('application-sidebar-brand');
+                    if (sidebar) {
+                        sidebar.classList.toggle('hidden');
+                        sidebar.classList.toggle('-translate-x-full');
+                    }
                 });
             });
         });

@@ -1,442 +1,202 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en" dir="ltr" data-color-theme="Blue_Theme" class="light selected" data-layout="vertical"
+    data-boxed-layout="boxed" data-card="shadow">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - Data Center AL-MUJTAMA</title>
+    <title>@yield('title') - Donezo Data Center</title>
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/png" href="{{ asset('logo-amt.webp') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    <!-- Core Css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @stack('styles')
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <!-- Custom CSS -->
     <style>
-        :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #6c757d;
-            --sidebar-bg: #2c3e50;
-            --sidebar-text: #ecf0f1;
-            --sidebar-hover: #34495e;
+        body, #main-wrapper, .page-wrapper, .DEFAULT_THEME {
+            background-color: #f8fafc !important; /* Cool grey background */
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .container {
+            max-width: 1440px !important;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f6fa;
+        .table-responsive {
+            overflow-x: auto;
+            max-width: 100%;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            min-height: 100vh;
-            padding: 20px 0;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            overflow-y: auto;
-            z-index: 1000;
+        #datatable thead tr.filters th {
+            padding: 10px 1px;
+            font-weight: 100 !important
         }
 
-        .sidebar .brand {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
+        #datatable thead tr th,
+        #datatable tbody tr td {
+            white-space: nowrap;
         }
 
-        .sidebar .brand h5 {
-            color: var(--sidebar-text);
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 16px;
+        /* Donezo Premium DataTables Styling Overrides */
+        #datatable, table.dataTable, #dataTable-table, .dataTables_wrapper table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 1.5rem 0 !important;
+            border: 1px solid #f1f5f9 !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
         }
-
-        .sidebar .brand p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-            margin: 0;
+        #datatable thead tr, table.dataTable thead tr, #dataTable-table thead tr {
+            background-color: #f8fafc !important;
+            border-bottom: 2px solid #e2e8f0 !important;
         }
-
-        .sidebar-nav {
-            list-style: none;
-            padding: 0;
+        #datatable thead th, table.dataTable thead th, #dataTable-table thead th {
+            padding: 1rem 1.5rem !important;
+            text-align: left !important;
+            font-size: 0.75rem !important;
+            font-weight: 800 !important;
+            color: #64748b !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
         }
-
-        .sidebar-nav .nav-item {
-            margin: 5px 0;
+        #datatable tbody tr, table.dataTable tbody tr, #dataTable-table tbody tr {
+            transition: background-color 0.2s ease-in-out !important;
+            border-bottom: 1px solid #f1f5f9 !important;
         }
-
-        .sidebar-nav .nav-link {
-            color: var(--sidebar-text);
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-            font-size: 14px;
+        #datatable tbody tr:hover, table.dataTable tbody tr:hover, #dataTable-table tbody tr:hover {
+            background-color: #f8fafc !important;
         }
-
-        .sidebar-nav .nav-link:hover {
-            background-color: var(--sidebar-hover);
-            border-left-color: var(--primary-color);
-            color: white;
+        #datatable tbody td, table.dataTable tbody td, #dataTable-table tbody td {
+            padding: 1rem 1.5rem !important;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+            color: #334155 !important;
+            vertical-align: middle !important;
         }
-
-        .sidebar-nav .nav-link.active {
-            background-color: var(--primary-color);
-            border-left-color: var(--primary-color);
-            color: white;
-        }
-
-        .sidebar-nav .nav-link i {
-            width: 20px;
-            text-align: center;
-            margin-right: 10px;
-        }
-
-        .sidebar-nav .has-children .collapse {
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .sidebar-nav .has-children .nav-sm {
-            padding-left: 0;
-            list-style: none;
-        }
-
-        .sidebar-nav .has-children .nav-sm .nav-link {
-            padding-left: 45px;
-            font-size: 13px;
-        }
-
-        .sidebar-nav .chevron {
-            margin-left: auto;
-            font-size: 11px;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-nav .chevron.collapsed {
-            transform: rotate(-90deg);
-        }
-
-        /* Main Content */
-        .main-wrapper {
-            margin-left: 250px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .navbar-top {
-            background-color: white;
-            padding: 15px 30px;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .navbar-top .page-title {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-
-        .navbar-top .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .navbar-top .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .navbar-top .user-name {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.3;
-        }
-
-        .navbar-top .user-name .name {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 14px;
-        }
-
-        .navbar-top .user-name .role {
-            font-size: 12px;
-            color: #7f8c8d;
-        }
-
-        .navbar-top .dropdown-menu {
-            min-width: 200px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-top .dropdown-item {
-            padding: 10px 20px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        .navbar-top .dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: var(--primary-color);
-        }
-
-        .navbar-top .dropdown-item i {
-            width: 16px;
-            margin-right: 10px;
-            color: var(--primary-color);
-        }
-
-        .content {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-        }
-
-        .content .page-header {
-            margin-bottom: 30px;
-        }
-
-        .content .page-header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .content .page-header p {
-            color: #7f8c8d;
-            margin: 0;
-            font-size: 14px;
-        }
-
-        /* Alert Styles */
-        .alert {
-            border: none;
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border-left: 4px solid #ffc107;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
-        }
-
-        /* Card Styles */
-        .card {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-            padding: 20px;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .card-header h5 {
-            margin: 0;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                position: relative;
-                padding: 0;
-            }
-
-            .main-wrapper {
-                margin-left: 0;
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            .content .page-header h1 {
-                font-size: 24px;
-            }
-
-            .navbar-top {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-
-            .navbar-top .page-title {
-                flex: 1 0 100%;
-            }
-        }
-
-        /* Scrollbar */
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .dt-paging-button {
+            border-radius: 50% !important;
         }
     </style>
-
-    @yield('styles')
 </head>
-<body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="brand">
-                <h5>📊 DATA CENTER</h5>
-                <p>AL-MUJTAMA</p>
-            </div>
-            <ul class="sidebar-nav">
-                {!! App\Helpers\MenuBuilderHelper::renderSidebar() !!}
-            </ul>
-        </nav>
 
-        <!-- Main Content -->
-        <div class="main-wrapper">
-            <!-- Top Navbar -->
-            <nav class="navbar-top">
-                <div class="page-title">
-                    <h6 class="mb-0">@yield('breadcrumb', 'Dashboard')</h6>
-                </div>
-                <div class="user-info">
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle d-flex align-items-center gap-3" 
-                           id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                           style="text-decoration: none; color: inherit;">
-                            <div class="user-avatar">
-                                {{ substr(auth()->user()->name, 0, 1) }}
+<body class="DEFAULT_THEME bg-[#f8fafc]">
+
+    <!-- Modal Confirmation -->
+    @include('layouts.partials.admin.modal-confirmation')
+
+    <main>
+        <!--start the project-->
+        <div id="main-wrapper" class="flex p-0 xl:p-5 gap-6 min-h-screen">
+
+            <!-- Donezo Vertical Sidebar -->
+            @include('layouts.partials.admin.vertical-sidebar')
+            <!-- Donezo Vertical Sidebar End -->
+
+            <div class="page-wrapper w-full flex-grow xl:ps-[290px] ps-0 pt-0 pe-0" role="main">
+
+                <!-- Main Content -->
+                <main class="h-full py-5 px-4 xl:px-6">
+                    
+                    {{-- Custom Donezo Header / Topbar --}}
+                    <header class="w-full bg-white border border-slate-100 rounded-2xl p-4 mb-6 shadow-sm flex items-center justify-between">
+                        {{-- Left: Search Task Input --}}
+                        <div class="flex items-center gap-3 flex-grow max-w-md">
+                            {{-- Mobile Sidebar Toggle Button --}}
+                            <a class="xl:hidden p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-50 rounded-lg cursor-pointer sidebartoggler"
+                                data-hs-overlay="#application-sidebar-brand"
+                                aria-controls="application-sidebar-brand" aria-label="Toggle navigation">
+                                <iconify-icon icon="solar:list-bold-duotone" class="text-2xl"></iconify-icon>
+                            </a>
+                            
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-slate-400">
+                                    <iconify-icon icon="lucide:search" class="text-lg"></iconify-icon>
+                                </div>
+                                <input type="text" placeholder="Search task" class="w-full bg-slate-50 border-0 focus:ring-2 focus:ring-emerald-500/20 text-slate-700 placeholder-slate-400 text-xs rounded-xl py-2.5 ps-10 pe-12 font-medium focus:outline-none transition-all">
+                                <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                                    <kbd class="hidden sm:inline-block px-1.5 py-0.5 text-[9px] font-black text-slate-400 bg-white border border-slate-200 rounded-md">⌘ F</kbd>
+                                </div>
                             </div>
-                            <div class="user-name">
-                                <div class="name">{{ auth()->user()->name }}</div>
-                                <div class="role">{{ auth()->user()->role->display_name ?? 'No Role' }}</div>
+                        </div>
+
+                        {{-- Right: Mail, Notification, and User Profile --}}
+                        <div class="flex items-center gap-4">
+                            {{-- Envelope --}}
+                            <a href="#" class="size-10 rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-700 hover:bg-slate-50 transition-all shrink-0">
+                                <iconify-icon icon="lucide:mail" class="text-lg"></iconify-icon>
+                            </a>
+
+                            {{-- Bell Notification --}}
+                            <a href="#" class="relative size-10 rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-700 hover:bg-slate-50 transition-all shrink-0">
+                                <iconify-icon icon="lucide:bell" class="text-lg"></iconify-icon>
+                                <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-emerald-600 rounded-full ring-2 ring-white"></span>
+                            </a>
+
+                            <div class="h-6 w-px bg-slate-200 mx-1"></div>
+
+                            {{-- Profile block matching Totok Michael --}}
+                            <div class="flex items-center gap-3 pl-1 select-none">
+                                <img class="w-10 h-10 rounded-full border border-emerald-100 object-cover shadow-sm shrink-0"
+                                     src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f0fdf4&color=0f513d&size=64" alt="Avatar">
+                                <div class="hidden sm:block text-left">
+                                    <p class="text-xs font-black text-slate-800 leading-snug">{{ auth()->user()->name }}</p>
+                                    <p class="text-[10px] font-bold text-slate-400 mt-0.5 leading-none">{{ auth()->user()->email }}</p>
+                                </div>
                             </div>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profil</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-key"></i> Ubah Password</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                        </div>
+                    </header>
 
-            <!-- Content -->
-            <div class="content">
-                @if ($message = session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>✓ Berhasil!</strong> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <!------Container-------->
+                    <div class="max-w-full w-full">
+                        <div class="w-full">
+                            @yield('content')
+                        </div>
                     </div>
-                @endif
+                    <!-------End Container------->
 
-                @if ($message = session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>✗ Gagal!</strong> {{ $message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Validasi Error!</strong>
-                        <ul class="mb-0 mt-2">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                @endif
-
-                @yield('content')
+                </main>
+                <!-- Main Content End -->
             </div>
         </div>
-    </div>
+        <!--end of project-->
+    </main>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/iconify-icon/dist/iconify-icon.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/preline/dist/preline.js') }}"></script>
+    <script src="{{ asset('assets/libs/@preline/input-number/index.js') }}"></script>
+    <script src="{{ asset('assets/libs/@preline/tooltip/index.js') }}"></script>
+    <script src="{{ asset('assets/libs/@preline/stepper/index.js') }}"></script>
 
-    @yield('scripts')
+    <script>
+        // Connect headerCollapse to mini-sidebar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglers = document.querySelectorAll('.sidebartoggler');
+            togglers.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sidebar = document.getElementById('application-sidebar-brand');
+                    if (sidebar) {
+                        sidebar.classList.toggle('hidden');
+                        sidebar.classList.toggle('-translate-x-full');
+                    }
+                });
+            });
+        });
+    </script>
+    @stack('scripts')
 </body>
+
 </html>

@@ -11,8 +11,8 @@
             <img src="{{ asset('logo-amt.webp') }}" alt="" class="w-10 h-10">
         </div>
         <div class="hide-menu">
-            <h1 class="text-lg font-black text-slate-800 tracking-tight uppercase">Data Center</h1>
-            <p class="text-xs font-black text-slate-800 tracking-tight uppercase">Aplikasi Manajemen Talenta</p>
+            <h1 class="text-lg font-bold">DATA CENTER</h1>
+            <p class="text-sm" style="font-size: 0.9em">Kelola data dengan efisien</p>
         </div>
     </div>
 

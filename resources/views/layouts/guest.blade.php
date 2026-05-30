@@ -6,10 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') - Adirama Education Center</title>
+    <title>@yield('title') - Data Center</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/webp" href="https://ppdb.smkalmujtamak.sch.id/logo-amt.webp" />
+    <link rel="shortcut icon" type="image/webp" href="https://ppdb.smkalmujtamak.sch.id/logo-amt.webp" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">

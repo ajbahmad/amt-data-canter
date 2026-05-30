@@ -22,7 +22,7 @@
             <x-admin.vertical-menu />
         </div>
 
-        {{-- Donezo Mobile App Promo Card --}}
+        {{-- Data Center Mobile App Promo Card --}}
         
     </div>
 
@@ -30,9 +30,9 @@
     @include('layouts.partials.admin.buttom-user-info')
 </aside>
 
-{{-- Active Donezo Sidenav Styles --}}
+{{-- Active Sidenav Styles --}}
 <style>
-/* Donezo Sidebar Styles */
+/* Sidebar Styles */
 #application-sidebar-brand {
     background-color: #ffffff !important;
     border-right: 1px solid #f1f5f9 !important;

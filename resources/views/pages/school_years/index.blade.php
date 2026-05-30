@@ -23,7 +23,7 @@
                 </span>
                 Daftar Tahun Akademik
             </h2>
-            <p class="donezo-subtitle">Kelola tahun ajaran akademik aktif, semester gasal/genap, dan jadwal kalender pendidikan.</p>
+            <p class="datacenter-subtitle">Kelola tahun ajaran akademik aktif, semester gasal/genap, dan jadwal kalender pendidikan.</p>
         </div>
         <a href="{{ route('school_years.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 px-5 py-2.5 text-xs font-bold text-white transition-all shadow-sm">
             <iconify-icon icon="lucide:plus" class="text-sm"></iconify-icon>
@@ -45,7 +45,7 @@
     
     <style>
         /* Subtitle Styles */
-        .donezo-subtitle {
+        .datacenter-subtitle {
             font-size: 0.75rem !important;
             font-weight: 500 !important;
             color: #64748b !important;

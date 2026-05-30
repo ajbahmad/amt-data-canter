@@ -23,7 +23,7 @@
                 </span>
                 Daftar Rombel
             </h2>
-            <p class="donezo-subtitle">Kelola pembagian rombongan belajar kelas, jadwal masuk harian, dan kepengurusan wali kelas.</p>
+            <p class="datacenter-subtitle">Kelola pembagian rombongan belajar kelas, jadwal masuk harian, dan kepengurusan wali kelas.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
             <a href="{{ route('class_rooms.set_schedule') }}" class="inline-flex items-center gap-2 rounded-xl bg-blue-50 hover:bg-blue-100 px-5 py-2.5 text-xs font-bold text-blue-800 transition-all">
@@ -51,7 +51,7 @@
     
     <style>
         /* Subtitle Styles */
-        .donezo-subtitle {
+        .datacenter-subtitle {
             font-size: 0.75rem !important;
             font-weight: 500 !important;
             color: #64748b !important;

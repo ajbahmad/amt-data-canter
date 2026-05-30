@@ -23,7 +23,7 @@
                 </span>
                 Daftar Lembaga
             </h2>
-            <p class="donezo-subtitle">Kelola informasi instansi lembaga pendidikan, yayasan, unit sekolah, dan profil organisasi.</p>
+            <p class="datacenter-subtitle">Kelola informasi instansi lembaga pendidikan, yayasan, unit sekolah, dan profil organisasi.</p>
         </div>
     </div>
     
@@ -41,7 +41,7 @@
     
     <style>
         /* Subtitle Styles */
-        .donezo-subtitle {
+        .datacenter-subtitle {
             font-size: 0.75rem !important;
             font-weight: 500 !important;
             color: #64748b !important;

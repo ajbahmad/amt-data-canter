@@ -7,10 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - Donezo Data Center</title>
+    <title>@yield('title') - Data Center</title>
 
     <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('logo-amt.webp') }}" />
+    <link rel="icon" type="image/webp" href="https://ppdb.smkalmujtamak.sch.id/logo-amt.webp" />
+    <link rel="shortcut icon" type="image/webp" href="https://ppdb.smkalmujtamak.sch.id/logo-amt.webp" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
@@ -44,7 +45,7 @@
             white-space: nowrap;
         }
 
-        /* Donezo Premium DataTables Styling Overrides */
+        /* Premium DataTables Styling Overrides */
         #datatable, table.dataTable, #dataTable-table, .dataTables_wrapper table {
             width: 100% !important;
             border-collapse: collapse !important;
@@ -97,16 +98,16 @@
         <!--start the project-->
         <div id="main-wrapper" class="flex p-0 xl:p-5 gap-6 min-h-screen">
 
-            <!-- Donezo Vertical Sidebar -->
+            <!-- Vertical Sidebar -->
             @include('layouts.partials.admin.vertical-sidebar')
-            <!-- Donezo Vertical Sidebar End -->
+            <!-- Vertical Sidebar End -->
 
             <div class="page-wrapper w-full flex-grow xl:ps-[290px] ps-0 pt-0 pe-0" role="main">
 
                 <!-- Main Content -->
                 <main class="h-full py-5 px-4 xl:px-6">
                     
-                    {{-- Custom Donezo Header / Topbar --}}
+                    {{-- Custom Header / Topbar --}}
                     <header class="w-full bg-white border border-slate-100 rounded-2xl p-4 mb-6 shadow-sm flex items-center justify-between">
                         {{-- Left: Search Task Input --}}
                         <div class="flex items-center gap-3 flex-grow max-w-md">

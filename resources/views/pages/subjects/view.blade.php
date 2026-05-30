@@ -14,59 +14,65 @@
     ]
 ])
 
-<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-
-    <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-            <i class="ti ti-books mr-2"></i>{{ $subject->name }}
+<div class="rounded-2xl border border-slate-50 bg-white p-8 shadow-none">
+    
+    <div class="mb-8 pb-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h2 class="text-xl font-extrabold text-emerald-800 flex items-center gap-2">
+            <span class="size-8 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center">
+                <iconify-icon icon="lucide:book-open" class="text-base"></iconify-icon>
+            </span>
+            Mata Pelajaran: {{ $subject->name }}
         </h2>
-        <div class="flex gap-2">
-            <a href="{{ route('subjects.edit', $subject->id) }}" class="inline-flex items-center rounded-lg bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 transition">
-                <i class="ti ti-edit mr-2"></i>Edit
+        
+        <div class="flex items-center gap-2">
+            <a href="{{ route('subjects.edit', $subject->id) }}" style="background-color: #3b82f6" class="inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-bold text-white transition-all shadow-sm hover:brightness-105">
+                <iconify-icon icon="lucide:edit-2" class="text-sm"></iconify-icon>
+                Edit
             </a>
-            <button onclick="deleteSubject('{{ route('subjects.destroy', $subject->id) }}')" class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700 transition">
-                <i class="ti ti-trash mr-2"></i>Hapus
+            <button onclick="deleteSubject('{{ route('subjects.destroy', $subject->id) }}')" class="inline-flex items-center gap-1.5 rounded-xl bg-red-50 text-red-655 hover:bg-red-100 px-4 py-2.5 text-xs font-bold transition-all">
+                <iconify-icon icon="lucide:trash-2" class="text-sm"></iconify-icon>
+                Hapus
             </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Sekolah</p>
-            <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">{{ $subject->schoolLevel->name ?? '-' }}</p>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Sekolah</label>
+            <p class="text-sm font-bold text-slate-800">{{ $subject->schoolLevel->name ?? '-' }}</p>
         </div>
 
         <div>
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Nama Mata Pelajaran</p>
-            <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">{{ $subject->name }}</p>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Nama Mata Pelajaran</label>
+            <p class="text-sm font-bold text-slate-800">{{ $subject->name }}</p>
         </div>
 
         <div>
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Kode</p>
-            <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">{{ $subject->code ?? '-' }}</p>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Kode</label>
+            <p class="text-sm font-bold text-slate-800">{{ $subject->code ?? '-' }}</p>
         </div>
 
         <div>
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Status</p>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Status Keaktifan</label>
             <div class="mt-1">
                 @if($subject->is_active)
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                        <i class="ti ti-circle-check mr-2"></i>Aktif
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-850">
+                        Aktif
                     </span>
                 @else
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                        <i class="ti ti-circle-x mr-2"></i>Non Aktif
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-800">
+                        Non-Aktif
                     </span>
                 @endif
             </div>
         </div>
-
     </div>
 
-    <div class="mt-6 flex gap-3">
-        <a href="{{ route('subjects.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
-            <i class="ti ti-arrow-left mr-2"></i>Kembali
+    <!-- Navigation Back -->
+    <div class="pt-6 border-t border-slate-100 flex items-center">
+        <a href="{{ route('subjects.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-6 py-2.5 text-xs font-bold text-slate-700 transition-all">
+            <iconify-icon icon="lucide:arrow-left" class="text-sm"></iconify-icon>
+            Kembali
         </a>
     </div>
 
@@ -79,12 +85,12 @@
     <script>
         function deleteSubject(url) {
             Swal.fire({
-                title: 'Hapus Data',
+                title: 'Hapus Mata Pelajaran?',
                 html: 'Apakah Anda yakin ingin menghapus data ini? Data yang dihapus tidak dapat dikembalikan.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
+                cancelButtonColor: '#64748b',
                 confirmButtonText: 'Hapus',
                 cancelButtonText: 'Batal'
             }).then((result) => {

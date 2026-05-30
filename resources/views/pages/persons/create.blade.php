@@ -4,252 +4,273 @@
 
 @section('content')
 
-    @include('layouts.partials.admin.breadcrumb', [
-        'title' => 'Tambah Orang',
-        'breadcrumbs' => [
-            ['name' => 'Dashboard', 'url' => route('dashboard')],
-            ['name' => 'Data Master', 'url' => '#'],
-            ['name' => 'Orang', 'url' => route('persons.index')],
-            ['name' => 'Tambah', 'url' => '#'],
-        ],
-    ])
+@include('layouts.partials.admin.breadcrumb', [
+    'title' => 'Tambah Orang',
+    'breadcrumbs' => [
+        ['name' => 'Dashboard', 'url' => route('dashboard')],
+        ['name' => 'Data Master', 'url' => '#'],
+        ['name' => 'Orang', 'url' => route('persons.index')],
+        ['name' => 'Tambah', 'url' => '#']
+    ]
+])
 
-    <form action="{{ route('persons.store') }}" method="POST" enctype="multipart/form-data" id="personForm">
-        @csrf
-        <div class="grid grid-cols-1 gap-6 grid-cols-12 mb-6">
-            <!-- Photo Upload Section -->
-            <div class="col-span-3">
-                <div class="rounded-lg border border-gray-200 bg-white p-6">
-
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Foto
-                    </label>
-                    <div class="relative">
-                        <div id="photoPreview"
-                            class="w-full h-56 aspect-square rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center overflow-hidden">
-                            <div id="photoPlaceholder" class="text-center">
-                                <i class="ti ti-photo text-4xl text-gray-400 mb-2"></i>
-                                <p class="text-sm text-gray-500">Belum ada foto</p>
-                            </div>
-                            <img id="photoImage" style="display: none; width: 100%; height: 100%; object-fit: cover;"
-                                alt="Preview">
+<form action="{{ route('persons.store') }}" method="POST" enctype="multipart/form-data" id="personForm">
+    @csrf
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        
+        <!-- Photo Upload Section -->
+        <div class="lg:col-span-4 xl:col-span-3">
+            <div class="rounded-2xl border border-slate-50 bg-white p-6 shadow-none">
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-4">
+                    <i class="ti ti-photo mr-1 text-emerald-700"></i>Foto Profil
+                </label>
+                
+                <div class="relative">
+                    <div id="photoPreview" class="w-full aspect-square rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden transition-all duration-200">
+                        <div id="photoPlaceholder" class="text-center p-4">
+                            <iconify-icon icon="lucide:image" class="text-4xl text-slate-400 mb-2"></iconify-icon>
+                            <p class="text-xs text-slate-500 font-semibold">Belum ada foto</p>
                         </div>
-                        <input type="file" name="photo" id="photoInput" accept="image/*" class="hidden">
-                        <button type="button" onclick="document.getElementById('photoInput').click()"
-                            class="mt-2 w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
-                            <i class="ti ti-upload mr-2"></i>Pilih Foto
-                        </button>
-                        @error('photo')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <img id="photoImage" style="display: none; width: 100%; height: 100%; object-fit: cover;" alt="Preview">
                     </div>
+                    
+                    <input type="file" name="photo" id="photoInput" accept="image/*" class="hidden">
+                    
+                    <button type="button" onclick="document.getElementById('photoInput').click()" class="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-4 py-2.5 text-xs font-bold text-slate-700 transition-all">
+                        <iconify-icon icon="lucide:upload" class="text-sm"></iconify-icon>
+                        Pilih Foto
+                    </button>
+                    
+                    @error('photo')
+                        <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                            <i class="ti ti-alert-circle"></i>{{ $message }}
+                        </p>
+                    @enderror
                 </div>
             </div>
-            <div class="col-span-9">
-                <div class="rounded-lg border border-gray-200 bg-white p-6">
-                    <div class="grid grid-cols-1 gap-6 grid-cols-2">
-                        <!-- Form Fields Section -->
+        </div>
 
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Lembaga
-                            </label>
-                            <select name="school_institution_id"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
-                                <option value="">-- Pilih --</option>
+        <!-- Form Fields Section -->
+        <div class="lg:col-span-8 xl:col-span-9">
+            <div class="rounded-2xl border border-slate-50 bg-white p-8 shadow-none">
+                
+                <div class="mb-8 pb-4 border-b border-slate-100">
+                    <h2 class="text-xl font-extrabold text-emerald-800 flex items-center gap-2">
+                        <span class="size-8 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center">
+                            <iconify-icon icon="lucide:user-plus" class="text-base"></iconify-icon>
+                        </span>
+                        Form Tambah Orang
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Lengkapi data pribadi biodata di bawah ini.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            <i class="ti ti-building mr-1 text-emerald-700"></i>Lembaga
+                        </label>
+                        <div class="relative">
+                            <select name="school_institution_id" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('school_institution_id') border-red-500 @enderror">
+                                <option value="">-- Pilih Lembaga --</option>
                                 @foreach($schoolInstitutions ?? [] as $institution)
                                     <option value="{{ $institution->id }}" {{ old('school_institution_id') === $institution->id ? 'selected' : '' }}>
                                         {{ $institution->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('school_institution_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                                <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                            </div>
                         </div>
+                        @error('school_institution_id')
+                            <p class="text-red-655 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Nama Depan <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="first_name" value="{{ old('first_name') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('first_name') border-red-500 @enderror"
-                                placeholder="Nama depan">
-                            @error('first_name')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Nama Depan <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="first_name" value="{{ old('first_name') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('first_name') border-red-500 @enderror" placeholder="Nama depan">
+                        @error('first_name')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Nama Belakang
-                            </label>
-                            <input type="text" name="last_name" value="{{ old('last_name') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('last_name') border-red-500 @enderror"
-                                placeholder="Nama belakang">
-                            @error('last_name')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Nama Belakang
+                        </label>
+                        <input type="text" name="last_name" value="{{ old('last_name') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('last_name') border-red-500 @enderror" placeholder="Nama belakang">
+                        @error('last_name')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Nomor Identitas
-                            </label>
-                            <input type="text" name="identity_number" value="{{ old('identity_number') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('identity_number') border-red-500 @enderror"
-                                placeholder="NIK, NIM, NIP, etc">
-                            @error('identity_number')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Email <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" value="{{ old('email') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('email') border-red-500 @enderror"
-                                placeholder="email@example.com">
-                            @error('email')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            <i class="ti ti-id mr-1 text-emerald-700"></i>Nomor Identitas
+                        </label>
+                        <input type="text" name="identity_number" value="{{ old('identity_number') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('identity_number') border-red-500 @enderror" placeholder="NIK, NIM, NIP, etc">
+                        @error('identity_number')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Telepon
-                            </label>
-                            <input type="tel" name="phone" value="{{ old('phone') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('phone') border-red-500 @enderror"
-                                placeholder="08xxxxxxxxxx">
-                            @error('phone')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Email <span class="text-red-500">*</span>
+                        </label>
+                        <input type="email" name="email" value="{{ old('email') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('email') border-red-500 @enderror" placeholder="email@example.com">
+                        @error('email')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Jenis Kelamin
-                            </label>
-                            <select name="gender"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('gender') border-red-500 @enderror">
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Telepon
+                        </label>
+                        <input type="tel" name="phone" value="{{ old('phone') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('phone') border-red-500 @enderror" placeholder="08xxxxxxxxxx">
+                        @error('phone')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Jenis Kelamin
+                        </label>
+                        <div class="relative">
+                            <select name="gender" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('gender') border-red-500 @enderror">
                                 <option value="">-- Pilih --</option>
                                 <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Perempuan
-                                </option>
+                                <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Perempuan</option>
                             </select>
-                            @error('gender')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                                <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                            </div>
+                        </div>
+                        @error('gender')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Tanggal Lahir
+                        </label>
+                        <input type="date" name="birth_date" value="{{ old('birth_date') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('birth_date') border-red-500 @enderror">
+                        @error('birth_date')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Tempat Lahir
+                        </label>
+                        <input type="text" name="birth_place" value="{{ old('birth_place') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('birth_place') border-red-500 @enderror" placeholder="Kota kelahiran">
+                        @error('birth_place')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-100">
+                        <div>
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                                Kota
+                            </label>
+                            <input type="text" name="city" value="{{ old('city') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('city') border-red-500 @enderror" placeholder="Kota">
+                            @error('city')
+                                <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                    <i class="ti ti-alert-circle"></i>{{ $message }}
+                                </p>
                             @enderror
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Tanggal Lahir
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                                Provinsi
                             </label>
-                            <input type="date" name="birth_date" value="{{ old('birth_date') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('birth_date') border-red-500 @enderror">
-                            @error('birth_date')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <input type="text" name="province" value="{{ old('province') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('province') border-red-500 @enderror" placeholder="Provinsi">
+                            @error('province')
+                                <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                    <i class="ti ti-alert-circle"></i>{{ $message }}
+                                </p>
                             @enderror
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Tempat Lahir
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                                Kode Pos
                             </label>
-                            <input type="text" name="birth_place" value="{{ old('birth_place') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('birth_place') border-red-500 @enderror"
-                                placeholder="Kota kelahiran">
-                            @error('birth_place')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <input type="text" name="postal_code" value="{{ old('postal_code') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('postal_code') border-red-500 @enderror" placeholder="12345">
+                            @error('postal_code')
+                                <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                    <i class="ti ti-alert-circle"></i>{{ $message }}
+                                </p>
                             @enderror
-                        </div>
-
-                        
-
-                        <div class="grid grid-cols-1 gap-1">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Kota
-                                </label>
-                                <input type="text" name="city" value="{{ old('city') }}"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('city') border-red-500 @enderror"
-                                    placeholder="Kota">
-                                @error('city')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Provinsi
-                                </label>
-                                <input type="text" name="province" value="{{ old('province') }}"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('province') border-red-500 @enderror"
-                                    placeholder="Provinsi">
-                                @error('province')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Kode Pos
-                                </label>
-                                <input type="text" name="postal_code" value="{{ old('postal_code') }}"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('postal_code') border-red-500 @enderror"
-                                    placeholder="12345">
-                                @error('postal_code')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 gap-4">
-                            <div class="">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Alamat
-                                </label>
-                                <textarea name="address"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('address') border-red-500 @enderror"
-                                    placeholder="Alamat lengkap">{{ old('address') }}</textarea>
-                                @error('address')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Status Aktif
-                                </label>
-                                <div
-                                    class="flex items-center h-10 px-4 border border-gray-300 rounded-lg bg-white">
-                                    <input type="checkbox" id="is_active" name="is_active" value="1"
-                                        {{ old('is_active') ? 'checked' : '' }}
-                                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
-                                    <label for="is_active"
-                                        class="ml-3 text-sm font-semibold text-gray-700 cursor-pointer">
-                                        Aktif
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-3">
-                                <button type="submit"
-                                    class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">
-                                    <i class="ti ti-check mr-2"></i>Simpan
-                                </button>
-                                <a href="{{ route('persons.index') }}"
-                                    class="inline-flex items-center rounded-lg bg-gray-300 px-6 py-2 text-gray-800 hover:bg-gray-400 transition">
-                                    <i class="ti ti-x mr-2"></i>Batal
-                                </a>
-                            </div>
                         </div>
                     </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                            Alamat Lengkap
+                        </label>
+                        <textarea name="address" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 resize-none @error('address') border-red-500 @enderror" placeholder="Tulis alamat rumah lengkap di sini..." rows="3">{{ old('address') }}</textarea>
+                        @error('address')
+                            <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                                <i class="ti ti-alert-circle"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="flex items-center gap-2.5 cursor-pointer">
+                            <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 transition-all">
+                            <span class="text-xs font-black text-slate-600 uppercase tracking-wider">Status Aktif</span>
+                        </label>
+                    </div>
+
                 </div>
+
+                <div class="flex items-center gap-3 mt-8 pt-6 border-t border-slate-100">
+                    <button style="background-color: #3b82f6" type="submit" class="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-xs font-bold text-white transition-all shadow-sm hover:brightness-105">
+                        <iconify-icon icon="lucide:check" class="text-sm"></iconify-icon>
+                        Simpan
+                    </button>
+                    <a href="{{ route('persons.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-6 py-2.5 text-xs font-bold text-slate-700 transition-all">
+                        <iconify-icon icon="lucide:x" class="text-sm"></iconify-icon>
+                        Batal
+                    </a>
+                </div>
+
             </div>
         </div>
-    </form>
+
+    </div>
+</form>
 
 @endsection
 
@@ -263,12 +284,12 @@
                     document.getElementById('photoPlaceholder').style.display = 'none';
                     document.getElementById('photoImage').style.display = 'block';
                     document.getElementById('photoImage').src = e.target.result;
+                    document.getElementById('photoPreview').classList.remove('border-slate-200');
+                    document.getElementById('photoPreview').classList.add('border-emerald-800');
                 };
                 reader.readAsDataURL(file);
             }
         });
     </script>
-    
     @include('components.confirm-toastr')
 @endpush
-

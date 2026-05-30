@@ -4,128 +4,177 @@
 
 @section('content')
 
-    @include('layouts.partials.admin.breadcrumb', [
-        'title' => 'Atur Jadwal Masuk',
-        'breadcrumbs' => [
-            ['name' => 'Dashboard', 'url' => route('dashboard')],
-            ['name' => 'Data Master', 'url' => '#'],
-            ['name' => 'Rombel', 'url' => route('class_rooms.index')],
-            ['name' => 'Jadwal Masuk', 'url' => '#'],
-        ],
-    ])
+@include('layouts.partials.admin.breadcrumb', [
+    'title' => 'Atur Jadwal Masuk',
+    'breadcrumbs' => [
+        ['name' => 'Dashboard', 'url' => route('dashboard')],
+        ['name' => 'Data Master', 'url' => '#'],
+        ['name' => 'Rombel', 'url' => route('class_rooms.index')],
+        ['name' => 'Jadwal Masuk', 'url' => '#']
+    ]
+])
 
+<div class="rounded-2xl border border-slate-50 bg-white p-8">
 
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-
-        <div class="mb-6 flex items-center">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                <i class="ti ti-door mr-2"></i>Atur Jadwal Masuk
+    <div class="mb-8 pb-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-xl font-extrabold text-emerald-800 flex items-center gap-2">
+                <span class="size-8 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center">
+                    <iconify-icon icon="lucide:calendar-clock" class="text-base"></iconify-icon>
+                </span>
+                Atur Jadwal Masuk Rombel
             </h2>
-
-            <a href="{{ route('class_rooms.index') }}"
-                class="inline-flex items-center ms-auto rounded-lg bg-gray-100 px-4 py-2 hover:bg-slate-700 transition">
-                <i class="ti ti-arrow-left mr-2"></i>Kembali Ke Rombel
-            </a>
+            <p class="text-xs text-slate-400 mt-1">Sesuaikan pola jadwal masuk harian untuk masing-masing rombongan belajar secara masal.</p>
         </div>
-        <form action="" method="post">
-            @method('post')
-            @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Lembaga <span class="text-red-500">*</span>
-                    </label>
-                    <select name="school_institution_id"
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
+        <a href="{{ route('class_rooms.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-5 py-2.5 text-xs font-bold text-slate-700 transition-all">
+            <iconify-icon icon="lucide:arrow-left" class="text-sm"></iconify-icon>
+            Kembali Ke Rombel
+        </a>
+    </div>
+
+    <form action="" method="post">
+        @method('post')
+        @csrf
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                    Lembaga <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <select name="school_institution_id" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('school_institution_id') border-red-500 @enderror">
                         <option value="">-- Pilih Sekolah --</option>
                         @foreach ($schoolInstitutions as $schoolInstitution)
-                            <option value="{{ $schoolInstitution->id }}"
-                                {{ old('school_institution_id') == $schoolInstitution->id ? 'selected' : '' }}>
-                                {{ $schoolInstitution->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('school_institution_id')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Tingkat Sekolah <span class="text-red-500">*</span>
-                    </label>
-                    <select name="school_level_id"
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
-                        <option value="">-- Pilih Tingkat Sekolah --</option>
-                        @foreach ($schoolLevels as $schoolLevel)
-                            <option value="{{ $schoolLevel->id }}"
-                                {{ old('school_level_id') == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}
+                            <option value="{{ $schoolInstitution->id }}" {{ old('school_institution_id') == $schoolInstitution->id ? 'selected' : '' }}>
+                                {{ $schoolInstitution->name }}
                             </option>
                         @endforeach
                     </select>
-                    @error('school_level_id')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                        <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                    </div>
                 </div>
+                @error('school_institution_id')
+                    <p class="text-red-655 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
+                @enderror
             </div>
 
-            <table class="table w-full">
+            <div>
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
+                    Tingkat Sekolah <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <select name="school_level_id" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('school_level_id') border-red-500 @enderror">
+                        <option value="">-- Pilih Tingkat Sekolah --</option>
+                        @foreach ($schoolLevels as $schoolLevel)
+                            <option value="{{ $schoolLevel->id }}" {{ old('school_level_id') == $schoolLevel->id ? 'selected' : '' }}>
+                                {{ $schoolLevel->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                        <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                    </div>
+                </div>
+                @error('school_level_id')
+                    <p class="text-red-655 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="table-responsive mb-8">
+            <table class="table-schedule w-full">
                 <thead>
                     <tr>
-                        <th class="border w-1 p-2 text-center bg-gray-100"> No </th>
-                        <th class="border p-2 text-start bg-gray-100"> Nama Kelas </th>
-                        <th class="border p-2 text-start bg-gray-100"> Pola Jadwal </th>
+                        <th class="w-16 text-center">No</th>
+                        <th class="text-left">Nama Rombel</th>
+                        <th class="text-left">Pola Jadwal Masuk</th>
                     </tr>
                 </thead>
                 <tbody class="class_rooms">
                     @foreach ($classRooms as $key => $cls)
                         <tr>
-                            <td class="border p-1 text-center"> {{ $key + 1 }} </td>
-                            <td class="border p-1"> {{ $cls->name }} </td>
-                            <td class="border p-1">
-                                <select class="form-select p-0 px-3 w-full schedule_patterns" name="schedule_pattern[{{ $cls->id }}]">
-                                    <option value="">Pilih Pola Jadwal</option>
-                                    @foreach ($schedulePatterns as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $cls->schedule_pattern_id == $item->id ? 'selected' : '' }}>
-                                            {{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <td class="text-center">{{ $key + 1 }}</td>
+                            <td class="font-bold text-slate-800">{{ $cls->name }}</td>
+                            <td>
+                                <div class="relative">
+                                    <select class="w-full text-xs border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-3 py-2 bg-white hover:border-slate-300 appearance-none" name="schedule_pattern[{{ $cls->id }}]">
+                                        <option value="">Pilih Pola Jadwal</option>
+                                        @foreach ($schedulePatterns as $item)
+                                            <option value="{{ $item->id }}" {{ $cls->schedule_pattern_id == $item->id ? 'selected' : '' }}>
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                                        <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
 
-            <button type="submit"
-                class="inline-flex items-center ms-auto rounded-lg bg-success px-4 py-2 mt-4 text-white transition">
-                <i class="ti ti-database mr-2"></i> Simpan pengaturan
+        <div class="flex items-center">
+            <button style="background-color: #3b82f6" type="submit" class="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-xs font-bold text-white transition-all shadow-sm hover:brightness-105">
+                <iconify-icon icon="lucide:save" class="text-sm"></iconify-icon>
+                Simpan Pengaturan
             </button>
+        </div>
 
-        </form>
+    </form>
 
-    </div>
+</div>
 
 @endsection
 
 @push('styles')
     <style>
-        .dt-paging-button {
-            border-radius: 50% !important;
-        }
-
         .table-responsive {
-            overflow-x: auto;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
         }
-
-        #datatable thead tr.filters th {
-            padding: 10px 1px;
-            font-weight: 100 !important
+        table.table-schedule {
+            border-collapse: collapse;
+            margin: 0;
+            width: 100%;
         }
-
-        #datatable thead tr th {
-            white-space: nowrap;
+        table.table-schedule thead {
+            background-color: #f8fafc;
+        }
+        table.table-schedule thead th {
+            padding: 1rem 1.25rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        table.table-schedule tbody tr {
+            border-bottom: 1px solid #f8fafc;
+            transition: all 0.2s ease;
+        }
+        table.table-schedule tbody tr:last-child {
+            border-bottom: none;
+        }
+        table.table-schedule tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        table.table-schedule tbody td {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #334155;
+            vertical-align: middle;
         }
     </style>
 @endpush

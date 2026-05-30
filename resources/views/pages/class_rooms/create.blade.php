@@ -14,99 +14,132 @@
     ]
 ])
 
-<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+<div class="rounded-2xl border border-slate-50 bg-white p-8">
+
+    <div class="mb-8 pb-4 border-b border-slate-100">
+        <h2 class="text-xl font-extrabold text-emerald-800 flex items-center gap-2">
+            <span class="size-8 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center">
+                <iconify-icon icon="lucide:school" class="text-base"></iconify-icon>
+            </span>
+            Form Tambah Rombel
+        </h2>
+        <p class="text-xs text-slate-400 mt-1">Buat rombongan belajar baru dan tetapkan kapasitas daya tampung kelas di bawah ini.</p>
+    </div>
 
     <form action="{{ route('class_rooms.store') }}" method="POST">
         @csrf
         
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-8">
             
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
                     Lembaga <span class="text-red-500">*</span>
                 </label>
-                <select name="school_institution_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_institution_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Sekolah --</option>
-                    @foreach($schoolInstitutions as $schoolInstitution)
-                        <option value="{{ $schoolInstitution->id }}" {{ old('school_institution_id') == $schoolInstitution->id ? 'selected' : '' }}>{{ $schoolInstitution->name }}</option>
-                    @endforeach
-                </select>
+                <div class="relative">
+                    <select name="school_institution_id" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('school_institution_id') border-red-500 @enderror">
+                        <option value="">-- Pilih Sekolah --</option>
+                        @foreach($schoolInstitutions as $schoolInstitution)
+                            <option value="{{ $schoolInstitution->id }}" {{ old('school_institution_id') == $schoolInstitution->id ? 'selected' : '' }}>{{ $schoolInstitution->name }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                        <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                    </div>
+                </div>
                 @error('school_institution_id')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-655 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
                 @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
                     Tingkat Sekolah <span class="text-red-500">*</span>
                 </label>
-                <select name="school_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('school_level_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Tingkat Sekolah --</option>
-                    @foreach($schoolLevels as $schoolLevel)
-                        <option value="{{ $schoolLevel->id }}" {{ old('school_level_id') == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}</option>
-                    @endforeach
-                </select>
+                <div class="relative">
+                    <select name="school_level_id" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('school_level_id') border-red-500 @enderror">
+                        <option value="">-- Pilih Tingkat Sekolah --</option>
+                        @foreach($schoolLevels as $schoolLevel)
+                            <option value="{{ $schoolLevel->id }}" {{ old('school_level_id') == $schoolLevel->id ? 'selected' : '' }}>{{ $schoolLevel->name }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                        <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                    </div>
+                </div>
                 @error('school_level_id')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-655 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
                 @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
                     Kelas <span class="text-red-500">*</span>
                 </label>
-                <select name="grade_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('grade_id') border-red-500 @enderror">
-                    <option value="">-- Pilih Kelas --</option>
-                    @foreach($grades as $grade)
-                        <option value="{{ $grade->id }}" {{ old('grade_id') == $grade->id ? 'selected' : '' }}>{{ $grade->name }}</option>
-                    @endforeach
-                </select>
+                <div class="relative">
+                    <select name="grade_id" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 appearance-none @error('grade_id') border-red-500 @enderror">
+                        <option value="">-- Pilih Kelas --</option>
+                        @foreach($grades as $grade)
+                            <option value="{{ $grade->id }}" {{ old('grade_id') == $grade->id ? 'selected' : '' }}>{{ $grade->name }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                        <iconify-icon icon="lucide:chevron-down" class="text-xs"></iconify-icon>
+                    </div>
+                </div>
                 @error('grade_id')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-655 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
                 @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
                     Nama Rombel <span class="text-red-500">*</span>
                 </label>
-                <input type="text" name="name" value="{{ old('name') }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('name') border-red-500 @enderror" placeholder="Contoh: 7A">
+                <input type="text" name="name" value="{{ old('name') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('name') border-red-500 @enderror" placeholder="Contoh: 7A">
                 @error('name')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
                 @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-2">
                     Kapasitas
                 </label>
-                <input type="number" name="capacity" value="{{ old('capacity') }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 @error('capacity') border-red-500 @enderror" placeholder="0">
+                <input type="number" name="capacity" value="{{ old('capacity') }}" class="w-full text-sm border border-slate-200 rounded-lg focus:border-green-800 focus:ring-4 focus:ring-green-800/10 transition-all duration-200 outline-none text-slate-700 font-medium px-4 py-3 bg-white hover:border-slate-300 @error('capacity') border-red-500 @enderror" placeholder="0">
                 @error('capacity')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-650 text-[10px] mt-1.5 font-bold flex items-center gap-1">
+                        <i class="ti ti-alert-circle"></i>{{ $message }}
+                    </p>
                 @enderror
             </div>
 
             <div class="flex items-end">
-                <div class="flex items-center space-x-3 w-full">
-                    <div class="flex items-center h-10 px-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
-                        <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}
-                            class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
-                        <label for="is_active" class="ml-3 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
-                            Status Aktif
-                        </label>
-                    </div>
+                <div class="mb-1 w-full">
+                    <label class="flex items-center gap-2.5 cursor-pointer">
+                        <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 transition-all">
+                        <span class="text-xs font-black text-slate-600 uppercase tracking-wider">Status Aktif</span>
+                    </label>
                 </div>
             </div>
 
         </div>
 
-
-        <div class="flex gap-3">
-            <button type="submit" class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 transition">
-                <i class="ti ti-check mr-2"></i>Simpan
+        <div class="flex items-center gap-3">
+            <button style="background-color: #3b82f6" type="submit" class="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-xs font-bold text-white transition-all shadow-sm hover:brightness-105">
+                <iconify-icon icon="lucide:check" class="text-sm"></iconify-icon>
+                Simpan
             </button>
-            <a href="{{ route('class_rooms.index') }}" class="inline-flex items-center rounded-lg bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 transition">
-                <i class="ti ti-x mr-2"></i>Batal
+            <a href="{{ route('class_rooms.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-6 py-2.5 text-xs font-bold text-slate-700 transition-all">
+                <iconify-icon icon="lucide:x" class="text-sm"></iconify-icon>
+                Batal
             </a>
         </div>
     </form>

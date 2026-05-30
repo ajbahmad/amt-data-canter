@@ -5,17 +5,14 @@
     <!-- Start Vertical Layout Sidebar -->
     <!-- ---------------------------------- -->
     
-    {{-- Donezo Brand Logo Section --}}
+    {{-- Data Center Brand Logo Section --}}
     <div class="p-6 flex items-center gap-3">
         <div class="size-10 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-800 shadow-sm shrink-0">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M8 12a4 4 0 1 1 8 0"/>
-                <circle cx="12" cy="12" r="2"/>
-            </svg>
+            <img src="{{ asset('logo-amt.webp') }}" alt="" class="w-10 h-10">
         </div>
         <div class="hide-menu">
-            <h1 class="text-lg font-black text-slate-800 tracking-tight">Donezo</h1>
+            <h1 class="text-lg font-black text-slate-800 tracking-tight uppercase">Data Center</h1>
+            <p class="text-xs font-black text-slate-800 tracking-tight uppercase">Aplikasi Manajemen Talenta</p>
         </div>
     </div>
 
@@ -26,27 +23,7 @@
         </div>
 
         {{-- Donezo Mobile App Promo Card --}}
-        <div class="px-4 py-6 mt-auto hide-menu">
-            <div class="bg-gradient-to-br from-emerald-950 to-emerald-900 text-white p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                {{-- Decorative wavy lines --}}
-                <div class="absolute -right-10 -bottom-10 size-32 bg-emerald-800/20 rounded-full pointer-events-none"></div>
-                <div class="absolute -right-5 -bottom-5 size-24 bg-emerald-700/10 rounded-full pointer-events-none"></div>
-                
-                <div class="relative z-10 space-y-3">
-                    <div class="size-8 rounded-lg bg-emerald-800/30 flex items-center justify-center text-emerald-400">
-                        <iconify-icon icon="lucide:smartphone" class="text-lg"></iconify-icon>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-bold text-white leading-tight">Download our</h4>
-                        <h4 class="text-xs font-black text-emerald-400 leading-tight">Mobile App</h4>
-                    </div>
-                    <p class="text-[9px] text-emerald-100/70">Get easy in another way</p>
-                    <a href="#" class="block w-full text-center py-2 bg-emerald-800 hover:bg-emerald-700 text-[10px] font-bold text-white rounded-lg transition-all shadow-sm">
-                        Download
-                    </a>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     {{-- Dynamic Bottom Profile Block --}}

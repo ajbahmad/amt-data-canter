@@ -16,70 +16,77 @@
 
 <div class="grid grid-cols-1 gap-6 md:grid-cols-3 mb-6">
 
-    <div class="rounded-lg border border-gray-200 bg-white p-6">
-        <div class="text-center mb-4">
-            @if($student->person->photo)
-                <img src="{{ asset('storage/' . $student->person->photo) }}" alt="{{ $student->person->full_name }}" class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-blue-200">
-            @else
-                <div class="w-32 h-32 rounded-full mx-auto bg-gray-200 flex items-center justify-center border-4 border-blue-200">
-                    <i class="ti ti-user text-5xl text-gray-400"></i>
-                </div>
-            @endif
+    {{-- Left Card: Student Profile Summary --}}
+    <div class="rounded-2xl border border-slate-50 bg-white p-6 flex flex-col justify-between">
+        <div>
+            <div class="text-center mb-6">
+                @if($student->person->photo)
+                    <img src="{{ asset('storage/' . $student->person->photo) }}" alt="{{ $student->person->full_name }}" class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-emerald-50">
+                @else
+                    <div class="w-32 h-32 rounded-full mx-auto bg-emerald-50 flex items-center justify-center border-4 border-emerald-100 text-emerald-800">
+                        <iconify-icon icon="lucide:user" class="text-4xl"></iconify-icon>
+                    </div>
+                @endif
+            </div>
+
+            <h2 class="text-xl font-extrabold text-center text-slate-800 leading-snug mb-1">
+                {{ $student->person->full_name }}
+            </h2>
+
+            <p class="text-center text-xs font-black text-slate-400 uppercase tracking-widest">
+                {{ $student->student_id }}
+            </p>
         </div>
 
-        <h2 class="text-2xl font-bold text-center text-gray-900 mb-1">
-            {{ $student->person->full_name }}
-        </h2>
-
-        <p class="text-center text-sm text-gray-500 mb-4">
-            {{ $student->student_id }}
-        </p>
-
-        <div class="mt-6 flex gap-2">
-            <a href="{{ route('students.edit', $student->id) }}" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-center text-sm">
-                <i class="ti ti-edit mr-1"></i>Edit
+        <div class="mt-8 flex gap-3">
+            <a href="{{ route('students.edit', $student->id) }}" class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-800 text-white rounded-xl hover:bg-emerald-900 transition-all font-bold text-xs shadow-sm">
+                <iconify-icon icon="lucide:edit-2" class="text-xs"></iconify-icon>Edit
             </a>
-            <button onclick="deleteData('{{ $student->id }}', '{{ route('students.destroy', $student->id) }}')" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm">
-                <i class="ti ti-trash mr-1"></i>Hapus
+            <button onclick="deleteData('{{ $student->id }}', '{{ route('students.destroy', $student->id) }}')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 hover:text-red-800 transition-all font-bold text-xs">
+                <iconify-icon icon="lucide:trash-2" class="text-xs"></iconify-icon>Hapus
             </button>
         </div>
     </div>
 
-    <div class="md:col-span-2 rounded-lg border border-gray-200 bg-white p-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-4">
-            <i class="ti ti-info-circle mr-2"></i>Informasi Siswa
+    {{-- Right Card: Student Registration & Notes Information --}}
+    <div class="md:col-span-2 rounded-2xl border border-slate-50 bg-white p-6">
+        <h3 class="text-base font-extrabold text-emerald-800 flex items-center gap-2 mb-6 pb-2 border-b border-slate-50">
+            <span class="size-6 rounded bg-emerald-50 text-emerald-800 flex items-center justify-center">
+                <iconify-icon icon="lucide:info" class="text-xs"></iconify-icon>
+            </span>
+            Informasi Siswa
         </h3>
 
-        <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-                <label class="text-sm text-gray-600">Nomor Induk Siswa</label>
-                <p class="text-gray-900 font-medium">{{ $student->student_id }}</p>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Nomor Induk Siswa</label>
+                <p class="text-sm font-bold text-slate-800">{{ $student->student_id }}</p>
             </div>
 
             <div>
-                <label class="text-sm text-gray-600">Sekolah</label>
-                <p class="text-gray-900 font-medium">{{ $student->schoolInstitution->name }}</p>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Sekolah / Lembaga</label>
+                <p class="text-sm font-bold text-slate-800">{{ $student->schoolInstitution->name }}</p>
             </div>
 
             <div>
-                <label class="text-sm text-gray-600">Status</label>
-                <p class="text-gray-900 font-medium">
-                    <span class="px-3 py-1 rounded-full text-xs font-semibold 
-                        {{ $student->status === 'active' ? 'bg-blue-100 text-blue-800' : ($student->status === 'graduated' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Status</label>
+                <p class="mt-1">
+                    <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border
+                        {{ $student->status === 'active' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : ($student->status === 'graduated' ? 'bg-blue-50 text-blue-800 border-blue-100' : 'bg-red-50 text-red-800 border-red-100') }}">
                         {{ ucfirst(str_replace('_', ' ', $student->status)) }}
                     </span>
                 </p>
             </div>
 
             <div>
-                <label class="text-sm text-gray-600">Tanggal Pendaftaran</label>
-                <p class="text-gray-900 font-medium">{{ $student->enrollment_date ? $student->enrollment_date->format('d F Y') : '-' }}</p>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Tanggal Pendaftaran</label>
+                <p class="text-sm font-bold text-slate-800">{{ $student->enrollment_date ? $student->enrollment_date->format('d F Y') : '-' }}</p>
             </div>
 
             @if($student->notes)
-            <div>
-                <label class="text-sm text-gray-600">Catatan</label>
-                <p class="text-gray-900 font-medium">{{ $student->notes }}</p>
+            <div class="sm:col-span-2">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Catatan</label>
+                <p class="text-sm font-bold text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-100">{{ $student->notes }}</p>
             </div>
             @endif
         </div>
@@ -87,25 +94,29 @@
 
 </div>
 
-<div class="rounded-lg border border-gray-200 bg-white p-6">
-    <h3 class="text-lg font-bold text-gray-900 mb-4">
-        <i class="ti ti-user mr-2"></i>Data Orang
+{{-- Bottom Card: Personal Details --}}
+<div class="rounded-2xl border border-slate-50 bg-white p-6">
+    <h3 class="text-base font-extrabold text-emerald-800 flex items-center gap-2 mb-6 pb-2 border-b border-slate-50">
+        <span class="size-6 rounded bg-emerald-50 text-emerald-800 flex items-center justify-center">
+            <iconify-icon icon="lucide:user" class="text-xs"></iconify-icon>
+        </span>
+        Data Orang / Biodata
     </h3>
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
-            <label class="text-sm text-gray-600">Email</label>
-            <p class="text-gray-900 font-medium">{{ $student->person->email }}</p>
+            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Email</label>
+            <p class="text-sm font-bold text-slate-800">{{ $student->person->email }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600">Telepon</label>
-            <p class="text-gray-900 font-medium">{{ $student->person->phone ?? '-' }}</p>
+            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Telepon</label>
+            <p class="text-sm font-bold text-slate-800">{{ $student->person->phone ?? '-' }}</p>
         </div>
 
         <div>
-            <label class="text-sm text-gray-600">Tanggal Lahir</label>
-            <p class="text-gray-900 font-medium">
+            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Tanggal Lahir</label>
+            <p class="text-sm font-bold text-slate-800">
                 @if($student->person->birth_date)
                     {{ $student->person->birth_date->format('d F Y') }}
                 @else
@@ -115,8 +126,8 @@
         </div>
 
         <div>
-            <label class="text-sm text-gray-600">Jenis Kelamin</label>
-            <p class="text-gray-900 font-medium">
+            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Jenis Kelamin</label>
+            <p class="text-sm font-bold text-slate-800">
                 @if($student->person->gender)
                     {{ $student->person->gender === 'male' ? 'Laki-laki' : 'Perempuan' }}
                 @else
@@ -132,6 +143,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/css/sweetalert2.min.css')}}">
 @endpush
+
 @push('scripts')
 <script src="{{asset('assets/libs/sweetalert2/js/sweetalert2.all.min.js')}}"></script>
 
@@ -142,7 +154,7 @@
             text: 'Anda yakin ingin menghapus data siswa ini?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#065f46',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus!',
             cancelButtonText: 'Batal'

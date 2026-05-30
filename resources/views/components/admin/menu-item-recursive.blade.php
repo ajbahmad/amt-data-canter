@@ -11,7 +11,7 @@ $isLabelItem = $menu['type'] === 'label';
 $hasChildren = !empty($menu['children']) && is_array($menu['children']);
 
 // Get styling based on depth - using inline style to override class specificity and purge issues
-$paddingStyle = $depth > 0 ? 'padding-left: ' . ($depth * 1.5) . 'rem !important;' : '';
+$paddingStyle = $depth > 0 ? 'padding-left: ' . ($depth * 2.25) . 'rem !important;' : '';
 
 $textSizeClass = match($depth) {
     0 => 'text-sm',

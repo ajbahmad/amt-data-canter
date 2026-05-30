@@ -14,85 +14,91 @@
     ]
 ])
 
-<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8">
+<div class="rounded-2xl border border-slate-50 bg-white p-8 shadow-none">
+    
+    <div class="mb-8 pb-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h2 class="text-xl font-extrabold text-emerald-800 flex items-center gap-2">
+            <span class="size-8 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center">
+                <iconify-icon icon="lucide:building" class="text-base"></iconify-icon>
+            </span>
+            Lembaga: {{ $schoolInstitution->name }}
+        </h2>
+        
+        <div class="flex items-center gap-2">
+            <a href="{{ route('school_institutions.edit', $schoolInstitution) }}" style="background-color: #3b82f6" class="inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-bold text-white transition-all shadow-sm hover:brightness-105">
+                <iconify-icon icon="lucide:edit-2" class="text-sm"></iconify-icon>
+                Edit
+            </a>
+            <button class="inline-flex items-center gap-1.5 rounded-xl bg-red-50 text-red-650 hover:bg-red-100 px-4 py-2.5 text-xs font-bold transition-all delete-btn" data-id="{{ $schoolInstitution->id }}">
+                <iconify-icon icon="lucide:trash-2" class="text-sm"></iconify-icon>
+                Hapus
+            </button>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <!-- Informasi Dasar -->
         <div>
-            <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-code mr-2"></i>Kode Sekolah</p>
-                <p class="text-lg font-semibold ">{{ $schoolInstitution->code }}</p>
-            </div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Kode Sekolah</label>
+            <p class="text-sm font-bold text-slate-800">{{ $schoolInstitution->code }}</p>
         </div>
 
         <div>
-            <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-school mr-2"></i>Nama Sekolah</p>
-                <p class="text-lg font-semibold ">{{ $schoolInstitution->name }}</p>
-            </div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Nama Sekolah</label>
+            <p class="text-sm font-bold text-slate-800">{{ $schoolInstitution->name }}</p>
         </div>
 
         <div>
-            <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-mail mr-2"></i>Email</p>
-                <p class="text-lg font-semibold ">{{ $schoolInstitution->email ?? '-' }}</p>
-            </div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Email Sekolah</label>
+            <p class="text-sm font-bold text-slate-800">{{ $schoolInstitution->email ?? '-' }}</p>
         </div>
 
         <div>
-            <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-phone mr-2"></i>Telepon</p>
-                <p class="text-lg font-semibold ">{{ $schoolInstitution->phone ?? '-' }}</p>
-            </div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Telepon</label>
+            <p class="text-sm font-bold text-slate-800">{{ $schoolInstitution->phone ?? '-' }}</p>
         </div>
 
         <div>
-            <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-status-change mr-2"></i>Status</p>
-                <div>
-                    @if($schoolInstitution->is_active)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                            <i class="ti ti-circle-check mr-2"></i>Aktif
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                            <i class="ti ti-circle-x mr-2"></i>Tidak Aktif
-                        </span>
-                    @endif
-                </div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Status Keaktifan</label>
+            <div class="mt-1">
+                @if($schoolInstitution->is_active)
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-850">
+                        Aktif
+                    </span>
+                @else
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-800">
+                        Non-Aktif
+                    </span>
+                @endif
             </div>
         </div>
     </div>
 
     <!-- Alamat -->
-    <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2"><i class="ti ti-map-pin mr-2"></i>Alamat</p>
-        <p class="leading-relaxed">{{ $schoolInstitution->address ?? '-' }}</p>
+    <div class="mb-8 pb-6 border-b border-slate-100">
+        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">Alamat Lengkap</label>
+        <p class="text-sm font-bold text-slate-800 bg-slate-50 p-4 rounded-lg border border-slate-100 leading-relaxed">{{ $schoolInstitution->address ?? '-' }}</p>
     </div>
 
     <!-- Informasi Waktu -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-calendar-plus mr-2"></i>Dibuat Pada</p>
-            <p class="font-medium">{{ $schoolInstitution->created_at->translatedFormat('d F Y - H:i') }}</p>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Dibuat Pada</label>
+            <p class="text-xs font-bold text-slate-500">{{ $schoolInstitution->created_at->translatedFormat('d F Y - H:i') }}</p>
         </div>
         <div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="ti ti-calendar-check mr-2"></i>Diperbarui Pada</p>
-            <p class="font-medium">{{ $schoolInstitution->updated_at->translatedFormat('d F Y - H:i') }}</p>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Diperbarui Pada</label>
+            <p class="text-xs font-bold text-slate-500">{{ $schoolInstitution->updated_at->translatedFormat('d F Y - H:i') }}</p>
         </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="flex gap-3 justify-end">
-        <a href="{{ route('school_institutions.index') }}" class="inline-flex items-center px-6 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-            <i class="ti ti-arrow-left mr-2"></i> Kembali
+    <!-- Navigation Back -->
+    <div class="pt-6 border-t border-slate-100 flex items-center">
+        <a href="{{ route('school_institutions.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-6 py-2.5 text-xs font-bold text-slate-700 transition-all">
+            <iconify-icon icon="lucide:arrow-left" class="text-sm"></iconify-icon>
+            Kembali
         </a>
-        <a href="{{ route('school_institutions.edit', $schoolInstitution) }}" class="inline-flex items-center px-6 py-2.5 rounded-lg bg-white text-warning font-medium hover:bg-warning hover:text-white transition">
-            <i class="ti ti-edit mr-2"></i> Edit
-        </a>
-        <button class="inline-flex items-center px-6 py-2.5 rounded-lg bg-white text-error font-medium hover:bg-error hover:text-white transition delete-btn" data-id="{{ $schoolInstitution->id }}">
-            <i class="ti ti-trash mr-2"></i> Hapus
-        </button>
     </div>
+
 </div>
 
 @endsection
@@ -106,12 +112,12 @@
         let deleteUrl = deleteUrlTemplate.replace(':id', id);
         
         Swal.fire({
-            title: 'Hapus Data',
-            text: 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan!',
-            icon: 'error',
+            title: 'Hapus Lembaga?',
+            text: 'Apakah Anda yakin ingin menghapus data lembaga ini? Tindakan ini tidak dapat dibatalkan!',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
+            cancelButtonColor: '#64748b',
             confirmButtonText: 'Ya, Hapus!',
             cancelButtonText: 'Batal'
         }).then((result) => {

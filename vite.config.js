@@ -13,11 +13,11 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         port: 5173,
-        hmr: {
-            host: 'localhost',
-            port: 5226,
-            protocol: 'http',
-        },
+        // hmr: {
+        //     host: 'localhost',
+        //     port: 5226,
+        //     protocol: 'ws',
+        // },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },

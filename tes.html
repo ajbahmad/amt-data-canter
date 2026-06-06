@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body{
+            font-family: poppins;
+        }
+        .bg-gray-100{
+            background-color: #024ef1 !important;
+        }
+        .bg-gray-100:before{
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: #e0e0e0;
+            border-top-left-radius: 35px;
+            border-top-right-radius: 35px;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-xl overflow-hidden">
+        <h1 class="text-center text-3xl font-bold pt-6">LOGIN</h1>
+        <form method="get" action="" class="p-6 space-y-4">
+            <div>
+                <label for="username"></label>
+                <input type="text" id="username" name="username" placeholder="Username"class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+            </div>
+            <div>
+                <label for="password"></label>
+                <input type="password" id="password" name="password" placeholder="Password"class="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="remember" class="ml-2 block text-sm text-gray-700">Ingat Saya</label>
+                </div>
+                <a href="#" class="text-sm text-blue-600 hover:text-blue-800 transition-colors">Lupa Password?</a>
+            </div>
+            <button type="button" onclick="notif()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition font-medium">Login</button>
+            
+            <div class="relative flex items-center my-4">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="flex-shrink mx-4 text-gray-500 text-sm">Atau masuk dengan</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-google text-red-500 mr-2"></i>
+                    <span>Google</span>
+                </button>
+                
+                <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-facebook text-blue-600 mr-2"></i>
+                    <span>Facebook</span>
+                </button>
+            </div>
+        </form>
+        
+        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+            <p class="text-center text-sm text-gray-600">
+                Belum punya akun? 
+                <a href="#" class="font-medium text-blue-600 hover:text-blue-800 transition-colors ml-1">
+                    Daftar di sini
+                </a>
+            </p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function notif() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "Login berhasil.",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    </script>
+</body>
+</html>

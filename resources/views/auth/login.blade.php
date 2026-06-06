@@ -3,294 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Data Center AL-MUJTAMA</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Masuk — Data Center AL-MUJTAMA</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="https://ppdb.smkalmujtamak.sch.id/logo-amt.webp" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome & SweetAlert2 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
-        .login-container {
+        .bg-custom-gradient {
+            background-color: #0a4332 !important; 
+            position: relative;
+            overflow-x: hidden;
+        }
+        .bg-custom-gradient:before {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 0;
             width: 100%;
-            max-width: 400px;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .login-header .logo {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 32px;
-        }
-
-        .login-header h2 {
-            color: #2c3e50;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .login-header p {
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-group input.is-invalid {
-            border-color: #dc3545;
-            background-color: #fff5f5;
-        }
-
-        .form-group input.is-invalid:focus {
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-        }
-
-        .form-error {
-            color: #dc3545;
-            font-size: 12px;
-            margin-top: 5px;
-            display: block;
-        }
-
-        .form-check {
-            margin-bottom: 20px;
-        }
-
-        .form-check-input {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .form-check-input:checked {
-            background-color: #667eea;
-            border-color: #667eea;
-        }
-
-        .form-check-label {
-            margin-left: 8px;
-            font-size: 14px;
-            color: #2c3e50;
-            user-select: none;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-login:active {
-            transform: translateY(0);
-        }
-
-        .login-footer {
-            text-align: center;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 20px;
-        }
-
-        .login-footer p {
-            color: #7f8c8d;
-            font-size: 14px;
-            margin: 0;
-        }
-
-        .login-footer a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .alert {
-            border: none;
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 30px 20px;
-            }
-
-            .login-header {
-                margin-bottom: 30px;
-            }
-
-            .login-header .logo {
-                width: 60px;
-                height: 60px;
-                font-size: 28px;
-            }
-
-            .login-header h2 {
-                font-size: 22px;
-            }
+            height: 75%;
+            background: #f1f5f9; 
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            z-index: -1;
         }
     </style>
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="logo">📊</div>
-                <h2>Data Center</h2>
-                <p>AL-MUJTAMA Education</p>
-            </div>
+<body class="bg-custom-gradient min-h-screen flex flex-col items-center justify-center p-4">
 
+    <!-- Card Login Container -->
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden z-10 transition-all duration-300">
+        
+        <!-- Header Brand & Logo -->
+        <div class="flex flex-col items-center pt-8 pb-2 px-6">
+            <img src="https://ppdb.smkalmujtamak.sch.id/logo-amt.webp" alt="AMT Logo" class="w-16 h-16 object-cover mb-3 drop-shadow-md">
+            <h1 class="text-center text-2xl font-extrabold text-gray-800 tracking-tight">DATA CENTER</h1>
+            <p class="text-center text-xs font-semibold text-emerald-700 uppercase tracking-widest mt-1">AL-MUJTAMA EDUCATION</p>
+        </div>
+
+        <!-- Session & Error Alerts -->
+        <div class="px-6 pt-2">
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <strong>Login Gagal!</strong>
-                    <ul class="mb-0 mt-2">
+                <div class="p-3 bg-red-50 border-l-4 border-red-500 rounded-r-xl text-xs text-red-700 font-medium">
+                    <ul class="list-disc pl-4 space-y-0.5">
                         @foreach ($errors->all() as $error)
-                            <li style="font-size: 13px;">{{ $error }}</li>
+                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        value="{{ old('email') }}"
-                        placeholder="Masukkan email Anda"
-                        required
-                        class="@error('email') is-invalid @enderror"
-                    >
-                    @error('email')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
+            @if (session('success'))
+                <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded-r-xl text-xs text-green-700 font-medium">
+                    {{ session('success') }}
                 </div>
+            @endif
+        </div>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Masukkan password Anda"
-                        required
-                        class="@error('password') is-invalid @enderror"
-                    >
-                    @error('password')
-                        <span class="form-error">{{ $message }}</span>
-                    @enderror
+        <!-- Form Login -->
+        <form method="POST" action="{{ route('login') }}" id="login-form" class="p-6 space-y-6">
+            @csrf
+
+            {{-- Input Email (Floating Label Potong Border) --}}
+            <div class="relative pt-2">
+                <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder=" " 
+                       class="peer w-full pl-4 pr-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 outline-none transition bg-gray-50/30 focus:bg-white font-medium text-sm text-gray-800 z-10" required>
+                
+                <!-- Perubahan kelas transform untuk memotong border atas -->
+                <label for="email" 
+                       class="absolute text-sm text-gray-400 duration-200 transform -translate-y-7 scale-85 top-6 z-20 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-7 peer-focus:text-emerald-700 font-medium pointer-events-none bg-white px-1.5">
+                    Alamat Email
+                </label>
+            </div>
+
+            {{-- Input Password (Floating Label Potong Border) --}}
+            <div class="relative pt-2">
+                <input type="password" id="password" name="password" placeholder=" " 
+                       class="peer w-full pl-4 pr-12 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 outline-none transition bg-gray-50/30 focus:bg-white font-medium text-sm text-gray-800 z-10" required>
+                
+                <!-- Perubahan kelas transform untuk memotong border atas -->
+                <label for="password" 
+                       class="absolute text-sm text-gray-400 duration-200 transform -translate-y-7 scale-85 top-6 z-20 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-7 peer-focus:text-emerald-700 font-medium pointer-events-none bg-white px-1.5">
+                    Password
+                </label>
+                
+                <!-- Toggle Password Tombol -->
+                <button type="button" id="toggle-pwd" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-emerald-800 transition z-20 pt-2">
+                    <i class="fas fa-eye" id="eye-icon"></i>
+                </button>
+            </div>
+
+            {{-- Opsi Remember & Lupa Password --}}
+            <div class="flex justify-between items-center px-1">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}
+                           class="h-4 w-4 text-emerald-700 focus:ring-emerald-600 border-gray-300 rounded cursor-pointer">
+                    <label for="remember" class="ml-2 block text-xs font-semibold text-gray-600 cursor-pointer select-none">Ingat Saya</label>
                 </div>
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-600 transition-colors">Lupa Password?</a>
+                @endif
+            </div>
 
-                <div class="form-check">
-                    <input 
-                        type="checkbox" 
-                        id="remember" 
-                        name="remember" 
-                        class="form-check-input"
-                    >
-                    <label class="form-check-label" for="remember">
-                        Ingat saya
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-login">Login</button>
-
-                <div class="login-footer">
-                    <p>Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a></p>
-                </div>
-            </form>
+            {{-- Tombol Submit --}}
+            <button type="submit" id="btn-submit" 
+                    class="w-full bg-emerald-800 text-white py-3.5 px-4 rounded-xl hover:bg-emerald-700 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 transition font-bold text-sm shadow-md shadow-emerald-900/10 flex items-center justify-center gap-2">
+                <i class="fas fa-sign-in-alt"></i>
+                <span id="btn-text">Masuk ke Sistem</span>
+            </button>
+            
+            {{-- Garis Pembatas --}}
+            <div class="relative flex items-center py-1">
+                <div class="flex-grow border-t border-gray-200"></div>
+                <span class="flex-shrink mx-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Atau</span>
+                <div class="flex-grow border-t border-gray-200"></div>
+            </div>
+            
+            {{-- Tombol Integrasi Registrasi --}}
+            <div class="text-center text-sm font-medium text-gray-500">
+                Belum memiliki akses akun? 
+                <a href="{{ route('register') }}" class="font-bold text-emerald-800 hover:text-emerald-600 transition-colors ml-1">
+                    Daftar di sini
+                </a>
+            </div>
+        </form>
+        
+        <!-- Footer Info -->
+        <div class="bg-gray-50/80 px-6 py-4 border-t border-gray-100 text-center">
+            <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
+                &copy; {{ date('Y') }} Data Center AL-MUJTAMA — v2.5
+            </p>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script Logic Loading & Toggle Mata Password -->
+    <script>
+        const toggleBtn = document.getElementById('toggle-pwd');
+        const pwdInput  = document.getElementById('password');
+        const eyeIcon   = document.getElementById('eye-icon');
+
+        toggleBtn.addEventListener('click', () => {
+            const isHidden = pwdInput.type === 'password';
+            pwdInput.type  = isHidden ? 'text' : 'password';
+            eyeIcon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+        });
+
+        const form      = document.getElementById('login-form');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnText   = document.getElementById('btn-text');
+
+        form.addEventListener('submit', () => {
+            btnSubmit.disabled = true;
+            btnSubmit.style.opacity = '0.8';
+            btnText.textContent = 'Memproses autentikasi...';
+        });
+    </script>
 </body>
 </html>

@@ -38,7 +38,7 @@ class BaseModel extends Model
         $table = $instance->getTable();
 
         if (Schema::hasColumn($table, 'is_active')) {
-            if (!app()->runningInConsole()) {
+            if (!app()->runningInConsole() && !defined('RUNNING_IN_ARTISAN')) {
                 static::creating(function ($model) {
                     $model->is_active = request()->is_active ? true : false;
                 });

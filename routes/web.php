@@ -390,3 +390,62 @@ Route::middleware(['auth', 'auth.menu', 'auth.role'])->group(function () {
         Route::delete('/{menu}', [MenuController::class, 'destroy'])->name('destroy')->defaults('label','can_delete');
     });
 });
+
+// Helper routes untuk deploy di hosting tanpa SSH (tanpa token keamanan)
+Route::get('/route-clear', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    return 'Route cache cleared!';
+});
+
+Route::get('/config-clear', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    return 'Config cache cleared!';
+});
+
+Route::get('/view-clear', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    return 'View cache cleared!';
+});
+
+Route::get('/optimize', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    \Illuminate\Support\Facades\Artisan::call('optimize');
+    return 'Application optimized (configuration and route cache re-created)!';
+});
+
+Route::get('/migrate', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    $output = new \Symfony\Component\Console\Output\BufferedOutput;
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true], $output);
+        return '<pre>' . $output->fetch() . '</pre>';
+    } catch (\Exception $e) {
+        return '<h3>Migration failed:</h3><pre>' . $e->getMessage() . "\n\n" . $e->getTraceAsString() . "\n\nOutput:\n" . $output->fetch() . '</pre>';
+    }
+});
+
+Route::get('/migrate-fresh', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    $output = new \Symfony\Component\Console\Output\BufferedOutput;
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true], $output);
+        return '<pre>' . $output->fetch() . '</pre>';
+    } catch (\Exception $e) {
+        return '<h3>Migration fresh failed:</h3><pre>' . $e->getMessage() . "\n\n" . $e->getTraceAsString() . "\n\nOutput:\n" . $output->fetch() . '</pre>';
+    }
+});
+
+Route::get('/seeder', function () {
+    if (!defined('RUNNING_IN_ARTISAN')) define('RUNNING_IN_ARTISAN', true);
+    $output = new \Symfony\Component\Console\Output\BufferedOutput;
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true], $output);
+        return '<pre>' . $output->fetch() . '</pre>';
+    } catch (\Exception $e) {
+        return '<h3>Seeding failed:</h3><pre>' . $e->getMessage() . "\n\n" . $e->getTraceAsString() . "\n\nOutput:\n" . $output->fetch() . '</pre>';
+    }
+});
+

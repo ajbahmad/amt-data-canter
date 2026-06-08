@@ -1,4 +1,3 @@
-# version: "3.7"
 services:
   amt-data-center:
     build:
@@ -40,8 +39,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - amt-data-center-network
-      - shared-amt-network
+      - amt-data-center-network # Fokuskan di sini saja agar satu jalur dengan PPDB
 
   amt-data-center-nginx:
     image: nginx:alpine
@@ -76,5 +74,4 @@ volumes:
 
 networks:
   amt-data-center-network:
-  shared-amt-network:
     external: true

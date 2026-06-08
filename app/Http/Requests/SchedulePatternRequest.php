@@ -19,12 +19,17 @@ class SchedulePatternRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'school_institution_id' => 'required|uuid|exists:school_institutions,id',
-            'school_level_id' => 'required|uuid|exists:school_levels,id',
+        $rules = [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['school_institution_id'] = 'required|uuid|exists:school_institutions,id';
+            $rules['school_level_id'] = 'required|uuid|exists:school_levels,id';
+        }
+
+        return $rules;
     }
 
     /**

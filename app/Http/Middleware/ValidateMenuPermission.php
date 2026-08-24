@@ -16,14 +16,14 @@ class ValidateMenuPermission
     public function handle(Request $request, Closure $next, string $permissionLabel = null): Response
     {
         $user = auth()->user();
-        dd($user);
+        // dd($user);
         // Get the permission label from route defaults if not provided
         if (!$permissionLabel) {
             $route = $request->route();
             $permissionLabel = ($route && isset($route->defaults['label'])) ? $route->defaults['label'] : null;
         }
 
-        dd($permissionLabel);
+        // dd($permissionLabel);
 
         // If no permission label is defined, allow access
         if (!$permissionLabel) {

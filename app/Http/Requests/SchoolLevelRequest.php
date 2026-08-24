@@ -29,6 +29,7 @@ class SchoolLevelRequest extends FormRequest
 
         $roles['school_institution_id'] = 'required|uuid|exists:school_institutions,id';
         $roles['name'] = 'required|string|max:50';
+        $roles['npsn'] = 'nullable|string|max:20';
         $roles['description'] = 'nullable|string';
         $roles['is_active'] = 'nullable|boolean';
 

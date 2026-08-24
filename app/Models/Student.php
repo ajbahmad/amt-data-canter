@@ -13,8 +13,12 @@ class Student extends BaseModel
         'person_id',
         'school_institution_id',
         'student_id',
+        'student_code',
         'enrollment_number',
         'enrollment_date',
+        'major',
+        'entry_year',
+        'school_year',
         'status',
         'notes',
         'is_active'

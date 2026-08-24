@@ -49,6 +49,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- NPSN -->
+        <div>
+            <div class="pb-4 border-b border-gray-200">
+                <p class="text-sm text-gray-600 mb-1"><i class="ti ti-number mr-2"></i>NPSN</p>
+                <p class="text-lg font-semibold text-gray-900">{{ $schoolLevel->npsn ?? '-' }}</p>
+            </div>
+        </div>
     </div>
 
     <!-- Deskripsi -->

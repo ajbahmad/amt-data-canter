@@ -18,7 +18,6 @@ class SchoolInstitutionSeeder extends Seeder
         ], [
             'id' => Str::uuid(),
             'name' => 'ALMUJTAMA\'',
-            'npsn' => '28138291083',
             'address' => 'Jl. Raya Pegantenan Km. 09, Pegantenan, Pamekasan 69361, Tengracak, Plakpak, Kec. Pegantenan, Kabupaten Pamekasan, Jawa Timur 69361',
             'phone' => '085130368951',
             'email' => 'ahmadjanuarbudiono@gmail.com',

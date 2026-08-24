@@ -41,6 +41,7 @@ class SchoolLevelSeeder extends Seeder
                 'code' => 'MA',
                 'name' => 'MA',
                 'description' => 'Madrasah Aliyah',
+                'npsn' => '28138291083',
             ],
             // [
             //     'code' => 'SMA',
@@ -51,6 +52,7 @@ class SchoolLevelSeeder extends Seeder
                 'code' => 'SMK',
                 'name' => 'SMK',
                 'description' => 'Sekolah menengah kejuruan',
+                'npsn' => '28138291084',
             ],
         ];
 
@@ -65,6 +67,7 @@ class SchoolLevelSeeder extends Seeder
                     [
                         'name' => $level['name'],
                         'description' => $level['description'],
+                        'npsn' => $level['npsn'] ?? null,
                         'is_active' => true,
                     ]
                 );

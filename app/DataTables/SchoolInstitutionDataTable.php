@@ -57,9 +57,6 @@ class SchoolInstitutionDataTable extends DataTable
             ->orderColumn('name', function($query, $direction) {
                 $query->orderBy('name', $direction);
             })
-            ->orderColumn('npsn', function($query, $direction) {
-                $query->orderBy('npsn', $direction);
-            })
             ->orderColumn('address', function($query, $direction) {
                 $query->orderBy('address', $direction);
             })
@@ -82,9 +79,6 @@ class SchoolInstitutionDataTable extends DataTable
             })
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'ILIKE', "%{$keyword}%");
-            })
-            ->filterColumn('npsn', function($query, $keyword) {
-                $query->where('npsn', 'ILIKE', "%{$keyword}%");
             })
             ->filterColumn('address', function($query, $keyword) {
                 $query->where('address', 'ILIKE', "%{$keyword}%");
@@ -158,7 +152,6 @@ class SchoolInstitutionDataTable extends DataTable
                 ->addClass('text-center')->attributes(['data-type' => 'select', 'data-name' => 'action', 'data-label' => 'Action', 'data-value' => GlobalConfigDatatable::lines()]);
         $column[] = Column::make('code')->name('code')->title('Kode')->attributes(['data-type' => 'text', 'data-name' => 'code', 'data-label' => 'Kode', 'data-value' => null]);
         $column[] = Column::make('name')->name('name')->title('Nama Lembaga')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Lembaga', 'data-value' => null]);
-        $column[] = Column::make('npsn')->name('npsn')->title('NPSN')->attributes(['data-type' => 'text', 'data-name' => 'npsn', 'data-label' => 'NPSN', 'data-value' => null]);
         $column[] = Column::make('address')->name('address')->title('Alamat')->attributes(['data-type' => 'text', 'data-name' => 'address', 'data-label' => 'Alamat', 'data-value' => null]);
         $column[] = Column::make('phone')->name('phone')->title('Telepon')->attributes(['data-type' => 'text', 'data-name' => 'phone', 'data-label' => 'Telepon', 'data-value' => null]);
         $column[] = Column::make('email')->name('email')->title('Email')->attributes(['data-type' => 'text', 'data-name' => 'email', 'data-label' => 'Email', 'data-value' => null]);

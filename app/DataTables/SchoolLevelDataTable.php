@@ -59,6 +59,9 @@ class SchoolLevelDataTable extends DataTable
             ->orderColumn('name', function($query, $direction) {
                 $query->orderBy('name', $direction);
             })
+            ->orderColumn('npsn', function($query, $direction) {
+                $query->orderBy('npsn', $direction);
+            })
             ->orderColumn('is_active', function($query, $direction) {
                 $query->orderBy('is_active', $direction);
             })
@@ -75,6 +78,9 @@ class SchoolLevelDataTable extends DataTable
             })
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'ilike', "%{$keyword}%");
+            })
+            ->filterColumn('npsn', function($query, $keyword) {
+                $query->where('npsn', 'ilike', "%{$keyword}%");
             })
             ->filterColumn('is_active', function($query, $keyword) {
                 if ($keyword !== '') {
@@ -138,6 +144,7 @@ class SchoolLevelDataTable extends DataTable
         $column[] = Column::make('school_institution_id')->name('school_institution_id')->title('Lembaga')->attributes(['data-type' => 'select', 'data-name' => 'school_institution_id', 'data-label' => 'Institusi', 'data-value' => GlobalConfigDatatable::getSchoolInstitutions()]);
         $column[] = Column::make('code')->title('Kode')->attributes(['data-type' => 'text', 'data-name' => 'code', 'data-label' => 'Kode', 'data-value' => null]);
         $column[] = Column::make('name')->title('Nama Level')->attributes(['data-type' => 'text', 'data-name' => 'name', 'data-label' => 'Nama Level', 'data-value' => null]);
+        $column[] = Column::make('npsn')->title('NPSN')->attributes(['data-type' => 'text', 'data-name' => 'npsn', 'data-label' => 'NPSN', 'data-value' => null]);
         $column[] = Column::make('description')->title('Deskripsi')->attributes(['data-type' => 'text', 'data-name' => 'description', 'data-label' => 'Deskripsi', 'data-value' => null]);
         $column[] = Column::make('is_active')->title('Status')->attributes(['data-type' => 'select', 'data-name' => 'is_active', 'data-label' => 'Status', 'data-value' => json_encode([['label'=>'Filter Semua', 'value' => ''], ['label'=>'Aktif', 'value' => 'true'], ['label'=>'Non Aktif', 'value' => 'false']])]);
         $column[] = Column::make('created_at')->title('Tanggal Buat')->attributes(['data-type' => 'date', 'data-name' => 'created_at', 'data-label' => 'Tanggal Buat']);

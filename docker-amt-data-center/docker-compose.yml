@@ -1,4 +1,4 @@
-version: "3.7"
+# version: "3.7"
 services:
   amt-data-center:
     build:
@@ -19,7 +19,7 @@ services:
       - DB_USERNAME=amt_user
       - DB_PASSWORD=amt_password
     ports:
-      - "5173:5173"
+      - "5178:5173"
     volumes:
       - ./..:/var/www
     networks:
@@ -30,7 +30,7 @@ services:
   amt-data-center-postgres:
     image: postgres:15
     container_name: amt-data-center-postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: 'amt-data-center'
       POSTGRES_USER: 'amt_user'
@@ -41,6 +41,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - amt-data-center-network
+      - shared-amt-network
 
   amt-data-center-nginx:
     image: nginx:alpine
@@ -75,3 +76,5 @@ volumes:
 
 networks:
   amt-data-center-network:
+  shared-amt-network:
+    external: true

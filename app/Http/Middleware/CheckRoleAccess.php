@@ -34,11 +34,16 @@ class CheckRoleAccess
         // if route name is null, get menu id by url
         $routeMenuId = Menu::where('resource', $routeResource)->value('id');
 
-        // get application name in env APPLICATION_NAME
-        $applicationId = Application::where('slug', env('APPLICATION_NAME'))->first();
+        // get application name from config
+        $applicationSlug = config('app.application_name');
+        $application = Application::where('slug', $applicationSlug)->first();
+
+        if (!$application) {
+            abort(500, 'Konfigurasi aplikasi tidak ditemukan di database.');
+        }
 
         // Get user's roles
-        $userRoleIds = $user->roles()->where('application_id', $applicationId->id)->pluck('role_id')->toArray();
+        $userRoleIds = $user->roles()->where('application_id', $application->id)->pluck('role_id')->toArray();
 
         if (empty($userRoleIds)) {
             abort(403, 'Anda tidak memiliki akses pada aplikasi ini.');

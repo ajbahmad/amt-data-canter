@@ -26,6 +26,11 @@ class Person extends BaseModel
         'birth_place',
         'identity_number',
         'photo',
+        'religion',
+        'father_name',
+        'mother_name',
+        'guardian_name',
+        'guardian_phone',
         'school_institution_id',
         'is_active'
     ];
